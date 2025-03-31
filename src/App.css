@@ -109,3 +109,10 @@ aside {
         }
     }
 }
+
+.delete-tooltip{
+    background-color: var(--bs-red) !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 4px !important;
+}

@@ -1,6 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Button } from "react-bootstrap";
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
+
 
 function App() {
     return (
@@ -91,7 +94,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -99,8 +108,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -131,7 +147,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -139,8 +161,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -171,7 +200,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -179,8 +214,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -219,7 +261,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -227,8 +275,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -259,7 +314,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -267,8 +328,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -307,7 +375,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -315,8 +389,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -347,7 +428,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -355,8 +442,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -387,7 +481,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -395,8 +495,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -427,7 +534,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -435,8 +548,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -467,7 +587,13 @@ function App() {
                                         </div>
 
                                         <div className="actions d-flex ms-3">
-                                            <Button variant="outline-dark" size="sm" aria-label="Edit Apple">
+                                            <Button variant="outline-dark"
+                                                    size="sm"
+                                                    aria-label="Edit Apple"
+                                                    data-tooltip-id="edit-tooltip"
+                                                    data-tooltip-content="Edit item"
+                                                    data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -475,8 +601,15 @@ function App() {
                                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                                 </svg>
                                             </Button>
-                                            <Button variant="outline-dark" size="sm" className="delete-btn ms-1"
-                                                    aria-label="Delete Apple">
+                                            <Button
+                                                variant="outline-dark"
+                                                size="sm"
+                                                className="delete-btn ms-1"
+                                                aria-label="Delete Apple"
+                                                data-tooltip-id="delete-tooltip"
+                                                data-tooltip-content="Delete item"
+                                                data-tooltip-place="top"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                                      height="16"
                                                      fill="currentColor" className="bi bi-trash3-fill"
@@ -494,6 +627,17 @@ function App() {
                 </main>
                 {/* =/main */}
             </div>
+
+            <Tooltip id="edit-tooltip"/>
+
+            <Tooltip
+                id="delete-tooltip"
+                place="top"
+                arrowColor="var(--bs-red)"
+                className="delete-tooltip"
+            />
+            
+
         </>
     )
 }
