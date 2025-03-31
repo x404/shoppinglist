@@ -1,19 +1,20 @@
-import { useSelector } from 'react-redux';
-import { selectProductItems } from '../../store/productListSlice';
-import { Product } from "../../types/types";
 import { useMemo, useState } from "react";
+
+// redux
+import { useSelector } from 'react-redux';
+import { selectProductItems, selectCategoriesItems } from '../../store/productListSlice';
+
+// components
 import CategoryItem from "../CategoryItem/CategoryItem";
 
-const getNamesCategories = (productList: Product[]): string[] => {
-    const categories = new Set(productList.map(product => product.category));
-    return Array.from(categories);
-}
 
 const Sidebar = () => {
-    const { productList } = useSelector(selectProductItems);
+    const productList = useSelector(selectProductItems);
+    const categoriesList  = useSelector(selectCategoriesItems);
+    
     const allCategory = 'All';
     const defaultSelectedCategory = 'All';
-    const categories = useMemo(() => [allCategory, ...getNamesCategories(productList)], [productList]);
+    const categories = useMemo(() => [allCategory, ...categoriesList], [productList]);
 
     const [selectedCategory, setSelectedCategory] = useState(
         categories.includes(defaultSelectedCategory) ? defaultSelectedCategory : categories[0]

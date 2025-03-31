@@ -6,8 +6,9 @@ export interface Product {
     quantity: string;
 }
 
-// export interface Category {
-//     name: string;
-// }
 
 
+export interface ProductListState {
+    products: Product[];
+    categories: string[];
+}
