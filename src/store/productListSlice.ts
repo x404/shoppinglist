@@ -1,27 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Product } from "../types/types";
+import { LocalStorageService } from "../services/LocalStorageService";
 
 
-interface ProductListState {
-    productList: Product[];
-}
+// interface ProductListState {
+//     productList: Product[];
+// }
 
 const LOCAL_STORAGE_KEY = "productList";
-const savedShoppingList = [] as Product[];
+const savedProductList = LocalStorageService.get<Product[]>(LOCAL_STORAGE_KEY);
 
-// const initialState: CartState = {
-//     shoppingList: Array.isArray(savedShoppingList) ? savedShoppingList : [],
-// };
-
-const initialState: ProductListState = {
-    productList: [
-        { "name": 'Banana', "quantity": "2", "category": "Fruits", "purchased": false, "id": "1" },
-        { "name": 'Apple', "quantity": "3", "category": "Vegetables", "purchased": false, "id": "2" },
-        { "name": 'Milk', "quantity": "3", "category": "Dairy", "purchased": false, "id": "3" },
-        { "name": 'Chees', "quantity": "3", "category": "Dairy", "purchased": false, "id": "4" },
-    ],
+const initialState = {
+    productList: Array.isArray(savedProductList) ? savedProductList : [],
 };
-
 
 export const productListSlice = createSlice({
     name: "productList",
