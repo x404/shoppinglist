@@ -68,9 +68,44 @@ aside {
         font-size: 11px;
         width: 24px;
         height: 24px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 }
 
+
+.list-group-item{
+    transition: .3s background-color;
+    &:hover{
+        background-color: var(--bs-list-group-border-color);
+    }    
+}
+
+
+.title-counter{
+    font-size: 12px;
+    color: var(--bs-gray-700);
+}
+
+
+.item-title{
+    min-width: 150px;
+}
+    
+.actions{
+    button{
+        background-color: var(--bs-white);
+    }
+}
+.delete-btn{
+    border-color: var(--bs-red);
+    path{
+        color: var(--bs-red);
+    }
+    
+    &:hover{
+        background-color: var(--bs-red);
+        border-color: var(--bs-red);
+        path{
+            color: var(--bs-white);
+        }
+    }
+}
