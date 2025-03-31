@@ -30,7 +30,7 @@ aside {
 
 .main {
     grid-area: main;
-    background: url("assets/wood-texture.jpg") no-repeat center center lightgray;
+    background: url("assets/wood-texture.jpg") no-repeat top left lightgray;
     background-size: cover;
 }
 

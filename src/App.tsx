@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { Tooltip } from 'react-tooltip';
 import Sidebar from "./components/Sidebar/Sidebar";
 import MainContent from "./components/MainContent/MainContent";
 
@@ -19,14 +18,6 @@ function App() {
                 <Sidebar />
                 <MainContent />
             </div>
-
-            <Tooltip id="edit-tooltip"/>
-            <Tooltip
-                id="delete-tooltip"
-                place="top"
-                arrowColor="var(--bs-red)"
-                className="delete-tooltip"
-            />
         </>
     )
 }
