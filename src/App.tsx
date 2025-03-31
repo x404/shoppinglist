@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Button } from "react-bootstrap";
 import { Tooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css';
 
 
 function App() {
