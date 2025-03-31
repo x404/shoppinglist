@@ -1,0 +1,29 @@
+.menu-item {
+    border-radius: 8px;
+
+    &.active {
+        background-color: var(--bs-gray-200);
+    }
+
+    &:hover {
+        background-color: var(--bs-gray-200);
+        border-radius: 4px;
+    }
+}
+
+a {
+    color: var(--bs-gray-800);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.sidebar-link {
+    line-height: 32px;
+}
+
+.counter {
+    font-size: 11px;
+    width: 24px;
+    height: 24px;
+}

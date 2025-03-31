@@ -1,5 +1,13 @@
 export interface Product {
-    id?: string;
-    product_id?: string;
-    name?: string;
+    id: string;
+    name: string;
+    category: string;
+    purchased: boolean;
+    quantity: string;
 }
+
+// export interface Category {
+//     name: string;
+// }
+
+

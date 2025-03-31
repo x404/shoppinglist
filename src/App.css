@@ -28,7 +28,6 @@ aside {
     grid-area: aside;
 }
 
-
 .main {
     grid-area: main;
     background: url("assets/wood-texture.jpg") no-repeat center center lightgray;
@@ -36,40 +35,6 @@ aside {
 }
 
 
-
-
-.sidebar{
-    --sidebar-tree-item-height : 32px;
-    a{
-        
-        color: var(--bs-gray-800);
-        text-decoration: none;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-    
-    .menu-item{
-        border-radius: 8px;
-        &.active{
-            background-color: var(--bs-gray-200);
-            /*color: var(--bs-white);*/
-        }
-        &:hover{
-            background-color: var(--bs-gray-200);
-            border-radius: 4px;
-        }
-    }
-
-    .sidebar-link{
-        line-height: var(--sidebar-tree-item-height);
-    }
-    
-    .counter {
-        font-size: 11px;
-        width: 24px;
-        height: 24px;
-    }
-}
 
 
 .list-group-item{

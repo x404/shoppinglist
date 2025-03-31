@@ -10,3 +10,15 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+
+
+productList
+
+[
+    {"name" : 'Banana', "quantity" : "2", "category" : "Fruits", "purchased":false, "id" : "1"},
+    {"name" : 'Apple', "quantity" : "3", "category" : "Vegetables", "purchased":false, "id" : "2"},
+    {"name" : 'Milk', "quantity" : "3", "category" : "Dairy", "purchased":false, "id" : "3"},
+    {"name" : 'Chees', "quantity" : "3", "category" : "Dairy", "purchased":false, "id" : "4"},
+]
+
