@@ -2,7 +2,7 @@ import { memo } from "react";
 
 // redux
 import { useSelector } from 'react-redux';
-import { selectProductItems } from '../../store/productListSlice';
+import { selectProductItems, selectActiveCategory } from '../../store/productListSlice';
 
 // interfaces
 import { Product, ProductsByCategory } from "../../types/types";
@@ -35,6 +35,7 @@ const CategoryHeader = memo(({ category, counter }: CategoryHeader) => (
 
 const MainContent = () => {
     const productList = useSelector(selectProductItems);
+    const selectedCategory = useSelector(selectActiveCategory);
 
     const groupProductsByCategory =
         productList.reduce((acc: ProductsByCategory, item: Product) => {
@@ -45,14 +46,13 @@ const MainContent = () => {
             return acc;
         }, {} as ProductsByCategory);
 
-    console.log('groupProductsByCategory=', groupProductsByCategory);
     return (
         <>
             <main className="main p-3" id="main">
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
                     <header className="d-flex gap-3 align-items-center mb-4">
-                        <h3 className="h5 mb-0" id="my-list-title">My List</h3>
+                        <h3 className="h5 mb-0" id="my-list-title">{selectedCategory || 'My List'} </h3>
                         <Button variant="light" size="sm">
                             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16"
                                  fill="currentColor"

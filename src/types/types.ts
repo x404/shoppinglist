@@ -9,6 +9,7 @@ export interface Product {
 export interface ProductListState {
     products: Product[];
     categories: string[];
+    selectedCategory: string;
 }
 
 export interface ProductsByCategory {

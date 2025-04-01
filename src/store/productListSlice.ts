@@ -13,7 +13,8 @@ const getNamesCategories = (productList: Product[]): string[] => {
 
 const initialState: ProductListState = {
     products: Array.isArray(savedProductList) ? savedProductList : [],
-    categories: getNamesCategories(Array.isArray(savedProductList) ? savedProductList : [])
+    categories: getNamesCategories(Array.isArray(savedProductList) ? savedProductList : []),
+    selectedCategory: 'All'
 };
 
 export const productListSlice = createSlice({
@@ -33,12 +34,16 @@ export const productListSlice = createSlice({
         removeProduct: (state, action) => {
             // state.productList = [];
             console.log(action.payload, state.products);
-        }
+        },
+        setActiveCategory: (state, action) => {
+            state.selectedCategory = action.payload;
+        },
     }
 });
 
-export const { togglePurchased, addProduct, editProduct, removeProduct } = productListSlice.actions;
+export const { setActiveCategory, togglePurchased, addProduct, editProduct, removeProduct } = productListSlice.actions;
 export const selectProductItems = (state: { productList: ProductListState }) => state.productList.products;
 export const selectCategoriesItems = (state: { productList: ProductListState }) => state.productList.categories;
+export const selectActiveCategory = (state: { productList: ProductListState }) => state.productList.selectedCategory;
 
 export default productListSlice.reducer;
