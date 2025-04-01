@@ -1,9 +1,9 @@
 export interface Product {
-    id: string;
+    id: number;
     name: string;
     category: string;
     purchased: boolean;
-    quantity: string;
+    quantity: number;
 }
 
 export interface ProductListState {

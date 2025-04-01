@@ -16,12 +16,13 @@ If you are developing a production application, we recommend using TypeScript an
 productList
 
 [
-    {"name" : 'Banana', "quantity" : "2", "category" : "Fruits", "purchased":false, "id" : "1"},
-    {"name" : 'Apple', "quantity" : "3", "category" : "Vegetables", "purchased":false, "id" : "2"},
-    {"name" : 'Milk', "quantity" : "4", "category" : "Dairy", "purchased":false, "id" : "3"},
-    {"name" : 'Chees', "quantity" : "5", "category" : "Dairy", "purchased":false, "id" : "4"},
+    {"name" : 'Banana', "quantity" : 2, "category" : "Fruits", "purchased":false, "id" : 1},
+    {"name" : 'Apple', "quantity" : 3, "category" : "Vegetables", "purchased":false, "id" : 2},
+    {"name" : 'Milk', "quantity" : 4, "category" : "Dairy", "purchased":false, "id" : 3},
+    {"name" : 'Chees', "quantity" : 5, "category" : "Dairy", "purchased":false, "id" : 4},
+    {"id":1743520846384,"name":"foo","category":"Fruits","purchased":false,"quantity":1}
+
 ]
 
 
-[{"name":"Banana","quantity":"2","category":"Fruits","purchased":false,"id":"1"},{"name":"Apple","quantity":"3","category":"Vegetables","purchased":false,"id":"2"},{"name":"Milk","quantity":"4","category":"Dairy","purchased":false,"id":"3"},{"name":"Chees","quantity":"5","category":"Dairy","purchased":false,"id":"4"}]
-
+[{"name":"Banana","quantity":2,"category":"Fruits","purchased":false,"id":1},{"name":"Apple","quantity":3,"category":"Vegetables","purchased":false,"id":2},{"name":"Milk","quantity":4,"category":"Dairy","purchased":false,"id":3},{"name":"Chees","quantity":5,"category":"Dairy","purchased":false,"id":4},{"id":1743520846384,"name":"foo","category":"Fruits","purchased":false,"quantity":1}]

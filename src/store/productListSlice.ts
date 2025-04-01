@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product, ProductListState } from "../types/types";
 import { LocalStorageService } from "../services/LocalStorageService";
 
@@ -19,8 +19,12 @@ const initialState: ProductListState = {
 
 
 const syncWithLocalStorage = (productList: Product[]) => {
-    if (Array.isArray(productList)) {
-        LocalStorageService.set(LOCAL_STORAGE_KEY, productList);
+    try {
+        if (Array.isArray(productList)) {
+            LocalStorageService.set(LOCAL_STORAGE_KEY, productList);
+        }
+    } catch (error) {
+        console.error("Error saving to localStorage:", error);
     }
 };
 
@@ -28,25 +32,26 @@ export const productListSlice = createSlice({
     name: "productList",
     initialState,
     reducers: {
-        togglePurchased: (state, action) => {
-            state.products = state.products.map(product => 
-                product.id === action.payload 
-                    ? { ...product, purchased : !product.purchased }
+        togglePurchased: (state, action: PayloadAction<number>) => {
+            state.products = state.products.map(product =>
+                product.id === action.payload
+                    ? { ...product, purchased: !product.purchased }
                     : product
             );
             syncWithLocalStorage(state.products);
         },
-        addProduct: (state, action) => {
-            console.log(action.payload, state.products);
+        addProduct: (state, action: PayloadAction<Product>) => {
+            state.products.push(action.payload);
+            syncWithLocalStorage(state.products);
         },
         editProduct: (state, action) => {
             console.log('edit product', action.payload, state.products);
         },
-        deleteProduct: (state, action) => {
+        deleteProduct: (state, action: PayloadAction<number>) => {
             state.products = state.products.filter(product => product.id !== action.payload);
             syncWithLocalStorage(state.products);
         },
-        setActiveCategory: (state, action) => {
+        setActiveCategory: (state, action: PayloadAction<string>) => {
             state.selectedCategory = action.payload;
         },
     }

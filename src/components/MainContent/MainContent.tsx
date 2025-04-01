@@ -2,8 +2,13 @@ import { memo, useState } from "react";
 import styles from "./MainContent.module.css";
 
 // redux
-import { useSelector } from 'react-redux';
-import { selectProductItems, selectActiveCategory } from '../../store/productListSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    selectProductItems,
+    selectActiveCategory,
+    selectCategoriesItems,
+    addProduct
+} from '../../store/productListSlice';
 
 // interfaces
 import { Product, ProductsByCategory } from "../../types/types";
@@ -54,6 +59,8 @@ const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }
 
 
 const MainContent = () => {
+    const dispatch = useDispatch();
+    
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
     
@@ -93,7 +100,13 @@ const MainContent = () => {
         console.log('onCloseAddModal');
         setIsShowAddModal(false);
     };
-    
+
+    const handleAddProduct = (newProduct: Product) => {
+        // console.log('onAddProduct', newProduct);
+        dispatch(addProduct(newProduct));
+    }
+
+    const categoriesList = useSelector(selectCategoriesItems);
     
     return (
         <>
@@ -139,11 +152,12 @@ const MainContent = () => {
                 </section>
             </main>
 
-            {isShowAddModal && ('1')} 
             <AddProductModal 
                 isShowModal={isShowAddModal}
                 isEditModeModal={isEditModeModal}
                 onCloseModal={onCloseAddModal}
+                categoriesList={categoriesList}
+                handleAddProduct={handleAddProduct}
             />
 
             <Tooltip id="edit-tooltip"/>
