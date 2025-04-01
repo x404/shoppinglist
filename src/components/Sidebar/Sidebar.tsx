@@ -13,20 +13,21 @@ import {
 import CategoryItem from "../CategoryItem/CategoryItem";
 
 
+
 const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
 
-    const allCategoryName = 'All';
-    const categories = useMemo(() => [allCategoryName, ...categoriesList], [productList]);
+    const ALL_CATEGORY_NAME = 'All';
+    const categories = useMemo(() => [ALL_CATEGORY_NAME, ...categoriesList], [productList]);
 
     let activeCategory = useSelector(selectActiveCategory);
 
     
     useEffect(() => {
         if (categoriesList.indexOf(activeCategory) === -1) {
-            dispatch(setActiveCategory(allCategoryName));
+            dispatch(setActiveCategory(ALL_CATEGORY_NAME));
         }
     }, [activeCategory]);
 
@@ -37,7 +38,7 @@ const Sidebar = () => {
         //     ? productList.reduce((acc, product) => acc + +(product.quantity), 0)
         //     : productList.filter(item => item.category === category).reduce((acc, product) => acc + Number(product.quantity), 0);
 
-        return categoryName === allCategoryName
+        return categoryName === ALL_CATEGORY_NAME
             ? productList.length
             : productList.filter(item => item.category === categoryName).length;
 
@@ -60,7 +61,7 @@ const Sidebar = () => {
                             count={getCategoryCount(category)}
                             isActive={activeCategory === category}
                             onSelectCategory={onSelectCategory}
-                            allCategory={allCategoryName}
+                            allCategory={ALL_CATEGORY_NAME}
                         />
                     ))}
                 </ul>
