@@ -1,4 +1,5 @@
 import { memo } from "react";
+import styles from "./MainContent.module.css";
 
 // redux
 import { useSelector } from 'react-redux';
@@ -62,7 +63,7 @@ const MainContent = () => {
 
     if (!filteredProducts.length) {
         return (
-            <main className="main p-3" id="main">
+            <main className={`${styles.main} p-3`} id="main">
                 No products found
             </main>
         )
@@ -70,7 +71,7 @@ const MainContent = () => {
 
     return (
         <>
-            <main className="main p-3" id="main">
+           <main className={`${styles.main} p-3`} id="main">
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
 

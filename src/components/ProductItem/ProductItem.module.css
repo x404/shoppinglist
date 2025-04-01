@@ -1,0 +1,32 @@
+.item-title {
+    min-width: 150px;
+}
+
+
+.product-item{
+    transition: .3s background-color;
+    &:hover{
+        background-color: var(--bs-list-group-border-color);
+    }
+}
+
+/*.button {*/
+/*    background-color: var(--bs-white);*/
+/*}*/
+
+.delete-btn {
+    border-color: var(--bs-red);
+
+    path {
+        color: var(--bs-red);
+    }
+
+    &:hover {
+        background-color: var(--bs-red);
+        border-color: var(--bs-red);
+
+        path {
+            /*color: var(--bs-white);*/
+        }
+    }
+}

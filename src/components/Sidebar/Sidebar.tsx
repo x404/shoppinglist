@@ -1,5 +1,7 @@
 import { useEffect, useMemo } from "react";
 
+import styles from "./Sidebar.module.css";
+
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -50,7 +52,7 @@ const Sidebar = () => {
     }
 
     return (
-        <aside aria-label="Sidebar navigation" className="sidebar p-3 shadow-sm z-1">
+        <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 shadow-sm z-1`}>
             <nav>
                 <h2 className="visually-hidden">Main menu</h2>
                 <ul className="list-unstyled menu">

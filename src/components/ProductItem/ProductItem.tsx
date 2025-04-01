@@ -3,6 +3,8 @@ import { Product } from "../../types/types";
 import { useDispatch } from "react-redux";
 import { deleteProduct, editProduct, togglePurchased } from "../../store/productListSlice";
 
+import styles from "./ProductItem.module.css";
+
 const ProductItem = ({ product }: { product: Product }) => {
     const dispatch = useDispatch();
     
@@ -20,7 +22,7 @@ const ProductItem = ({ product }: { product: Product }) => {
 
     return (
         <>
-            <li className="list-group-item">
+            <li className={`list-group-item ${styles['product-item']}`}>
                 <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">
                         <div className="form-check">
@@ -32,7 +34,7 @@ const ProductItem = ({ product }: { product: Product }) => {
                                 defaultChecked={product.purchased}
                             />
                         </div>
-                        <div id={`item-title-${product.id}`} className={`item-title ${product.purchased ? 'text-decoration-line-through' : ''}`}>
+                        <div id={`item-title-${product.id}`} className={`${styles['item-title']} ${product.purchased ? 'text-decoration-line-through' : ''}`}>
                             {product.name}
                         </div>
                         <div className="counter ms-3">
@@ -50,6 +52,7 @@ const ProductItem = ({ product }: { product: Product }) => {
                             data-tooltip-content="Edit item"
                             data-tooltip-place="top"
                             onClick={onEditProduct}
+                            className="bg-white"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16"
                                  fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
@@ -59,7 +62,7 @@ const ProductItem = ({ product }: { product: Product }) => {
                         </Button>
                         <Button variant="outline-dark"
                                 size="sm"
-                                className="delete-btn ms-1"
+                                className={`${styles['delete-btn']} bg-white ms-1`}
                                 aria-label={`Delete ${product.name}`}
                                 data-tooltip-id="delete-tooltip"
                                 data-tooltip-content="Delete item"
