@@ -21,9 +21,15 @@ const Sidebar = () => {
     );
     
     const getCategoryCount = (category: string): number => {
+        // calculation general products quantity
+        // return category === allCategory
+        //     ? productList.reduce((acc, product) => acc + +(product.quantity), 0)
+        //     : productList.filter(item => item.category === category).reduce((acc, product) => acc + Number(product.quantity), 0);
+
         return category === allCategory
-            ? productList.reduce((acc, product) => acc + +(product.quantity), 0)
-            : productList.filter(item => item.category === category).reduce((acc, product) => acc + Number(product.quantity), 0);
+            ? productList.length
+            : productList.filter(item => item.category === category).length;
+        
     };
 
     const onSelectCategory = (e: React.MouseEvent<HTMLAnchorElement>, category: string) => {
