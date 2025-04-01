@@ -58,7 +58,7 @@ const MainContent = () => {
             return acc;
         }, {} as ProductsByCategory);
 
-    console.log('groupProductsByCategory=', groupProductsByCategory, activeCategory)
+    // console.log('groupProductsByCategory=', groupProductsByCategory, activeCategory)
 
     if (!filteredProducts.length) {
         return (
