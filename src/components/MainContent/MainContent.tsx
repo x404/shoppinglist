@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import styles from "./MainContent.module.css";
 
 // redux
@@ -12,25 +12,36 @@ import { Product, ProductsByCategory } from "../../types/types";
 import { Button } from "react-bootstrap";
 import { Tooltip } from "react-tooltip";
 import ProductItem from "../ProductItem/ProductItem";
+import AddProductModal from "../AddProductModal/AddProductModal";
 
 interface CategoryHeader {
     category: string;
     counter: number;
     activeCategory: string;
+    onAddProduct: (category: string) => void;
 }
 
 const ALL_CATEGORY_NAME = 'All';
 
-const CategoryHeader = memo(({ category, counter, activeCategory }: CategoryHeader) => {
+const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }: CategoryHeader) => {
         const isAllCategory = activeCategory === ALL_CATEGORY_NAME;
         return (
             <h4 className={`d-flex align-items-center gap-2 ${isAllCategory ? 'h6 text-uppercase' : 'h5 mb-4 fw-normal'}`}>
                 <div className={`${isAllCategory ? 'fw-bold' : ''}`}>{category}</div>
                 <span className="item-title-counter small">{counter}</span>
-                <Button variant="light" size="sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16"
+                <Button 
+                    variant="light"
+                    size="sm"
+                    onClick={() => onAddProduct(category)}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         aria-hidden="true" 
+                         width="16"
+                         height="16"
                          fill="currentColor"
-                         className="bi bi-plus" viewBox="0 0 16 16">
+                         className="bi bi-plus" 
+                         viewBox="0 0 16 16"
+                    >
                         <path
                             d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                     </svg>
@@ -45,6 +56,9 @@ const CategoryHeader = memo(({ category, counter, activeCategory }: CategoryHead
 const MainContent = () => {
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
+    
+    const [isShowAddModal, setIsShowAddModal] = useState(false);
+    const [isEditModeModal, setIsEditModeModal] = useState(false);
 
     const filteredProducts = activeCategory === ALL_CATEGORY_NAME
         ? productList
@@ -59,7 +73,6 @@ const MainContent = () => {
             return acc;
         }, {} as ProductsByCategory);
 
-    // console.log('groupProductsByCategory=', groupProductsByCategory, activeCategory)
 
     if (!filteredProducts.length) {
         return (
@@ -68,7 +81,20 @@ const MainContent = () => {
             </main>
         )
     }
+    
+    const onAddProduct = (category?: string) => {
+        setIsShowAddModal(true);
+        // !category ? setIsEditModeModal(false) : setIsEditModeModal(true);
+        setIsEditModeModal(false)
+        console.log('onAddProduct',isShowAddModal, category);
+    }
 
+    const onCloseAddModal = () => {
+        console.log('onCloseAddModal');
+        setIsShowAddModal(false);
+    };
+    
+    
     return (
         <>
            <main className={`${styles.main} p-3`} id="main">
@@ -78,7 +104,11 @@ const MainContent = () => {
                     {activeCategory === ALL_CATEGORY_NAME && (
                         <header className="d-flex gap-3 align-items-center mb-4">
                             <h3 className="h5 mb-0" id="my-list-title">My List</h3>
-                            <Button variant="light" size="sm">
+                            <Button 
+                                variant="light" 
+                                size="sm"
+                                onClick={() => onAddProduct()}
+                            >
                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16"
                                      fill="currentColor"
                                      className="bi bi-plus" viewBox="0 0 16 16">
@@ -96,6 +126,7 @@ const MainContent = () => {
                                 category={category}
                                 counter={products.length}
                                 activeCategory={activeCategory}
+                                onAddProduct={onAddProduct}
                             />
                             
                             <ul className="list-group mt-2" aria-label={category}>
@@ -107,6 +138,13 @@ const MainContent = () => {
                     ))}
                 </section>
             </main>
+
+            {isShowAddModal && ('1')} 
+            <AddProductModal 
+                isShowModal={isShowAddModal}
+                isEditModeModal={isEditModeModal}
+                onCloseModal={onCloseAddModal}
+            />
 
             <Tooltip id="edit-tooltip"/>
             <Tooltip
