@@ -1,0 +1,18 @@
+import { LocalStorageService } from "../../services/LocalStorageService";
+import { Button } from "react-bootstrap";
+
+const MockupProductData = () => {
+    const products = [{"name":"Banana","quantity":"2","category":"Fruits","purchased":false,"id":"1"},{"name":"Apple","quantity":"3","category":"Vegetables","purchased":false,"id":"2"},{"name":"Milk","quantity":"4","category":"Dairy","purchased":false,"id":"3"},{"name":"Chees","quantity":"5","category":"Dairy","purchased":false,"id":"4"}];
+    const loadData = () => {
+        LocalStorageService.set("productList", products);
+    }
+
+    return (
+        <>
+            <Button className="btn ms-4 mt-3" type={"button"} onClick={loadData}>Load mockup product data</Button>
+            <p className="small ms-4">Refresh page after loading mockup data</p>
+        </>
+    )
+}
+
+export default MockupProductData;
