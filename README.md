@@ -18,10 +18,10 @@ productList
 [
     {"name" : 'Banana', "quantity" : "2", "category" : "Fruits", "purchased":false, "id" : "1"},
     {"name" : 'Apple', "quantity" : "3", "category" : "Vegetables", "purchased":false, "id" : "2"},
-    {"name" : 'Milk', "quantity" : "3", "category" : "Dairy", "purchased":false, "id" : "3"},
-    {"name" : 'Chees', "quantity" : "3", "category" : "Dairy", "purchased":false, "id" : "4"},
+    {"name" : 'Milk', "quantity" : "4", "category" : "Dairy", "purchased":false, "id" : "3"},
+    {"name" : 'Chees', "quantity" : "5", "category" : "Dairy", "purchased":false, "id" : "4"},
 ]
 
 
-[{"name":"Banana","quantity":"2","category":"Fruits","purchased":false,"id":"1"},{"name":"Apple","quantity":"3","category":"Vegetables","purchased":false,"id":"2"},{"name":"Milk","quantity":"3","category":"Dairy","purchased":false,"id":"3"},{"name":"Chees","quantity":"3","category":"Dairy","purchased":false,"id":"4"}]
+[{"name":"Banana","quantity":"2","category":"Fruits","purchased":false,"id":"1"},{"name":"Apple","quantity":"3","category":"Vegetables","purchased":false,"id":"2"},{"name":"Milk","quantity":"4","category":"Dairy","purchased":false,"id":"3"},{"name":"Chees","quantity":"5","category":"Dairy","purchased":false,"id":"4"}]
 
