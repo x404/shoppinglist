@@ -1,10 +1,15 @@
 import { Button } from "react-bootstrap";
 import { Product } from "../../types/types";
 import { useDispatch } from "react-redux";
-import { deleteProduct, editProduct } from "../../store/productListSlice";
+import { deleteProduct, editProduct, togglePurchased } from "../../store/productListSlice";
 
 const ProductItem = ({ product }: { product: Product }) => {
     const dispatch = useDispatch();
+    
+    const onTogglePurchased = () => {
+        dispatch(togglePurchased(product.id));
+    }
+    
     const onDeleteProduct = () => {
         dispatch(deleteProduct(product.id));
     }
@@ -22,11 +27,12 @@ const ProductItem = ({ product }: { product: Product }) => {
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                value=""
                                 aria-labelledby={`item-title-${product.id}`}
+                                onChange={onTogglePurchased}
+                                defaultChecked={product.purchased}
                             />
                         </div>
-                        <div id={`item-title-${product.id}`} className="item-title">
+                        <div id={`item-title-${product.id}`} className={`item-title ${product.purchased ? 'text-decoration-line-through' : ''}`}>
                             {product.name}
                         </div>
                         <div className="counter ms-3">

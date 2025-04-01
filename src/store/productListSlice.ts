@@ -29,8 +29,12 @@ export const productListSlice = createSlice({
     initialState,
     reducers: {
         togglePurchased: (state, action) => {
-            console.log(action.payload, state.products);
-            // console.log(action.payload)
+            state.products = state.products.map(product => 
+                product.id === action.payload 
+                    ? { ...product, purchased : !product.purchased }
+                    : product
+            );
+            syncWithLocalStorage(state.products);
         },
         addProduct: (state, action) => {
             console.log(action.payload, state.products);
