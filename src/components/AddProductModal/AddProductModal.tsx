@@ -6,12 +6,11 @@ interface AddProductModalProps {
     categoriesList: string[];
     currentCategory?: string;
     isShowModal: boolean;
-    isEditModeModal: boolean;
     onCloseModal: () => void;
     handleAddProduct: (product: Product) => void;
 }
 
-const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onCloseModal, isEditModeModal, handleAddProduct }: AddProductModalProps) => {
+const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onCloseModal, handleAddProduct }: AddProductModalProps) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => onCloseModal();
@@ -78,7 +77,7 @@ const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onClos
         <>
             <Modal show={isShowModal} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{isEditModeModal ? 'Edit Product' : 'Add New Product'}</Modal.Title>
+                    <Modal.Title>Add New Product</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
