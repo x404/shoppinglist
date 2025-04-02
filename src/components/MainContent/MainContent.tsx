@@ -60,6 +60,7 @@ const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }
 
 const MainContent = () => {
     const dispatch = useDispatch();
+    const defaultCategories = ['Fruits', 'Vegetables', 'Dairy'];
     
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
@@ -97,16 +98,14 @@ const MainContent = () => {
     }
 
     const onCloseAddModal = () => {
-        console.log('onCloseAddModal');
         setIsShowAddModal(false);
     };
 
     const handleAddProduct = (newProduct: Product) => {
-        // console.log('onAddProduct', newProduct);
         dispatch(addProduct(newProduct));
     }
-
-    const categoriesList = useSelector(selectCategoriesItems);
+    
+    // const categoriesList = useSelector(selectCategoriesItems);
     
     return (
         <>
@@ -156,7 +155,7 @@ const MainContent = () => {
                 isShowModal={isShowAddModal}
                 isEditModeModal={isEditModeModal}
                 onCloseModal={onCloseAddModal}
-                categoriesList={categoriesList}
+                categoriesList={defaultCategories}
                 handleAddProduct={handleAddProduct}
             />
 
