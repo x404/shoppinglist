@@ -1,5 +1,4 @@
 import { memo, useState } from "react";
-import styles from "./MainContent.module.css";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +13,9 @@ import { Button } from "react-bootstrap";
 import { Tooltip } from "react-tooltip";
 import ProductItem from "../ProductItem/ProductItem";
 import AddProductModal from "../AddProductModal/AddProductModal";
+
+// styles
+import styles from "./MainContent.module.css";
 
 // helpers
 import { getCategories } from "../helpers/getCategories";
@@ -30,6 +32,7 @@ interface CategoryHeader {
     activeCategory: string;
     onAddProduct: (category: string) => void;
 }
+
 
 const ALL_CATEGORY_NAME = 'All';
 

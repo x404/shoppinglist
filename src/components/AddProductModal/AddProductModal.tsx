@@ -1,5 +1,7 @@
 import { Modal, Button, Form } from 'react-bootstrap';
 import { FormEvent, useEffect, useRef, useState } from "react";
+
+// interfaces
 import { Product } from "../../types/types";
 
 interface AddProductModalProps {
@@ -17,15 +19,12 @@ const AddProductModal = ({
                              onCloseModal,
                              handleAddProduct
                          }: AddProductModalProps) => {
-    const [show, setShow] = useState(false);
 
     const handleClose = () => onCloseModal();
-    const handleShow = () => setShow(true);
 
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
     const [category, setCategory] = useState<string>(currentCategory || categoriesList[0]);
-    const [error, setError] = useState('');
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
@@ -62,19 +61,6 @@ const AddProductModal = ({
         };
 
         handleAddProduct(productData);
-
-        // prepare form for new product
-        // setName('');
-        // setTimeout(() => {
-        //     nameInputRef.current?.focus();
-        // }, 10);
-
-        // if (editingProduct) {
-        //     editProduct(editingProduct.id, productData);
-        // } else {
-        //     addProduct(productData);
-        // }
-
         setValidated(false);
     };
 
