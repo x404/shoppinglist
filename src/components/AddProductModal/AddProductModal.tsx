@@ -10,7 +10,13 @@ interface AddProductModalProps {
     handleAddProduct: (product: Product) => void;
 }
 
-const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onCloseModal, handleAddProduct }: AddProductModalProps) => {
+const AddProductModal = ({
+                             categoriesList,
+                             currentCategory,
+                             isShowModal,
+                             onCloseModal,
+                             handleAddProduct
+                         }: AddProductModalProps) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => onCloseModal();
@@ -21,7 +27,7 @@ const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onClos
     const [category, setCategory] = useState<string>(currentCategory || categoriesList[0]);
     const [error, setError] = useState('');
     const [validated, setValidated] = useState(false);
-    
+
     const nameInputRef = useRef<HTMLInputElement>(null);
 
 
@@ -30,39 +36,39 @@ const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onClos
             setCategory(currentCategory);
         }
     }, [currentCategory, categoriesList]);
-    
-    
+
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
-        
+
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             setValidated(true);
-            
+
             setTimeout(() => {
                 nameInputRef.current?.focus();
             }, 10);
-            
-            return;
-        } else {
-            const productData = {
-                id: Date.now(), // Generate unique ID
-                name: name.trim(),
-                category,
-                purchased: false,
-                quantity
-            };
 
-            handleAddProduct(productData);
-            
-            // prepare form for new product
-            // console.log('name=', name);
-            // setName('');
-            // setTimeout(() => {
-            //     nameInputRef.current?.focus();
-            // }, 10);
+            return;
         }
+
+        const productData = {
+            id: Date.now(), // Generate unique ID
+            name: name.trim(),
+            category,
+            purchased: false,
+            quantity
+        };
+
+        handleAddProduct(productData);
+
+        // prepare form for new product
+        // console.log('name=', name);
+        // setName('');
+        // setTimeout(() => {
+        //     nameInputRef.current?.focus();
+        // }, 10);
 
         // if (editingProduct) {
         //     editProduct(editingProduct.id, productData);
@@ -120,12 +126,12 @@ const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onClos
                                 ))}
                             </Form.Select>
                         </Form.Group>
-                        
+
                         <div className="d-flex justify-content-end gap-2">
-                            <Button variant="secondary" onClick={handleClose}>
+                            <Button variant="outline-dark" onClick={handleClose}>
                                 Close
                             </Button>
-                            <Button variant="primary" type="submit">
+                            <Button variant="dark" type="submit">
                                 Add Product
                             </Button>
                         </div>

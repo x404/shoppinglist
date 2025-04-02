@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems,
     selectActiveCategory,
-    addProduct, editProduct
+    addProduct, editProduct, deleteProduct, togglePurchased
 } from '../../store/productListSlice';
 
 // components
@@ -22,6 +22,7 @@ import { groupProductsByCategory } from "../helpers/groupProductsByCategory";
 
 // interfaces
 import { Product } from "../../types/types";
+import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 
 interface CategoryHeader {
     category: string;
@@ -79,15 +80,6 @@ const MainContent = () => {
 
     const groupedProducts = groupProductsByCategory(filteredProducts);
 
-
-    if (!filteredProducts.length) {
-        return (
-            <main className={`${styles.main} p-3`} id="main">
-                No products found
-            </main>
-        )
-    }
-
     const onAddProduct = (category?: string) => {
         setIsShowAddModal(true);
         setCurrentCategory(category);
@@ -106,12 +98,18 @@ const MainContent = () => {
         setEditingProductId(productId);
     }
 
-    const onCancelEditProduct = () => {
-        setEditingProductId(undefined);
-
-        // TODO: review this part for needed
-        // dispatch(editProduct({}));
+    const handlerDeleteProduct = (productId: number) => {
+        dispatch(deleteProduct(productId));
     }
+
+    const handlerTogglePurchased = (productId: number) => {
+        dispatch(togglePurchased(productId));
+    }
+
+    const onCancelEditProduct = () => {
+        resetStates();
+    }
+
     // const categoriesList = useSelector(selectCategoriesItems);
 
     const handlerSaveEditProduct = (product: Product) => {
@@ -125,56 +123,65 @@ const MainContent = () => {
 
     return (
         <>
-            <main className={`${styles.main} p-3`} id="main">
-                <h2 className="h4 fw-bold">Grocery Lists</h2>
-                <section className="bg-white shadow-sm p-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
+            <NoFoundProducts 
+                products={filteredProducts} 
+                onAddProduct={onAddProduct}
+            />
 
-                    {activeCategory === ALL_CATEGORY_NAME && (
-                        <header className="d-flex gap-3 align-items-center mb-4">
-                            <h3 className="h5 mb-0" id="my-list-title">My List</h3>
-                            <Button
-                                variant="light"
-                                size="sm"
-                                onClick={() => onAddProduct()}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16"
-                                     fill="currentColor"
-                                     className="bi bi-plus" viewBox="0 0 16 16">
-                                    <path
-                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                                </svg>
-                                Add product
-                            </Button>
-                        </header>
-                    )}
+            {filteredProducts.length > 0 && (
+                <main className={`${styles.main} p-3`} id="main">
+                    <h2 className="h4 fw-bold">Grocery Lists</h2>
+                    <section className="bg-white shadow-sm p-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
 
-                    {Object.entries(groupedProducts).map(([category, products]) => (
-                        <article className="mb-4" key={category}>
-                            <CategoryHeader
-                                category={category}
-                                counter={products.length}
-                                activeCategory={activeCategory}
-                                onAddProduct={onAddProduct}
-                            />
+                        {activeCategory === ALL_CATEGORY_NAME && (
+                            <header className="d-flex gap-3 align-items-center mb-4">
+                                <h3 className="h5 mb-0" id="my-list-title">My List</h3>
+                                <Button
+                                    variant="light"
+                                    size="sm"
+                                    onClick={() => onAddProduct()}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16"
+                                         fill="currentColor"
+                                         className="bi bi-plus" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                    </svg>
+                                    Add product
+                                </Button>
+                            </header>
+                        )}
 
-                            <ul className="list-group mt-2" aria-label={category}>
-                                {products.map((product) => (
-                                    <ProductItem
-                                        key={product.id}
-                                        product={product}
-                                        editingProductId={editingProductId}
-                                        onEmitEditProduct={onEditProduct}
-                                        onCancelEditProduct={onCancelEditProduct}
-                                        categoriesList={defaultCategories}
-                                        onSaveEditProduct={handlerSaveEditProduct}
-                                    />
-                                ))}
-                            </ul>
-                        </article>
-                    ))}
-                </section>
-            </main>
+                        {Object.entries(groupedProducts).map(([category, products]) => (
+                            <article className="mb-4" key={category}>
+                                <CategoryHeader
+                                    category={category}
+                                    counter={products.length}
+                                    activeCategory={activeCategory}
+                                    onAddProduct={onAddProduct}
+                                />
 
+                                <ul className="list-group mt-2" aria-label={category}>
+                                    {products.map((product) => (
+                                        <ProductItem
+                                            key={product.id}
+                                            product={product}
+                                            editingProductId={editingProductId}
+                                            onEmitEditProduct={onEditProduct}
+                                            onEmitDeleteProduct={handlerDeleteProduct}
+                                            onEmitTogglePurchasedProduct={handlerTogglePurchased}
+                                            onCancelEditProduct={onCancelEditProduct}
+                                            categoriesList={defaultCategories}
+                                            onSaveEditProduct={handlerSaveEditProduct}
+                                        />
+                                    ))}
+                                </ul>
+                            </article>
+                        ))}
+                    </section>
+                </main>
+            )}
+            
             <AddProductModal
                 categoriesList={defaultCategories}
                 currentCategory={currentCategory}

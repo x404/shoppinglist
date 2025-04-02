@@ -3,10 +3,6 @@ import { FormEvent, forwardRef, useEffect, useRef, useState } from "react";
 // components
 import { Button, Form } from "react-bootstrap";
 
-// redux
-import { useDispatch } from "react-redux";
-import { deleteProduct, editProduct, togglePurchased } from "../../store/productListSlice";
-
 // styles
 import styles from "./ProductItem.module.css";
 
@@ -17,6 +13,8 @@ interface ProductItemProps {
     product: Product;
     editingProductId?: number;
     onEmitEditProduct: (productId: number) => void;
+    onEmitDeleteProduct: (productId: number) => void;
+    onEmitTogglePurchasedProduct: (productId: number) => void;
     onCancelEditProduct: () => void;
     onSaveEditProduct: (product: Product) => void;
     categoriesList: string[];
@@ -27,18 +25,19 @@ const ProductItem = ({
                          product,
                          editingProductId,
                          onEmitEditProduct,
+                         onEmitDeleteProduct,
+                         onEmitTogglePurchasedProduct,
                          onCancelEditProduct,
                          categoriesList,
                          onSaveEditProduct
                      }: ProductItemProps) => {
-    const dispatch = useDispatch();
-    // const [editingProductId, setEditingProductId] = useState<number | null>(null);
 
     const [validated, setValidated] = useState(false);
     const [name, setName] = useState<string>(product.name);
     const [quantity, setQuantity] = useState<number>(1);
     const [category, setCategory] = useState<string>(product.category);
 
+    const nameInputRef = useRef<HTMLInputElement>(null);
 
     // ESC press and exit from edit mode
     const editButtonRef = useRef<HTMLButtonElement>(null);
@@ -61,16 +60,14 @@ const ProductItem = ({
 
 
     const onTogglePurchased = () => {
-        dispatch(togglePurchased(product.id));
+        onEmitTogglePurchasedProduct(product.id);
     }
 
     const onDeleteProduct = () => {
-        dispatch(deleteProduct(product.id));
+        onEmitDeleteProduct(product.id)
     }
 
     const onEditProduct = () => {
-        // dispatch(editProduct(product.id));
-
         if (product.id) {
             onEmitEditProduct(product.id);
         }
@@ -81,12 +78,20 @@ const ProductItem = ({
         event.stopPropagation();
 
         const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            setValidated(true);
+
+            setTimeout(() => {
+                nameInputRef.current?.focus();
+            }, 100);
+
+            return;
+        }
 
         const updatedProduct = {
             ...product, name, quantity, category,
         }
         onSaveEditProduct(updatedProduct);
-        // console.log('handleSubmit', updatedProduct);
     }
 
     const onCancel = () => {
@@ -95,8 +100,9 @@ const ProductItem = ({
     }
 
     const resetStates = () => {
-        setName('');
-        setQuantity(1);
+        setName(product.name);
+        setQuantity(product.quantity);
+        setCategory(product.category);
     }
 
 
@@ -128,6 +134,7 @@ const ProductItem = ({
                                     <Form.Control
                                         required
                                         type="text"
+                                        ref={nameInputRef}
                                         placeholder="Enter product name"
                                         onChange={(e) => setName(e.target.value)}
                                         defaultValue={product.name}
@@ -164,7 +171,7 @@ const ProductItem = ({
                                 </Form.Group>
 
 
-                                <div className="actions d-flex ms-3 gap-1 align-self-center">
+                                <div className="actions d-flex ms-3 gap-1 align-self-start mt-1">
                                     <Button
                                         variant="outline-dark"
                                         size="sm"
