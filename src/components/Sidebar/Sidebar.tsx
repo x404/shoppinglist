@@ -1,7 +1,5 @@
 import { useEffect, useMemo } from "react";
 
-import styles from "./Sidebar.module.css";
-
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -14,6 +12,8 @@ import {
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
 
+// styles
+import styles from "./Sidebar.module.css";
 
 
 const Sidebar = () => {
@@ -22,7 +22,9 @@ const Sidebar = () => {
     const categoriesList = useSelector(selectCategoriesItems);
 
     const ALL_CATEGORY_NAME = 'All';
-    const categories = useMemo(() => [ALL_CATEGORY_NAME, ...categoriesList], [productList]);
+    const categories  = [ALL_CATEGORY_NAME, ...categoriesList];
+
+    console.log('categories=', categories);
 
     let activeCategory = useSelector(selectActiveCategory);
 

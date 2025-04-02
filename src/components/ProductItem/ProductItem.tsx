@@ -127,6 +127,7 @@ const ProductItem = ({
 
                 {editingProductId === product.id ? (
                     <>
+                        {/* Edit Product Mode */}
                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
                             <div className="d-flex justify-content-between gap-2">
                                 <Form.Group className="flex-grow-1" controlId="validationCustom01">
@@ -209,10 +210,10 @@ const ProductItem = ({
                                 </div>
                             </div>
                         </Form>
-
                     </>
                 ) : (
                     <>
+                        {/* Add New Product Mode */}
                         <div className="d-flex align-items-center justify-content-between">
                             <div className="d-flex align-items-center">
                                 <div className="form-check">

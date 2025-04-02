@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems,
     selectActiveCategory,
-    addProduct, editProduct, deleteProduct, togglePurchased
+    addProduct, editProduct, deleteProduct, togglePurchased, updateCategoriesItems
 } from '../../store/productListSlice';
 
 // components
@@ -94,6 +94,7 @@ const MainContent = () => {
 
     const handleAddProduct = (newProduct: Product) => {
         dispatch(addProduct(newProduct));
+        dispatch(updateCategoriesItems());
         setIsShowAddModal(false);
     }
 
@@ -103,6 +104,7 @@ const MainContent = () => {
 
     const handlerDeleteProduct = (productId: number) => {
         dispatch(deleteProduct(productId));
+        dispatch(updateCategoriesItems());
     }
 
     const handlerTogglePurchased = (productId: number) => {
@@ -115,8 +117,9 @@ const MainContent = () => {
 
     // const categoriesList = useSelector(selectCategoriesItems);
 
-    const handlerSaveEditProduct = (product: Product) => {
+    const handlerSaveProductAfterEdit = (product: Product) => {
         dispatch(editProduct(product));
+        dispatch(updateCategoriesItems());
         resetStates();
     }
 
@@ -175,7 +178,7 @@ const MainContent = () => {
                                             onEmitTogglePurchasedProduct={handlerTogglePurchased}
                                             onCancelEditProduct={onCancelEditProduct}
                                             categoriesList={defaultCategories}
-                                            onSaveEditProduct={handlerSaveEditProduct}
+                                            onSaveEditProduct={handlerSaveProductAfterEdit}
                                         />
                                     ))}
                                 </ul>
