@@ -64,7 +64,6 @@ const AddProductModal = ({
         handleAddProduct(productData);
 
         // prepare form for new product
-        // console.log('name=', name);
         // setName('');
         // setTimeout(() => {
         //     nameInputRef.current?.focus();
