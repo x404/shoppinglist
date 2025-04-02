@@ -71,6 +71,7 @@ const MainContent = () => {
     
     const [isShowAddModal, setIsShowAddModal] = useState(false);
     const [isEditModeModal, setIsEditModeModal] = useState(false);
+    const [currentCategory, setCurrentCategory] = useState<string>();
 
     const filteredProducts = activeCategory === ALL_CATEGORY_NAME
         ? productList
@@ -89,9 +90,9 @@ const MainContent = () => {
     
     const onAddProduct = (category?: string) => {
         setIsShowAddModal(true);
+        setCurrentCategory(category);
         // !category ? setIsEditModeModal(false) : setIsEditModeModal(true);
-        // setIsEditModeModal(false)
-        console.log('onAddProduct',isShowAddModal, category);
+        // setIsEditModeModal(false)j
     }
 
     const onCloseAddModal = () => {
@@ -149,10 +150,11 @@ const MainContent = () => {
             </main>
 
             <AddProductModal 
+                categoriesList={defaultCategories}
+                currentCategory={currentCategory}
                 isShowModal={isShowAddModal}
                 isEditModeModal={isEditModeModal}
                 onCloseModal={onCloseAddModal}
-                categoriesList={defaultCategories}
                 handleAddProduct={handleAddProduct}
             />
 

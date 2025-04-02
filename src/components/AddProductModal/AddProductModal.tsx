@@ -1,35 +1,37 @@
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useEffect, useRef, useState } from "react";
 import { Product } from "../../types/types";
-import { addProduct } from "../../store/productListSlice";
 
 interface AddProductModalProps {
+    categoriesList: string[];
+    currentCategory?: string;
     isShowModal: boolean;
     isEditModeModal: boolean;
-    categoriesList: string[];
     onCloseModal: () => void;
     handleAddProduct: (product: Product) => void;
 }
 
-const AddProductModal = ({ categoriesList, isShowModal, onCloseModal, isEditModeModal, handleAddProduct }: AddProductModalProps) => {
+const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onCloseModal, isEditModeModal, handleAddProduct }: AddProductModalProps) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => onCloseModal();
     const handleShow = () => setShow(true);
 
-    const [name, setName] = useState('');
-    const [quantity, setQuantity] = useState(1);
-    const [category, setCategory] = useState(categoriesList[0]);
+    const [name, setName] = useState<string>('');
+    const [quantity, setQuantity] = useState<number>(1);
+    const [category, setCategory] = useState<string>(currentCategory || categoriesList[0]);
     const [error, setError] = useState('');
     const [validated, setValidated] = useState(false);
     
-    const [addProductText, setAddProductText] = useState('Add Product');
-
     const nameInputRef = useRef<HTMLInputElement>(null);
-    
+
+
     useEffect(() => {
-        setAddProductText('Add Product');
-    }, [isShowModal])
+        if (currentCategory && categoriesList.includes(currentCategory)) {
+            setCategory(currentCategory);
+        }
+    }, [currentCategory, categoriesList]);
+    
     
     const handleSubmit = (event: any) => {
         const form = event.currentTarget;
@@ -37,6 +39,11 @@ const AddProductModal = ({ categoriesList, isShowModal, onCloseModal, isEditMode
             event.preventDefault();
             event.stopPropagation();
             setValidated(true);
+            
+            setTimeout(() => {
+                nameInputRef.current?.focus();
+            }, 10);
+            
             return;
         } else {
             const productData = {
@@ -50,11 +57,11 @@ const AddProductModal = ({ categoriesList, isShowModal, onCloseModal, isEditMode
             handleAddProduct(productData);
             
             // prepare form for new product
-            setAddProductText('Add more');
-            setName('');
-            setTimeout(() => {
-                nameInputRef.current?.focus();
-            }, 10);
+            // console.log('name=', name);
+            // setName('');
+            // setTimeout(() => {
+            //     nameInputRef.current?.focus();
+            // }, 10);
         }
 
         // if (editingProduct) {
@@ -101,7 +108,7 @@ const AddProductModal = ({ categoriesList, isShowModal, onCloseModal, isEditMode
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>Category</Form.Label>
+                            <Form.Label>Category {currentCategory}</Form.Label>
                             <Form.Select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
@@ -119,7 +126,7 @@ const AddProductModal = ({ categoriesList, isShowModal, onCloseModal, isEditMode
                                 Close
                             </Button>
                             <Button variant="primary" type="submit">
-                                {addProductText}
+                                Add Product
                             </Button>
                         </div>
                     </Form>
