@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, forwardRef, useEffect, useRef, useState } from "react";
 
 // components
 import { Button, Form } from "react-bootstrap";
@@ -23,7 +23,14 @@ interface ProductItemProps {
 }
 
 
-const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEditProduct, categoriesList, onSaveEditProduct }: ProductItemProps) => {
+const ProductItem = ({
+                         product,
+                         editingProductId,
+                         onEmitEditProduct,
+                         onCancelEditProduct,
+                         categoriesList,
+                         onSaveEditProduct
+                     }: ProductItemProps) => {
     const dispatch = useDispatch();
     // const [editingProductId, setEditingProductId] = useState<number | null>(null);
 
@@ -31,6 +38,26 @@ const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEdi
     const [name, setName] = useState<string>(product.name);
     const [quantity, setQuantity] = useState<number>(1);
     const [category, setCategory] = useState<string>(product.category);
+
+
+    // ESC press and exit from edit mode
+    const editButtonRef = useRef<HTMLButtonElement>(null);
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && editingProductId === product.id) {
+                onCancel();
+                setTimeout(() => {
+                    editButtonRef.current?.focus();
+                }, 100)
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [editingProductId, product.id]);
 
 
     const onTogglePurchased = () => {
@@ -54,23 +81,38 @@ const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEdi
         event.stopPropagation();
 
         const form = event.currentTarget;
-        
+
         const updatedProduct = {
             ...product, name, quantity, category,
         }
         onSaveEditProduct(updatedProduct);
         // console.log('handleSubmit', updatedProduct);
     }
-    
+
     const onCancel = () => {
         resetStates();
         onCancelEditProduct();
     }
-    
+
     const resetStates = () => {
         setName('');
         setQuantity(1);
     }
+
+
+    const EditButton = forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
+        ({ children, ...props }, ref) => (
+            <Button
+                {...props}
+                ref={ref}
+                variant="outline-dark"
+                size="sm"
+                className={styles.editButton}
+            >
+                {children}
+            </Button>
+        )
+    );
 
 
     return (
@@ -79,14 +121,10 @@ const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEdi
 
                 {editingProductId === product.id ? (
                     <>
-                        {/*{editingProductId}*/}
-
                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
                             <div className="d-flex justify-content-between gap-2">
-                                {/*<b>{name} - {quantity} - {category}</b>*/}
-
                                 <Form.Group className="flex-grow-1" controlId="validationCustom01">
-                                    {/*<Form.Label>Product Name</Form.Label>*/}
+                                    <Form.Label className="visually-hidden">Product Name</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
@@ -102,7 +140,7 @@ const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEdi
 
 
                                 <Form.Group controlId="validationCustom01">
-                                    {/*<Form.Label>Quantity</Form.Label>*/}
+                                    <Form.Label className="visually-hidden">Quantity</Form.Label>
                                     <Form.Control
                                         type="number"
                                         onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
@@ -112,7 +150,7 @@ const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEdi
                                 </Form.Group>
 
                                 <Form.Group>
-                                    {/*<Form.Label>Category {currentCategory}</Form.Label>*/}
+                                    <Form.Label className="visually-hidden">Category</Form.Label>
                                     <Form.Select
                                         value={category}
                                         onChange={(e) => setCategory(e.target.value)}
@@ -124,7 +162,7 @@ const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEdi
                                         ))}
                                     </Form.Select>
                                 </Form.Group>
-                                
+
 
                                 <div className="actions d-flex ms-3 gap-1 align-self-center">
                                     <Button
@@ -150,7 +188,7 @@ const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEdi
                                             className={styles.deleteButton}
                                             aria-label={`Cancel`}
                                             data-tooltip-id="delete-tooltip"
-                                            data-tooltip-content="Cancel"
+                                            data-tooltip-content="Cancel or press ESC"
                                             data-tooltip-place="top"
                                             onClick={onCancel}
                                     >
@@ -190,22 +228,18 @@ const ProductItem = ({ product, editingProductId, onEmitEditProduct, onCancelEdi
                             </div>
 
                             <div className="actions d-flex ms-3 gap-1">
-                                <Button
-                                    variant="outline-dark"
-                                    size="sm"
+                                <EditButton
                                     aria-label={`Edit ${product.name}`}
-                                    data-tooltip-id="edit-tooltip"
-                                    data-tooltip-content="Edit item"
-                                    data-tooltip-place="top"
                                     onClick={onEditProduct}
-                                    className={styles.editButton}
+                                    ref={editButtonRef}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                          className="bi bi-pencil" viewBox="0 0 16 16">
                                         <path
                                             d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
                                     </svg>
-                                </Button>
+                                </EditButton>
+
                                 <Button variant="outline-dark"
                                         size="sm"
                                         className={styles.deleteButton}
