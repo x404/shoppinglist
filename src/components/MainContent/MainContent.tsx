@@ -6,18 +6,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems,
     selectActiveCategory,
-    selectCategoriesItems,
     addProduct
 } from '../../store/productListSlice';
-
-// interfaces
-import { Product, ProductsByCategory } from "../../types/types";
 
 // components
 import { Button } from "react-bootstrap";
 import { Tooltip } from "react-tooltip";
 import ProductItem from "../ProductItem/ProductItem";
 import AddProductModal from "../AddProductModal/AddProductModal";
+
+// helpers
+import { getCategories } from "../helpers/getCategories";
+import { groupProductsByCategory } from "../helpers/groupProductsByCategory";
+
+
+// interfaces
+import { Product } from "../../types/types";
 
 interface CategoryHeader {
     category: string;
@@ -60,7 +64,7 @@ const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }
 
 const MainContent = () => {
     const dispatch = useDispatch();
-    const defaultCategories = ['Fruits', 'Vegetables', 'Dairy'];
+    const defaultCategories = getCategories();
     
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
@@ -72,14 +76,7 @@ const MainContent = () => {
         ? productList
         : productList.filter((product: Product) => product.category === activeCategory);
 
-    const groupProductsByCategory =
-        filteredProducts.reduce((acc: ProductsByCategory, item: Product) => {
-            if (!acc[item.category]) {
-                acc[item.category] = [];
-            }
-            acc[item.category].push(item);
-            return acc;
-        }, {} as ProductsByCategory);
+    const groupedProducts = groupProductsByCategory(filteredProducts);
 
 
     if (!filteredProducts.length) {
@@ -93,7 +90,7 @@ const MainContent = () => {
     const onAddProduct = (category?: string) => {
         setIsShowAddModal(true);
         // !category ? setIsEditModeModal(false) : setIsEditModeModal(true);
-        setIsEditModeModal(false)
+        // setIsEditModeModal(false)
         console.log('onAddProduct',isShowAddModal, category);
     }
 
@@ -132,7 +129,7 @@ const MainContent = () => {
                         </header>
                     )}
 
-                    {Object.entries(groupProductsByCategory).map(([category, products]) => (
+                    {Object.entries(groupedProducts).map(([category, products]) => (
                         <article className="mb-4" key={category}>
                             <CategoryHeader
                                 category={category}
@@ -140,7 +137,7 @@ const MainContent = () => {
                                 activeCategory={activeCategory}
                                 onAddProduct={onAddProduct}
                             />
-                            
+
                             <ul className="list-group mt-2" aria-label={category}>
                                 {products.map((product) => (
                                     <ProductItem key={product.id} product={product}/>
