@@ -44,8 +44,14 @@ export const productListSlice = createSlice({
             state.products.push(action.payload);
             syncWithLocalStorage(state.products);
         },
-        editProduct: (state, action) => {
-            console.log('edit product', action.payload, state.products);
+        editProduct: (state, action: PayloadAction<Product>) => {
+            const {id, name, purchased, category, quantity} = action.payload;
+            state.products = state.products.map(product => 
+                product.id === id
+                ? { ...product, name, quantity, category }
+                : product
+            );
+            syncWithLocalStorage(state.products);
         },
         deleteProduct: (state, action: PayloadAction<number>) => {
             state.products = state.products.filter(product => product.id !== action.payload);

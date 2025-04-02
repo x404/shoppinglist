@@ -2,11 +2,12 @@
     min-width: 150px;
 }
 
-.product-item {
+.productItem {
     transition: .3s background-color;
 
+    &.active,
     &:hover {
-        background-color: var(--bs-list-group-border-color);
+        background-color: var(--bs-list-group-border-color) !important;
     }
 }
 
@@ -50,3 +51,23 @@
     }
 }
 
+
+.saveButton {
+    background-color: var(--bs-white);
+    border-color: var(--bs-success);
+
+    path {
+        color: var(--bs-success);
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: var(--bs-success);
+        border-color: var(--bs-success);
+
+        path {
+            color: var(--bs-white);
+        }
+    }
+}

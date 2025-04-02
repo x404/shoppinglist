@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems,
     selectActiveCategory,
-    addProduct
+    addProduct, editProduct
 } from '../../store/productListSlice';
 
 // components
@@ -38,17 +38,17 @@ const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }
             <h4 className={`d-flex align-items-center gap-2 ${isAllCategory ? 'h6 text-uppercase' : 'h5 mb-4 fw-normal'}`}>
                 <div className={`${isAllCategory ? 'fw-bold' : ''}`}>{category}</div>
                 <span className="item-title-counter small">{counter}</span>
-                <Button 
+                <Button
                     variant="light"
                     size="sm"
                     onClick={() => onAddProduct(category)}
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                         aria-hidden="true" 
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         aria-hidden="true"
                          width="16"
                          height="16"
                          fill="currentColor"
-                         className="bi bi-plus" 
+                         className="bi bi-plus"
                          viewBox="0 0 16 16"
                     >
                         <path
@@ -65,11 +65,12 @@ const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }
 const MainContent = () => {
     const dispatch = useDispatch();
     const defaultCategories = getCategories();
-    
+
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
-    
+
     const [isShowAddModal, setIsShowAddModal] = useState(false);
+    const [editingProductId, setEditingProductId] = useState<number | undefined>(undefined);
     const [isEditModeModal, setIsEditModeModal] = useState(false);
     const [currentCategory, setCurrentCategory] = useState<string>();
 
@@ -87,12 +88,10 @@ const MainContent = () => {
             </main>
         )
     }
-    
+
     const onAddProduct = (category?: string) => {
         setIsShowAddModal(true);
         setCurrentCategory(category);
-        // !category ? setIsEditModeModal(false) : setIsEditModeModal(true);
-        // setIsEditModeModal(false)j
     }
 
     const onCloseAddModal = () => {
@@ -101,21 +100,41 @@ const MainContent = () => {
 
     const handleAddProduct = (newProduct: Product) => {
         dispatch(addProduct(newProduct));
+        setIsShowAddModal(false);
     }
-    
+
+    const onEditProduct = (productId: number) => {
+        setEditingProductId(productId);
+    }
+
+    const onCancelEditProduct = () => {
+        setEditingProductId(undefined);
+
+        // TODO: review this part for needed
+        // dispatch(editProduct({}));
+    }
     // const categoriesList = useSelector(selectCategoriesItems);
-    
+
+    const handlerSaveEditProduct = (product: Product) => {
+        dispatch(editProduct(product));
+        resetStates();
+    }
+
+    const resetStates = () => {
+        setEditingProductId(-1);
+    }
+
     return (
         <>
-           <main className={`${styles.main} p-3`} id="main">
+            <main className={`${styles.main} p-3`} id="main">
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
 
                     {activeCategory === ALL_CATEGORY_NAME && (
                         <header className="d-flex gap-3 align-items-center mb-4">
                             <h3 className="h5 mb-0" id="my-list-title">My List</h3>
-                            <Button 
-                                variant="light" 
+                            <Button
+                                variant="light"
                                 size="sm"
                                 onClick={() => onAddProduct()}
                             >
@@ -141,7 +160,15 @@ const MainContent = () => {
 
                             <ul className="list-group mt-2" aria-label={category}>
                                 {products.map((product) => (
-                                    <ProductItem key={product.id} product={product}/>
+                                    <ProductItem
+                                        key={product.id}
+                                        product={product}
+                                        editingProductId={editingProductId}
+                                        onEmitEditProduct={onEditProduct}
+                                        onCancelEditProduct={onCancelEditProduct}
+                                        categoriesList={defaultCategories}
+                                        onSaveEditProduct={handlerSaveEditProduct}
+                                    />
                                 ))}
                             </ul>
                         </article>
@@ -149,7 +176,7 @@ const MainContent = () => {
                 </section>
             </main>
 
-            <AddProductModal 
+            <AddProductModal
                 categoriesList={defaultCategories}
                 currentCategory={currentCategory}
                 isShowModal={isShowAddModal}

@@ -1,5 +1,5 @@
 import { Modal, Button, Form } from 'react-bootstrap';
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Product } from "../../types/types";
 
 interface AddProductModalProps {
@@ -33,11 +33,12 @@ const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onClos
     }, [currentCategory, categoriesList]);
     
     
-    const handleSubmit = (event: any) => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
             setValidated(true);
             
             setTimeout(() => {
@@ -108,7 +109,7 @@ const AddProductModal = ({ categoriesList, currentCategory,  isShowModal, onClos
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>Category {currentCategory}</Form.Label>
+                            <Form.Label>Category</Form.Label>
                             <Form.Select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
