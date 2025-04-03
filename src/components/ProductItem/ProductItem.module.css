@@ -1,5 +1,14 @@
 .item-title {
-    min-width: 150px;
+    width: calc(100vw - 250px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    @media (width > 575px) {
+        min-width: 150px;
+        width: auto;
+        overflow: visible;
+        text-wrap: wrap;
+    }
 }
 
 .productItem {
@@ -12,6 +21,46 @@
 }
 
 
+.actions {
+    @media (width > 575px) {
+        width: auto;
+    }
+}
+
+
+.counter {
+    width: 60px;
+    @media (width > 575px) {
+        width: 100px;
+    }
+}
+
+.category {
+    @media (width > 575px) {
+        min-width: 180px;
+    }
+}
+
+
+.saveButton {
+    background-color: var(--bs-white);
+    border-color: var(--bs-success);
+
+    path {
+        color: var(--bs-success);
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: var(--bs-success);
+        border-color: var(--bs-success);
+
+        path {
+            color: var(--bs-white);
+        }
+    }
+}
 
 
 .editButton {

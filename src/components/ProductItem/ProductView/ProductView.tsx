@@ -2,7 +2,9 @@ import { Button } from "react-bootstrap";
 import { forwardRef, RefObject } from "react";
 
 // styles
-import styles from "../ProductEditForm/ProductEditForm.module.css";
+// import styles from "../ProductEditForm/ProductEditForm.module.css";
+
+import styles from "./../ProductItem.module.css";
 
 // interfaces
 import { Product } from "../../../types/types";
@@ -65,7 +67,7 @@ const ProductView = ({
     return (
         <>
             <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center flex-grow-1">
                     <div className="form-check">
                         <input
                             className="form-check-input"
@@ -85,7 +87,7 @@ const ProductView = ({
                     </div>
                 </div>
 
-                <div className="actions d-flex ms-3 gap-1">
+                <div className={`${styles.actions} d-flex ms-3 gap-1`}>
                     <EditButton
                         aria-label={`Edit ${product.name}`}
                         onClick={onEditProduct}

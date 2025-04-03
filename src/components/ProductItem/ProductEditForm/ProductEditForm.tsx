@@ -1,7 +1,10 @@
 import { Button, Form } from "react-bootstrap";
 import { ChangeEvent, FormEvent, RefObject } from "react";
 
-import styles from "./ProductEditForm.module.css";
+// import styles from "../ProductItem.module.css";
+
+import styles from "./../ProductItem.module.css";
+
 
 interface EditFormProps {
     formData: {
