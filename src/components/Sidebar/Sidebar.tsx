@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { MouseEvent, useMemo } from "react";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,38 +19,32 @@ import styles from "./Sidebar.module.css";
 import { ALL_CATEGORY_NAME } from "../../constants/categories";
 
 
-
 const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
+    const activeCategory = useSelector(selectActiveCategory);
 
-    const categories  = [ALL_CATEGORY_NAME, ...categoriesList];
-
-    let activeCategory = useSelector(selectActiveCategory);
-
-    
-    useEffect(() => {
-        if (categoriesList.indexOf(activeCategory) === -1) {
-            dispatch(setActiveCategory(ALL_CATEGORY_NAME));
-        }
-    }, [activeCategory]);
-
+    const categories = [ALL_CATEGORY_NAME, ...categoriesList];
 
     const getCategoryCount = (categoryName: string): number => {
-        // calculation general products quantity
-        // return category === allCategoryName
-        //     ? productList.reduce((acc, product) => acc + +(product.quantity), 0)
-        //     : productList.filter(item => item.category === category).reduce((acc, product) => acc + Number(product.quantity), 0);
-
         return categoryName === ALL_CATEGORY_NAME
             ? productList.length
             : productList.filter(item => item.category === categoryName).length;
-
     };
 
-    const onSelectCategory = (e: React.MouseEvent<HTMLAnchorElement>, category: string) => {
-        e.preventDefault();
+    const categoryCounts = useMemo(() => {
+        const counts: { [key: string]: number } = {};
+        categories.forEach(category => {
+            counts[category] = getCategoryCount(category);
+        });
+
+        return counts;
+    }, [productList]);
+
+
+    const onSelectCategory = (event: MouseEvent<HTMLAnchorElement>, category: string) => {
+        event.preventDefault();
         dispatch(setActiveCategory(category));
     }
 
@@ -63,7 +57,7 @@ const Sidebar = () => {
                         <CategoryItem
                             key={category}
                             category={category}
-                            count={getCategoryCount(category)}
+                            count={categoryCounts[category]}
                             isActive={activeCategory === category}
                             onSelectCategory={onSelectCategory}
                             allCategory={ALL_CATEGORY_NAME}
