@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 
-const CategoryHeader = () => {
+const MainHeader = () => {
     return (
         <>
             <header className="d-flex gap-3 align-items-center mb-4">
@@ -19,4 +19,4 @@ const CategoryHeader = () => {
     )
 }
 
-export default CategoryHeader;
+export default MainHeader;
