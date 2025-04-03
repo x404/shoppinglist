@@ -10,7 +10,7 @@ function App() {
     return (
         <>
             <SkipLink/>
-            <div className="d-grid wrapper min-vh-100">
+            <div className="d-md-grid wrapper min-vh-100">
                 <AppHeader/>
                 <Sidebar/>
                 <MainContent/>

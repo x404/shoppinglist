@@ -133,7 +133,7 @@ const MainContent = () => {
             {filteredProducts.length > 0 && (
                 <main className={`${styles.main} p-3`} id="main">
                     <h2 className="h4 fw-bold">Grocery Lists</h2>
-                    <section className="bg-white shadow-sm p-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
+                    <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
 
                         {activeCategory === ALL_CATEGORY_NAME && (
                             <header className="d-flex gap-3 align-items-center mb-4">

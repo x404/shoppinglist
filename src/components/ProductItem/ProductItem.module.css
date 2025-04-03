@@ -11,6 +11,29 @@
     }
 }
 
+
+.counter {
+    width: 60px;
+    @media (width > 575px ) {
+        width: 100px;
+    }
+}
+
+.category {
+    @media (width > 575px ) {
+        min-width: 180px;
+    }
+}
+
+.actions{
+    width: 100%;
+    @media (width > 575px ) {
+        width: auto;
+    }
+}
+
+
+
 .editButton {
     background-color: var(--bs-white);
     border-color: var(--bs-btn-border-color);

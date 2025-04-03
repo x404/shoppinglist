@@ -129,8 +129,8 @@ const ProductItem = ({
                     <>
                         {/* Edit Product Mode */}
                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                            <div className="d-flex justify-content-between gap-2">
-                                <Form.Group className="flex-grow-1" controlId="validationCustom01">
+                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between gap-2">
+                                <Form.Group className="flex-grow-1 w-100" controlId="validationCustom01">
                                     <Form.Label className="visually-hidden">Product Name</Form.Label>
                                     <Form.Control
                                         required
@@ -146,8 +146,7 @@ const ProductItem = ({
                                     </Form.Control.Feedback>
                                 </Form.Group>
 
-
-                                <Form.Group controlId="validationCustom01">
+                                <Form.Group className={`${styles.counter} flex-shrink-0`} controlId="validationCustom02">
                                     <Form.Label className="visually-hidden">Quantity</Form.Label>
                                     <Form.Control
                                         type="number"
@@ -157,7 +156,7 @@ const ProductItem = ({
                                     />
                                 </Form.Group>
 
-                                <Form.Group>
+                                <Form.Group className={`${styles.category} flex-grow-1 flex-md-grow-0`}>
                                     <Form.Label className="visually-hidden">Category</Form.Label>
                                     <Form.Select
                                         value={category}
@@ -170,9 +169,8 @@ const ProductItem = ({
                                         ))}
                                     </Form.Select>
                                 </Form.Group>
-
-
-                                <div className="actions d-flex ms-3 gap-1 align-self-start mt-1">
+                                
+                                <div className={`${styles.actions} d-flex justify-content-end gap-1 align-self-start mt-1`}>
                                     <Button
                                         variant="outline-dark"
                                         size="sm"
@@ -190,6 +188,7 @@ const ProductItem = ({
                                             <path
                                                 d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
                                         </svg>
+                                        <span className="px-1 d-sm-none">Save</span>
                                     </Button>
                                     <Button variant="outline-dark"
                                             size="sm"
@@ -206,6 +205,7 @@ const ProductItem = ({
                                             <path
                                                 d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                                         </svg>
+                                        <span className="px-1 d-sm-none">Cancel</span>
                                     </Button>
                                 </div>
                             </div>
