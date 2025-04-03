@@ -40,12 +40,18 @@ const MockupProductData = () => {
         }];
     const loadData = () => {
         LocalStorageService.set("productList", products);
+        refreshPage();
+    }
+    
+    const refreshPage = () => {
+        setTimeout( () => {
+            location.reload()
+        }, 500);
     }
 
     return (
         <>
             <Button className="btn ms-4 mt-3" type={"button"} onClick={loadData}>Load mockup product data</Button>
-            <p className="small ms-4">Refresh page after loading mockup data</p>
         </>
     )
 }
