@@ -124,7 +124,7 @@ const MainContent = () => {
                             )}
 
                             {Object.entries(groupedProducts).map(([category, products]) => (
-                                <article className="mb-2" key={category}>
+                                <article className="mb-3 mb-sm-2" key={category}>
                                     <CategoryHeader
                                         category={category}
                                         activeCategory={activeCategory}
