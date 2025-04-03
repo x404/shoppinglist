@@ -45,9 +45,7 @@ const ProductItem = ({
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape' && editingProductId === product.id) {
                 onCancel();
-                setTimeout(() => {
-                    editButtonRef.current?.focus();
-                }, 100)
+                focusEditInput();
             }
         };
 
@@ -57,8 +55,7 @@ const ProductItem = ({
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [editingProductId, product.id]);
-
-
+    
     const onTogglePurchased = () => {
         onEmitTogglePurchasedProduct(product.id);
     }
@@ -80,23 +77,35 @@ const ProductItem = ({
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             setValidated(true);
-
-            setTimeout(() => {
-                nameInputRef.current?.focus();
-            }, 100);
-
+            focusNameInput();
             return;
         }
 
         const updatedProduct = {
             ...product, name, quantity, category,
         }
+        focusEditInput();
         onSaveEditProduct(updatedProduct);
     }
+
+
+    const focusNameInput = () => {
+        setTimeout(() => {
+            editButtonRef.current?.focus();
+        }, 100);
+    };
+
+
+    const focusEditInput = () => {
+        setTimeout(() => {
+            editButtonRef.current?.focus();
+        }, 100);
+    };
 
     const onCancel = () => {
         resetStates();
         onCancelEditProduct();
+        focusEditInput();
     }
 
     const resetStates = () => {

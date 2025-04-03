@@ -24,7 +24,7 @@ const AddProductModal = ({
     const [quantity, setQuantity] = useState<number>(1);
     const [category, setCategory] = useState<string>(currentCategory || '');
     const [validated, setValidated] = useState(false);
-
+    
     const nameInputRef = useRef<HTMLInputElement>(null);
 
     const hasInitialCategory = !!currentCategory;
@@ -69,7 +69,7 @@ const AddProductModal = ({
     const focusNameInput = () => {
         setTimeout(() => {
             nameInputRef.current?.focus();
-        }, 10);
+        }, 100);
     };
 
     const addNewProduct = () => {
@@ -95,7 +95,6 @@ const AddProductModal = ({
     const resetStates = () => {
         setName('');
         setQuantity(1);
-        setCategory('');
     }
 
     const changeCategory = (name: string): void => {

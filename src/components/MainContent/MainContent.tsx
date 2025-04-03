@@ -94,6 +94,7 @@ const MainContent = () => {
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
                     <NoFoundProducts
                         products={filteredProducts}
+                        activeCategory={activeCategory}
                         onAddProduct={onAddProduct}
                     />
                     

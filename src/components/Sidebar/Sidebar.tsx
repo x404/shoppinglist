@@ -24,8 +24,6 @@ const Sidebar = () => {
     const ALL_CATEGORY_NAME = 'All';
     const categories  = [ALL_CATEGORY_NAME, ...categoriesList];
 
-    console.log('categories=', categories);
-
     let activeCategory = useSelector(selectActiveCategory);
 
     
