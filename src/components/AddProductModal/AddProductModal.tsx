@@ -95,6 +95,9 @@ const AddProductModal = ({
     const resetForm = () => {
         setName('');
         setQuantity(1);
+        if (!hasInitialCategory){
+            setCategory('');
+        }
     }
 
     const changeCategory = (name: string): void => {
