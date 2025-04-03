@@ -9,7 +9,7 @@ interface AddProductModalProps {
     currentCategory?: string;
     isShowModal: boolean;
     onCloseModal: () => void;
-    handleAddProduct: (product: Product) => void;
+    onAddProduct: (product: Product) => void;
 }
 
 const AddProductModal = ({
@@ -17,7 +17,7 @@ const AddProductModal = ({
                              currentCategory,
                              isShowModal,
                              onCloseModal,
-                             handleAddProduct
+                             onAddProduct
                          }: AddProductModalProps) => {
 
     const [name, setName] = useState<string>('');
@@ -74,7 +74,7 @@ const AddProductModal = ({
 
     const addNewProduct = () => {
         const productData = createProductData();
-        handleAddProduct(productData);
+        onAddProduct(productData);
     };
 
     const createProductData = (): Product => {

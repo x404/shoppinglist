@@ -11,9 +11,9 @@ import ProductView from "./ProductView/ProductView";
 interface ProductItemProps {
     product: Product;
     editingProductId?: number;
-    onEmitEditProduct: (productId: number) => void;
-    onEmitDeleteProduct: (productId: number) => void;
-    onEmitTogglePurchasedProduct: (productId: number) => void;
+    onEditProduct: (productId: number) => void;
+    onDeleteProduct: (productId: number) => void;
+    onTogglePurchasedProduct: (productId: number) => void;
     onCancelEditProduct: () => void;
     onSaveEditProduct: (product: Product) => void;
     categoriesList: string[];
@@ -23,9 +23,9 @@ interface ProductItemProps {
 const ProductItem = ({
                          product,
                          editingProductId,
-                         onEmitEditProduct,
-                         onEmitDeleteProduct,
-                         onEmitTogglePurchasedProduct,
+                         onEditProduct,
+                         onDeleteProduct,
+                         onTogglePurchasedProduct,
                          onCancelEditProduct,
                          categoriesList,
                          onSaveEditProduct
@@ -59,16 +59,16 @@ const ProductItem = ({
     }, [editingProductId, product.id]);
 
     const handleTogglePurchased = () => {
-        onEmitTogglePurchasedProduct(product.id);
+        onTogglePurchasedProduct(product.id);
     }
 
     const handleDeleteProduct = () => {
-        onEmitDeleteProduct(product.id)
+        onDeleteProduct(product.id)
     }
 
     const handleEditProduct = () => {
         if (product.id) {
-            onEmitEditProduct(product.id);
+            onEditProduct(product.id);
         }
     }
 

@@ -35,7 +35,9 @@ const MainContent = () => {
 
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
+    const categoriesList = useSelector(selectCategoriesItems);
 
+    
     const [isShowAddModal, setIsShowAddModal] = useState(false);
     const [editingProductId, setEditingProductId] = useState<number | undefined>(undefined);
     const [currentCategory, setCurrentCategory] = useState<string>();
@@ -46,39 +48,39 @@ const MainContent = () => {
 
     const groupedProducts = groupProductsByCategory(filteredProducts);
 
-    const onAddProduct = (category?: string) => {
+    const openAddModal = (category?: string) => {
         setIsShowAddModal(true);
         setCurrentCategory(category);
     }
 
-    const onCloseAddModal = () => {
+    const closeAddModal = () => {
         setIsShowAddModal(false);
     };
 
+    
+    // CRUD
     const handleAddProduct = (newProduct: Product) => {
         dispatch(addProduct(newProduct));
         setIsShowAddModal(false);
     }
 
-    const onEditProduct = (productId: number) => {
+    const handleEditProduct = (productId: number) => {
         setEditingProductId(productId);
     }
 
-    const handlerDeleteProduct = (productId: number) => {
+    const handleDeleteProduct = (productId: number) => {
         dispatch(deleteProduct(productId));
     }
 
-    const handlerTogglePurchased = (productId: number) => {
+    const handleTogglePurchased = (productId: number) => {
         dispatch(togglePurchased(productId));
     }
 
-    const onCancelEditProduct = () => {
+    const handleCancelEditProduct = () => {
         resetStates();
     }
 
-    const categoriesList = useSelector(selectCategoriesItems);
-
-    const handlerSaveProductAfterEdit = (product: Product) => {
+    const handleSaveProductAfterEdit = (product: Product) => {
         dispatch(editProduct(product));
         resetStates();
     }
@@ -95,7 +97,7 @@ const MainContent = () => {
                     <NoFoundProducts
                         products={filteredProducts}
                         activeCategory={activeCategory}
-                        onAddProduct={onAddProduct}
+                        onAddProduct={openAddModal}
                     />
                     
                     {filteredProducts.length > 0 && (
@@ -106,7 +108,7 @@ const MainContent = () => {
                                     <Button
                                         variant="light"
                                         size="sm"
-                                        onClick={() => onAddProduct()}
+                                        onClick={() => openAddModal()}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16"
                                              height="16"
@@ -126,7 +128,7 @@ const MainContent = () => {
                                         category={category}
                                         activeCategory={activeCategory}
                                         counter={products.length}
-                                        onAddProduct={onAddProduct}
+                                        onAddProduct={openAddModal}
                                     />
 
                                     <ul className="list-group mt-2" aria-label={category}>
@@ -135,12 +137,12 @@ const MainContent = () => {
                                                 key={product.id}
                                                 product={product}
                                                 editingProductId={editingProductId}
-                                                onEmitEditProduct={onEditProduct}
-                                                onEmitDeleteProduct={handlerDeleteProduct}
-                                                onEmitTogglePurchasedProduct={handlerTogglePurchased}
-                                                onCancelEditProduct={onCancelEditProduct}
                                                 categoriesList={categoriesList}
-                                                onSaveEditProduct={handlerSaveProductAfterEdit}
+                                                onEditProduct={handleEditProduct}
+                                                onDeleteProduct={handleDeleteProduct}
+                                                onTogglePurchasedProduct={handleTogglePurchased}
+                                                onCancelEditProduct={handleCancelEditProduct}
+                                                onSaveEditProduct={handleSaveProductAfterEdit}
                                             />
                                         ))}
                                     </ul>
@@ -155,8 +157,8 @@ const MainContent = () => {
                 categoriesList={categoriesList}
                 currentCategory={currentCategory}
                 isShowModal={isShowAddModal}
-                onCloseModal={onCloseAddModal}
-                handleAddProduct={handleAddProduct}
+                onCloseModal={closeAddModal}
+                onAddProduct={handleAddProduct}
             />
 
             <Tooltip id="save-tooltip" place="top" className="saveTooltip"/>
