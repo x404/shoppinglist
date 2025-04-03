@@ -20,22 +20,28 @@ const AddProductModal = ({
                              handleAddProduct
                          }: AddProductModalProps) => {
 
-    const handleClose = () => onCloseModal();
-
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
-    const [category, setCategory] = useState<string>(currentCategory || categoriesList[0]);
+    const [category, setCategory] = useState<string>(currentCategory || '');
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
-    
-    
+
+    const hasInitialCategory = !!currentCategory;
+
     useEffect(() => {
         if (currentCategory && categoriesList.includes(currentCategory)) {
             setCategory(currentCategory);
+        } else {
+            setCategory('');
         }
     }, [currentCategory, categoriesList]);
 
+
+    const handleClose = () => {
+        resetStates();
+        onCloseModal();
+    }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -80,23 +86,32 @@ const AddProductModal = ({
             quantity
         };
     };
-    
+
     const resetFormState = () => {
-        resetFormState();
+        resetStates();
         setValidated(false);
     }
-    
+
     const resetStates = () => {
         setName('');
         setQuantity(1);
+        setCategory('');
     }
-    
+
+    const changeCategory = (name: string): void => {
+        setCategory(name);
+    }
+
 
     return (
         <>
-            <Modal show={isShowModal} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add New Product</Modal.Title>
+            <Modal show={isShowModal} onHide={handleClose} centered>
+                <Modal.Header className="" closeButton>
+                    <Modal.Title>Add New Product
+                        {hasInitialCategory && (
+                            <div className="h6 mt-1 text-black-50">Category: <strong>{category}</strong></div>
+                        )}
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -116,7 +131,7 @@ const AddProductModal = ({
                             </Form.Control.Feedback>
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="validationCustom01">
+                        <Form.Group className="mb-3" controlId="validationCustom02">
                             <Form.Label>Quantity</Form.Label>
                             <Form.Control
                                 type="number"
@@ -126,19 +141,28 @@ const AddProductModal = ({
                             />
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Category</Form.Label>
-                            <Form.Select
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                            >
-                                {categoriesList.map((category) => (
-                                    <option key={category} value={category}>
-                                        {category}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                        </Form.Group>
+
+                        {!hasInitialCategory && (
+                            <Form.Group className="mb-3" controlId="validationCustom03">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Select
+                                    required
+                                    value={category}
+                                    onChange={(e) => changeCategory(e.target.value)}
+                                    isInvalid={validated && !category}
+                                >
+                                    <option value=''>Choose category</option>
+                                    {categoriesList.map((category) => (
+                                        <option key={category} value={category}>
+                                            {category}
+                                        </option>
+                                    ))}
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">
+                                    Please select a category
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        )}
 
                         <div className="d-flex justify-content-end gap-2">
                             <Button variant="outline-dark" onClick={handleClose}>
