@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import MainContent from "./components/MainContent/MainContent";
 import SkipLink from "./components/SkipLink/SkipLink";
 import AppHeader from "./components/AppHeader/AppHeader";
+import GlobalTooltips from "./components/GlobalTooltips/GlobalTooltips";
 
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
                 <Sidebar/>
                 <MainContent/>
             </div>
+            
+            <GlobalTooltips/>
         </>
     )
 }
