@@ -140,6 +140,9 @@ const ProductItem = ({
                 variant="outline-dark"
                 size="sm"
                 className={styles.editButton}
+                data-tooltip-id="edit-tooltip"
+                data-tooltip-content="Edit item"
+                data-tooltip-place="top"
             >
                 {children}
             </Button>
