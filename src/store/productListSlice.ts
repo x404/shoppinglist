@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product, ProductListState } from "../types/types";
 import { LocalStorageService } from "../services/LocalStorageService";
 
 // helpers
-import { syncWithLocalStorage } from "../components/helpers/syncWithLocalStorage";
+import { syncWithLocalStorage } from "../helpers/syncWithLocalStorage";
+
+// interfaces
+import { Product, ProductListState } from "../types/types";
 
 
 const LOCAL_STORAGE_PRODUCT_KEY = "productList";

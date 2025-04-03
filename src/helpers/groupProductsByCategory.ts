@@ -1,4 +1,4 @@
-import { Product, ProductsByCategory } from "../../types/types";
+import { Product, ProductsByCategory } from "../types/types";
 
 export const groupProductsByCategory = (products: Product[]): ProductsByCategory => {
     return products.reduce((acc: ProductsByCategory, item: Product) => {

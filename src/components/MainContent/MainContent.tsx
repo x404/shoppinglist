@@ -18,7 +18,7 @@ import AddProductModal from "../AddProductModal/AddProductModal";
 import styles from "./MainContent.module.css";
 
 // helpers
-import { groupProductsByCategory } from "../helpers/groupProductsByCategory";
+import { groupProductsByCategory } from "../../helpers/groupProductsByCategory";
 
 
 // interfaces

@@ -1,4 +1,4 @@
-import { LocalStorageService } from "../../services/LocalStorageService";
+import { LocalStorageService } from "../services/LocalStorageService";
 
 export const getCategories = () => {
     const DEFAULT_CATEGORIES = ["Fruits", "Vegetables", "Dairy"];

@@ -1,5 +1,5 @@
-import { Product } from "../../types/types";
-import { LocalStorageService } from "../../services/LocalStorageService";
+import { Product } from "../types/types";
+import { LocalStorageService } from "../services/LocalStorageService";
 
 export const syncWithLocalStorage = (key: string, productList: Product[]): void => {
     try {
