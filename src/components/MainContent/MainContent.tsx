@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems,
     selectActiveCategory,
-    addProduct, editProduct, deleteProduct, togglePurchased, updateCategoriesItems
+    addProduct, editProduct, deleteProduct, togglePurchased, selectCategoriesItems
 } from '../../store/productListSlice';
 
 // components
@@ -18,7 +18,6 @@ import AddProductModal from "../AddProductModal/AddProductModal";
 import styles from "./MainContent.module.css";
 
 // helpers
-import { getCategories } from "../helpers/getCategories";
 import { groupProductsByCategory } from "../helpers/groupProductsByCategory";
 
 
@@ -68,7 +67,7 @@ const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }
 
 const MainContent = () => {
     const dispatch = useDispatch();
-    const defaultCategories = getCategories();
+    // const defaultCategories = getCategories();
 
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
@@ -94,7 +93,6 @@ const MainContent = () => {
 
     const handleAddProduct = (newProduct: Product) => {
         dispatch(addProduct(newProduct));
-        dispatch(updateCategoriesItems());
         setIsShowAddModal(false);
     }
 
@@ -104,7 +102,6 @@ const MainContent = () => {
 
     const handlerDeleteProduct = (productId: number) => {
         dispatch(deleteProduct(productId));
-        dispatch(updateCategoriesItems());
     }
 
     const handlerTogglePurchased = (productId: number) => {
@@ -115,11 +112,10 @@ const MainContent = () => {
         resetStates();
     }
 
-    // const categoriesList = useSelector(selectCategoriesItems);
+    const categoriesList = useSelector(selectCategoriesItems);
 
     const handlerSaveProductAfterEdit = (product: Product) => {
         dispatch(editProduct(product));
-        dispatch(updateCategoriesItems());
         resetStates();
     }
 
@@ -177,7 +173,7 @@ const MainContent = () => {
                                             onEmitDeleteProduct={handlerDeleteProduct}
                                             onEmitTogglePurchasedProduct={handlerTogglePurchased}
                                             onCancelEditProduct={onCancelEditProduct}
-                                            categoriesList={defaultCategories}
+                                            categoriesList={categoriesList}
                                             onSaveEditProduct={handlerSaveProductAfterEdit}
                                         />
                                     ))}
@@ -189,7 +185,7 @@ const MainContent = () => {
             )}
             
             <AddProductModal
-                categoriesList={defaultCategories}
+                categoriesList={categoriesList}
                 currentCategory={currentCategory}
                 isShowModal={isShowAddModal}
                 onCloseModal={onCloseAddModal}
