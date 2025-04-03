@@ -159,12 +159,13 @@ const MainContent = () => {
                 handleAddProduct={handleAddProduct}
             />
 
-            <Tooltip id="edit-tooltip"/>
+            <Tooltip id="save-tooltip" place="top" className="saveTooltip"/>
+            <Tooltip id="edit-tooltip" place="top"/>
             <Tooltip
                 id="delete-tooltip"
                 place="top"
                 arrowColor="var(--bs-red)"
-                className="delete-tooltip"
+                className="deleteTooltip"
             />
         </>
     )

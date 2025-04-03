@@ -6,8 +6,15 @@
     grid-template-rows: auto 1fr;
 }
 
-.delete-tooltip{
+.deleteTooltip{
     background-color: var(--bs-red) !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 4px !important;
+}
+
+.saveTooltip{
+    background-color: var(--bs-success) !important;
     color: white !important;
     padding: 8px 12px !important;
     border-radius: 4px !important;
