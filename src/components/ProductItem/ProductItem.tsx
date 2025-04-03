@@ -33,6 +33,7 @@ const ProductItem = ({
                      }: ProductItemProps) => {
 
     const [validated, setValidated] = useState(false);
+    
     const [name, setName] = useState<string>(product.name);
     const [quantity, setQuantity] = useState<number>(1);
     const [category, setCategory] = useState<string>(product.category);
@@ -75,19 +76,24 @@ const ProductItem = ({
         event.stopPropagation();
 
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            setValidated(true);
-            focusNameInput();
+        if (!isFormValid(form)) {
+            handleInvalidForm();
             return;
         }
-
-        const updatedProduct = {
-            ...product, name, quantity, category,
-        }
+        
+        saveProduct();
         focusEditInput();
-        onSaveEditProduct(updatedProduct);
     }
 
+    const isFormValid = (form: HTMLFormElement): boolean => {
+        return form.checkValidity();
+    };
+
+    const handleInvalidForm = () => {
+        setValidated(true);
+        focusNameInput();
+    };
+    
 
     const focusNameInput = () => {
         setTimeout(() => {
@@ -95,26 +101,31 @@ const ProductItem = ({
         }, 100);
     };
 
-
     const focusEditInput = () => {
         setTimeout(() => {
             editButtonRef.current?.focus();
         }, 100);
     };
-
+    
+    const saveProduct = () => {
+        const updatedProduct = {
+            ...product, name, quantity, category,
+        }
+        onSaveEditProduct(updatedProduct);
+    }
+    
     const onCancel = () => {
-        resetStates();
+        resetForm();
         onCancelEditProduct();
         focusEditInput();
     }
 
-    const resetStates = () => {
+    const resetForm = () => {
         setName(product.name);
         setQuantity(product.quantity);
         setCategory(product.category);
     }
-
-
+    
     const EditButton = forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
         ({ children, ...props }, ref) => (
             <Button

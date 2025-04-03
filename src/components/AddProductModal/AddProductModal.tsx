@@ -39,7 +39,7 @@ const AddProductModal = ({
 
 
     const handleClose = () => {
-        resetStates();
+        resetForm();
         onCloseModal();
     }
 
@@ -88,11 +88,11 @@ const AddProductModal = ({
     };
 
     const resetFormState = () => {
-        resetStates();
+        resetForm();
         setValidated(false);
     }
 
-    const resetStates = () => {
+    const resetForm = () => {
         setName('');
         setQuantity(1);
     }
