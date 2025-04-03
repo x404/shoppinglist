@@ -4,6 +4,9 @@ import { LocalStorageService } from "../services/LocalStorageService";
 // helpers
 import { syncWithLocalStorage } from "../helpers/syncWithLocalStorage";
 
+// constants
+import { DEFAULT_CATEGORIES } from "../constants/categories";
+
 // interfaces
 import { Product, ProductListState } from "../types/types";
 
@@ -11,7 +14,6 @@ import { Product, ProductListState } from "../types/types";
 const LOCAL_STORAGE_PRODUCT_KEY = "productList";
 const savedProductList = LocalStorageService.get<Product[]>(LOCAL_STORAGE_PRODUCT_KEY);
 
-const DEFAULT_CATEGORIES = ["Fruits", "Vegetables", "Dairy"];
 
 const initialState: ProductListState = {
     products: Array.isArray(savedProductList) ? savedProductList : [],

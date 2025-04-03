@@ -20,13 +20,14 @@ import styles from "./MainContent.module.css";
 // helpers
 import { groupProductsByCategory } from "../../helpers/groupProductsByCategory";
 
+// interfaces
+import { ALL_CATEGORY_NAME } from "../../constants/categories";
 
 // interfaces
 import { Product } from "../../types/types";
 import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 
-const ALL_CATEGORY_NAME = 'All';
 
 
 const MainContent = () => {

@@ -1,6 +1,10 @@
 import { memo } from "react";
 import { Badge, Button } from "react-bootstrap";
 
+// constants
+import { ALL_CATEGORY_NAME } from "../../constants/categories";
+
+// interfaces
 interface CategoryHeader {
     category: string;
     counter: number;
@@ -8,7 +12,6 @@ interface CategoryHeader {
     onAddProduct: (category: string) => void;
 }
 
-const ALL_CATEGORY_NAME = 'All';
 
 export const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }: CategoryHeader) => {
         const isAllCategory = activeCategory === ALL_CATEGORY_NAME;

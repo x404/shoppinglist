@@ -15,13 +15,16 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 // styles
 import styles from "./Sidebar.module.css";
 
+// interfaces
+import { ALL_CATEGORY_NAME } from "../../constants/categories";
+
+
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
 
-    const ALL_CATEGORY_NAME = 'All';
     const categories  = [ALL_CATEGORY_NAME, ...categoriesList];
 
     let activeCategory = useSelector(selectActiveCategory);
