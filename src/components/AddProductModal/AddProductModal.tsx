@@ -28,8 +28,8 @@ const AddProductModal = ({
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
-
-
+    
+    
     useEffect(() => {
         if (currentCategory && categoriesList.includes(currentCategory)) {
             setCategory(currentCategory);
@@ -42,27 +42,55 @@ const AddProductModal = ({
         event.stopPropagation();
 
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            setValidated(true);
-
-            setTimeout(() => {
-                nameInputRef.current?.focus();
-            }, 10);
-
+        if (!isFormValid(form)) {
+            handleInvalidForm();
             return;
         }
 
-        const productData = {
+        addNewProduct();
+        resetFormState();
+    };
+
+    const isFormValid = (form: HTMLFormElement): boolean => {
+        return form.checkValidity();
+    };
+
+    const handleInvalidForm = () => {
+        setValidated(true);
+        focusNameInput();
+    };
+
+    const focusNameInput = () => {
+        setTimeout(() => {
+            nameInputRef.current?.focus();
+        }, 10);
+    };
+
+    const addNewProduct = () => {
+        const productData = createProductData();
+        handleAddProduct(productData);
+    };
+
+    const createProductData = (): Product => {
+        return {
             id: Date.now(), // Generate unique ID
             name: name.trim(),
             category,
             purchased: false,
             quantity
         };
-
-        handleAddProduct(productData);
-        setValidated(false);
     };
+    
+    const resetFormState = () => {
+        resetFormState();
+        setValidated(false);
+    }
+    
+    const resetStates = () => {
+        setName('');
+        setQuantity(1);
+    }
+    
 
     return (
         <>
