@@ -1,7 +1,6 @@
 import { Button } from "react-bootstrap";
 import { forwardRef, RefObject } from "react";
 
-// styles
 import styles from "./../ProductItem.module.css";
 
 // interfaces

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ import {
 } from '../../store/productListSlice';
 
 // components
-import { Button } from "react-bootstrap";
+import { Button, ModalDialog } from "react-bootstrap";
 import ProductItem from "../ProductItem/ProductItem";
 import AddProductModal from "../AddProductModal/AddProductModal";
 
@@ -29,22 +29,26 @@ import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 import { PlusIcon } from "../Icons/PlusIcon";
 
 
-const MainContent = () => {
+const MainContent = memo(() => {
     const dispatch = useDispatch();
     // const defaultCategories = getCategories();
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
     const categoriesList = useSelector(selectCategoriesItems);
-    
+
     const [isShowAddModal, setIsShowAddModal] = useState(false);
-    const [editingProductId, setEditingProductId] = useState<number | undefined>(undefined);
+    const [editingProductId, setEditingProductId] = useState<number | null>(null);
     const [currentCategory, setCurrentCategory] = useState<string>();
 
-    const filteredProducts = activeCategory === ALL_CATEGORY_NAME
-        ? productList
-        : productList.filter((product: Product) => product.category === activeCategory);
+    const filteredProducts = useMemo(() => {
+        return activeCategory === ALL_CATEGORY_NAME
+            ? productList
+            : productList.filter((product: Product) => product.category === activeCategory);
+    }, [activeCategory, productList])
 
-    const groupedProducts = groupProductsByCategory(filteredProducts);
+    const groupedProducts = useMemo(() => {
+        return groupProductsByCategory(filteredProducts);
+    }, [filteredProducts])
 
     const openAddModal = (category?: string) => {
         setIsShowAddModal(true);
@@ -55,6 +59,7 @@ const MainContent = () => {
         setIsShowAddModal(false);
     };
 
+    
 
     // CRUD
     const handleAddProduct = (newProduct: Product) => {
@@ -74,9 +79,10 @@ const MainContent = () => {
         dispatch(togglePurchased(productId));
     }
 
-    const handleCancelEditProduct = () => {
-        resetStates();
-    }
+    const handleCancelEditProduct = useCallback(() => {
+        console.log('handleCancelEditProduct')
+        setEditingProductId(null);
+    }, [])
 
     const handleSaveProductAfterEdit = (product: Product) => {
         dispatch(editProduct(product));
@@ -100,6 +106,7 @@ const MainContent = () => {
 
                     {filteredProducts.length > 0 && (
                         <>
+                            
                             {activeCategory === ALL_CATEGORY_NAME && (
                                 <header className="d-flex gap-3 align-items-center mb-4">
                                     <h3 className="h5 mb-0" id="my-list-title">My List</h3>
@@ -154,6 +161,6 @@ const MainContent = () => {
             />
         </>
     )
-}
+})
 
 export default MainContent;

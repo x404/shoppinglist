@@ -24,6 +24,14 @@ const GlobalTooltips = () => {
                 delayShow={200}
                 delayHide={200}
             />
+            <Tooltip
+                id="cancel-tooltip"
+                place="top"
+                arrowColor="var(--bs-red)"
+                className="deleteTooltip"
+                delayShow={200}
+                delayHide={200}
+            />
         </>
     )
 }

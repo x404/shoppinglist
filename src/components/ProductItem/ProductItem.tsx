@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
 
 // styles
 import styles from "./ProductItem.module.css";
@@ -10,7 +10,7 @@ import ProductView from "./ProductView/ProductView";
 
 interface ProductItemProps {
     product: Product;
-    editingProductId?: number;
+    editingProductId?: number | null;
     onEditProduct: (productId: number) => void;
     onDeleteProduct: (productId: number) => void;
     onTogglePurchasedProduct: (productId: number) => void;
@@ -20,16 +20,16 @@ interface ProductItemProps {
 }
 
 
-const ProductItem = ({
-                         product,
-                         editingProductId,
-                         onEditProduct,
-                         onDeleteProduct,
-                         onTogglePurchasedProduct,
-                         onCancelEditProduct,
-                         categoriesList,
-                         onSaveEditProduct
-                     }: ProductItemProps) => {
+const ProductItem = memo(({
+                              product,
+                              editingProductId,
+                              onEditProduct,
+                              onDeleteProduct,
+                              onTogglePurchasedProduct,
+                              onCancelEditProduct,
+                              categoriesList,
+                              onSaveEditProduct
+                          }: ProductItemProps) => {
 
     const [validated, setValidated] = useState(false);
 
@@ -40,9 +40,9 @@ const ProductItem = ({
     });
 
     const nameInputRef = useRef<HTMLInputElement>(null);
-
-    // ESC press and exit from edit mode
     const editButtonRef = useRef<HTMLButtonElement>(null);
+    
+    // ESC press and exit from edit mode
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape' && editingProductId === product.id) {
@@ -85,13 +85,8 @@ const ProductItem = ({
         saveProduct();
         focusEditInput();
     }
-    
-    const handleCancel = () => {
-        resetForm();
-        onCancelEditProduct();
-        focusEditInput();
-    }
-    
+
+
     const isFormValid = (form: HTMLFormElement): boolean => {
         return form.checkValidity();
     };
@@ -100,18 +95,18 @@ const ProductItem = ({
         setValidated(true);
         focusNameInput();
     };
-    
+
     const focusNameInput = () => {
         setTimeout(() => {
             editButtonRef.current?.focus();
         }, 100);
     };
 
-    const focusEditInput = () => {
+    const focusEditInput = useCallback(() => {
         setTimeout(() => {
             editButtonRef.current?.focus();
         }, 100);
-    };
+    }, []);
 
     const saveProduct = () => {
         const updatedProduct = {
@@ -121,13 +116,15 @@ const ProductItem = ({
         onSaveEditProduct(updatedProduct);
     }
 
-    const resetForm = () => {
+    const resetForm = useCallback(() => {
+        console.log(product.name, product.quantity, product.category)
         setFormData({
             name: product.name,
             quantity: product.quantity,
             category: product.category
         })
-    }
+    }, [product.name, product.quantity, product.category]);
+
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
@@ -136,7 +133,15 @@ const ProductItem = ({
             [name]: name === 'quantity' ? Math.max(1, parseInt(value as string) || 1) : value
         }));
     };
-    
+
+
+    const handleCancel = useCallback(() => {
+        resetForm();
+        onCancelEditProduct();
+        focusEditInput();
+    }, [resetForm, onCancelEditProduct]);
+
+
     return (
         <>
             <li className={`list-group-item ${styles.productItem} ${editingProductId === product.id ? styles.active : ''}`}>
@@ -168,6 +173,6 @@ const ProductItem = ({
             </li>
         </>
     )
-}
+})
 
 export default ProductItem;

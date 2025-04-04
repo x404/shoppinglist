@@ -1,5 +1,5 @@
 import { Button, Form } from "react-bootstrap";
-import { ChangeEvent, FormEvent, RefObject } from "react";
+import { ChangeEvent, FormEvent, RefObject, useCallback, MouseEvent, memo } from "react";
 
 import styles from "./../ProductItem.module.css";
 import { SaveIcon } from "../../Icons/SaveIcon";
@@ -21,15 +21,21 @@ interface EditFormProps {
 }
 
 
-const ProductEditForm = ({
-                      formData,
-                      validated,
-                      categoriesList,
-                      nameInputRef,
-                      onInputChange,
-                      onSubmit,
-                      onCancel
-                  }: EditFormProps) => {
+const ProductEditForm = memo(({
+                                  formData,
+                                  validated,
+                                  categoriesList,
+                                  nameInputRef,
+                                  onInputChange,
+                                  onSubmit,
+                                  onCancel
+                              }: EditFormProps) => {
+
+    const handleCancel = useCallback((event: MouseEvent) => {
+        event.preventDefault();
+        onCancel();
+    }, [onCancel]);
+
     return (
         <>
             <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -95,10 +101,11 @@ const ProductEditForm = ({
                                 size="sm"
                                 className={styles.deleteButton}
                                 aria-label={`Cancel`}
-                                data-tooltip-id="delete-tooltip"
+                                data-tooltip-id="cancel-tooltip"
                                 data-tooltip-content="Cancel or press ESC"
                                 data-tooltip-place="top"
-                                onClick={onCancel}
+                                onClick={handleCancel}
+                                title="test"
                         >
                             <CancelIcon/>
                             <span className="px-1 d-sm-none">Cancel</span>
@@ -108,6 +115,6 @@ const ProductEditForm = ({
             </Form>
         </>
     )
-}
+})
 
 export default ProductEditForm;
