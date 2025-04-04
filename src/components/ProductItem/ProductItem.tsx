@@ -44,7 +44,7 @@ const ProductItem = memo(({
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const editButtonRef = useRef<HTMLButtonElement>(null);
-    
+
     const isEditingMode = editingProductId === product.id;
 
     // ESC press and exit from edit mode
@@ -74,10 +74,11 @@ const ProductItem = memo(({
     }
 
     const handleDeleteProduct = useCallback(() => {
-        onDeleteProduct(product.id)
+        onDeleteProduct(product.id);
+        onCancelEditProduct();
     }, []);
 
-    
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -144,7 +145,7 @@ const ProductItem = memo(({
         resetForm();
         onCancelEditProduct();
         focusEditInput();
-    }, [resetForm, onCancelEditProduct, focusEditInput]);
+    }, []);
 
 
     return (
@@ -173,8 +174,7 @@ const ProductItem = memo(({
                             onDeleteProduct={handleDeleteProduct}
                         />
                     </>
-                )
-                }
+                )}
             </li>
         </>
     )

@@ -53,6 +53,7 @@ const MainContent = () => {
     const openAddModal = useCallback((category?: string) => {
         setIsShowAddModal(true);
         setCurrentCategory(category);
+        handleCancelEditProduct();
     }, [])
 
     const closeAddModal = () => {
