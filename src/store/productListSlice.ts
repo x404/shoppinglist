@@ -53,14 +53,7 @@ export const productListSlice = createSlice({
         },
         setActiveCategory: (state, action: PayloadAction<string>) => {
             state.selectedCategory = action.payload;
-        },
-        //
-        // updateCategoriesItems: (state) => {
-        //     console.log(state)
-        //     state.products = state.products.map(product => product);
-        //     state.categories = getNamesCategories(Array.isArray(state.products) ? state.products : []);
-        // }
-        //
+        }
     }
 });
 

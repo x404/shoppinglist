@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +10,6 @@ import {
 
 // components
 import { Button } from "react-bootstrap";
-import { Tooltip } from "react-tooltip";
 import ProductItem from "../ProductItem/ProductItem";
 import AddProductModal from "../AddProductModal/AddProductModal";
 
