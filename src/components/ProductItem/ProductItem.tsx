@@ -1,12 +1,15 @@
 import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
 
+// components
+import ProductEditForm from "./ProductEditForm/ProductEditForm";
+import ProductView from "./ProductView/ProductView";
+
 // styles
 import styles from "./ProductItem.module.css";
 
 // interfaces
 import { Product } from "../../types/types";
-import ProductEditForm from "./ProductEditForm/ProductEditForm";
-import ProductView from "./ProductView/ProductView";
+
 
 interface ProductItemProps {
     product: Product;
@@ -41,11 +44,13 @@ const ProductItem = memo(({
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const editButtonRef = useRef<HTMLButtonElement>(null);
+    
+    const isEditingMode = editingProductId === product.id;
 
     // ESC press and exit from edit mode
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape' && editingProductId === product.id) {
+            if (event.key === 'Escape' && isEditingMode) {
                 handleCancel();
                 focusEditInput();
             }
@@ -144,9 +149,9 @@ const ProductItem = memo(({
 
     return (
         <>
-            <li className={`list-group-item ${styles.productItem} ${editingProductId === product.id ? styles.active : ''}`}>
+            <li className={`list-group-item ${styles.productItem} ${isEditingMode ? styles.active : ''}`}>
 
-                {editingProductId === product.id ? (
+                {isEditingMode ? (
                     <>
                         <ProductEditForm
                             formData={formData}

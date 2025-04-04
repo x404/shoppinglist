@@ -29,17 +29,7 @@ import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 import { PlusIcon } from "../Icons/PlusIcon";
 
 
-const GeneralHeaderMemo = memo(({ onAdd }: { onAdd: () => void }) => (
-    <header className="d-flex gap-3 align-items-center mb-4">
-        <h3 className="h5 mb-0" id="my-list-title">My List</h3>
-        <Button variant="light" size="sm" onClick={onAdd}>
-            <PlusIcon/>
-            Add product
-        </Button>
-    </header>
-));
-
-const MainContent = memo(() => {
+const MainContent = () => {
     const dispatch = useDispatch();
     // const defaultCategories = getCategories();
     const productList = useSelector(selectProductItems);
@@ -71,10 +61,10 @@ const MainContent = memo(() => {
 
 
     // CRUD
-    const handleAddProduct = (newProduct: Product) => {
+    const handleAddProduct = useCallback((newProduct: Product) => {
         dispatch(addProduct(newProduct));
         setIsShowAddModal(false);
-    }
+    }, [])
 
     const handleEditProduct = useCallback((productId: number) => {
         setEditingProductId(productId);
@@ -82,11 +72,11 @@ const MainContent = memo(() => {
 
     const handleDeleteProduct = useCallback((productId: number) => {
         dispatch(deleteProduct(productId));
-    },[]);
+    }, []);
 
     const handleTogglePurchased = useCallback((productId: number) => {
         dispatch(togglePurchased(productId));
-    },[]);
+    }, []);
 
     const handleCancelEditProduct = useCallback(() => {
         setEditingProductId(null);
@@ -95,20 +85,12 @@ const MainContent = memo(() => {
     const handleSaveProductAfterEdit = useCallback((product: Product) => {
         dispatch(editProduct(product));
         resetStates();
-    },[]);
+    }, []);
 
     const resetStates = () => {
         setEditingProductId(null);
     }
 
-    const CategoryHeaderMemo = memo(({ category, counter }: { category: string; counter: number }) => (
-        <CategoryHeader
-            category={category}
-            activeCategory={activeCategory}
-            counter={counter}
-            onAddProduct={openAddModal}
-        />
-    ));
 
     return (
         <>
@@ -124,13 +106,24 @@ const MainContent = memo(() => {
                     {filteredProducts.length > 0 && (
                         <>
                             {activeCategory === ALL_CATEGORY_NAME && (
-                                <GeneralHeaderMemo onAdd={() => openAddModal()}/>
+                                <header className="d-flex gap-3 align-items-center mb-4">
+                                    <h3 className="h5 mb-0" id="my-list-title">My List</h3>
+                                    <Button variant="light" size="sm" onClick={() => openAddModal()}>
+                                        <PlusIcon/>
+                                        Add product
+                                    </Button>
+                                </header>
                             )}
 
                             {Object.entries(groupedProducts).map(([category, products]) => (
                                 <article className="mb-3 mb-sm-2" key={category}>
-                                    <CategoryHeaderMemo category={category} counter={products.length}/>
-
+                                    <CategoryHeader
+                                        category={category}
+                                        activeCategory={activeCategory}
+                                        counter={products.length}
+                                        onAddProduct={openAddModal}
+                                    />
+  
                                     <ul className="list-group mt-2" aria-label={category}>
                                         {products.map((product) => (
                                             <ProductItem
@@ -162,6 +155,6 @@ const MainContent = memo(() => {
             />
         </>
     )
-})
+}
 
 export default MainContent;

@@ -1,5 +1,5 @@
 import { Modal, Button, Form } from 'react-bootstrap';
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
 
 // interfaces
 import { Product } from "../../types/types";
@@ -24,7 +24,7 @@ const AddProductModal = ({
     const [quantity, setQuantity] = useState<number>(1);
     const [category, setCategory] = useState<string>(currentCategory || '');
     const [validated, setValidated] = useState(false);
-    
+
     const nameInputRef = useRef<HTMLInputElement>(null);
 
     const hasInitialCategory = !!currentCategory;
@@ -38,10 +38,11 @@ const AddProductModal = ({
     }, [currentCategory, categoriesList]);
 
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         resetForm();
         onCloseModal();
-    }
+    }, [onCloseModal]);
+
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -90,19 +91,28 @@ const AddProductModal = ({
     const resetFormState = () => {
         resetForm();
         setValidated(false);
-    }
+    };
 
     const resetForm = () => {
         setName('');
         setQuantity(1);
-        if (!hasInitialCategory){
+        if (!hasInitialCategory) {
             setCategory('');
         }
-    }
+    };
 
-    const changeCategory = (name: string): void => {
-        setCategory(name);
-    }
+    const handleNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value)
+    }, []);
+
+    const handleQuantityChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        const val = Math.max(1, parseInt(event.target.value) || 1);
+        setQuantity(val);
+    }, []);
+
+    const changeCategory = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
+        setCategory(event.target.value);
+    }, []);
 
 
     return (
@@ -123,7 +133,7 @@ const AddProductModal = ({
                                 required
                                 type="text"
                                 placeholder="Enter product name"
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={handleNameChange}
                                 ref={nameInputRef}
                                 value={name}
                                 autoFocus
@@ -137,9 +147,9 @@ const AddProductModal = ({
                             <Form.Label>Quantity</Form.Label>
                             <Form.Control
                                 type="number"
-                                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                                onChange={handleQuantityChange}
                                 min="1"
-                                defaultValue={1}
+                                value={quantity}
                             />
                         </Form.Group>
 
@@ -150,7 +160,7 @@ const AddProductModal = ({
                                 <Form.Select
                                     required
                                     value={category}
-                                    onChange={(e) => changeCategory(e.target.value)}
+                                    onChange={changeCategory}
                                     isInvalid={validated && !category}
                                 >
                                     <option value=''>Choose category</option>
@@ -181,4 +191,4 @@ const AddProductModal = ({
     )
 }
 
-export default AddProductModal;
+export default memo(AddProductModal);

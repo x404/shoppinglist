@@ -1,5 +1,5 @@
 import { Button, Form } from "react-bootstrap";
-import { ChangeEvent, FormEvent, RefObject, useCallback, MouseEvent, memo } from "react";
+import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref } from "react";
 
 import styles from "./../ProductItem.module.css";
 import { SaveIcon } from "../../Icons/SaveIcon";
@@ -14,27 +14,44 @@ interface EditFormProps {
     };
     validated: boolean;
     categoriesList: string[];
-    nameInputRef: RefObject<HTMLInputElement | null>;
+    nameInputRef: Ref<HTMLInputElement | null>;
     onInputChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
     onSubmit: (event: FormEvent<HTMLFormElement>) => void,
     onCancel: () => void;
 }
 
 
-const ProductEditForm = memo(({
-                                  formData,
-                                  validated,
-                                  categoriesList,
-                                  nameInputRef,
-                                  onInputChange,
-                                  onSubmit,
-                                  onCancel
-                              }: EditFormProps) => {
+const ProductEditForm = ({
+                             formData,
+                             validated,
+                             categoriesList,
+                             nameInputRef,
+                             onInputChange,
+                             onSubmit,
+                             onCancel
+                         }: EditFormProps) => {
 
     const handleCancel = useCallback((event: MouseEvent) => {
         event.preventDefault();
         onCancel();
     }, [onCancel]);
+
+
+    const handleNameChange = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => onInputChange(e),
+        [onInputChange]
+    );
+
+    const handleQuantityChange = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => onInputChange(e),
+        [onInputChange]
+    );
+
+    const handleCategoryChange = useCallback(
+        (e: ChangeEvent<HTMLSelectElement>) => onInputChange(e),
+        [onInputChange]
+    );
+
 
     return (
         <>
@@ -48,9 +65,9 @@ const ProductEditForm = memo(({
                             type="text"
                             ref={nameInputRef}
                             placeholder="Enter product name"
-                            onChange={onInputChange}
-                            defaultValue={formData.name}
+                            value={formData.name}
                             autoFocus
+                            onChange={handleNameChange}
                         />
                         <Form.Control.Feedback type="invalid">
                             Please enter product name
@@ -62,9 +79,9 @@ const ProductEditForm = memo(({
                         <Form.Control
                             name="quantity"
                             type="number"
-                            onChange={onInputChange}
                             min="1"
-                            defaultValue={formData.quantity}
+                            value={formData.quantity}
+                            onChange={handleQuantityChange}
                         />
                     </Form.Group>
 
@@ -73,7 +90,7 @@ const ProductEditForm = memo(({
                         <Form.Select
                             name="category"
                             value={formData.category}
-                            onChange={onInputChange}
+                            onChange={handleCategoryChange}
                         >
                             {categoriesList.map((category) => (
                                 <option key={category} value={category}>
@@ -105,7 +122,6 @@ const ProductEditForm = memo(({
                                 data-tooltip-content="Cancel or press ESC"
                                 data-tooltip-place="top"
                                 onClick={handleCancel}
-                                title="test"
                         >
                             <CancelIcon/>
                             <span className="px-1 d-sm-none">Cancel</span>
@@ -115,6 +131,6 @@ const ProductEditForm = memo(({
             </Form>
         </>
     )
-})
+}
 
 export default ProductEditForm;

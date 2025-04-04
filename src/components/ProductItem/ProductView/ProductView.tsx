@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import { forwardRef, RefObject } from "react";
+import { ComponentProps, forwardRef, Ref } from "react";
 
 import styles from "./../ProductItem.module.css";
 
@@ -10,13 +10,13 @@ import { EditIcon } from "../../Icons/EditIcon";
 
 interface AddFormProps {
     product: Product;
-    editButtonRef: RefObject<HTMLButtonElement | null>;
+    editButtonRef: Ref<HTMLButtonElement | null>;
     onTogglePurchased: () => void;
     onEditProduct: () => void;
     onDeleteProduct: () => void;
 }
 
-const EditButton = forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
+const EditButton = forwardRef<HTMLButtonElement, ComponentProps<typeof Button>>(
     ({ children, ...props }, ref) => (
         <Button
             {...props}
