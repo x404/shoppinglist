@@ -22,7 +22,7 @@ const NoFoundProducts = ({ products, activeCategory, onAddProduct }: NoFoundProd
     const handleAddProduct = () => {
         const category = activeCategory !== ALL_CATEGORY_NAME ? activeCategory : undefined;
         onAddProduct(category);
-    }
+    };
     
     return (
         <>

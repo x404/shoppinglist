@@ -44,17 +44,17 @@ const MainContent = () => {
         return activeCategory === ALL_CATEGORY_NAME
             ? productList
             : productList.filter((product: Product) => product.category === activeCategory);
-    }, [activeCategory, productList])
+    }, [activeCategory, productList]);
 
     const groupedProducts = useMemo(() => {
         return groupProductsByCategory(filteredProducts);
-    }, [filteredProducts])
+    }, [filteredProducts]);
 
     const openAddModal = useCallback((category?: string) => {
         setIsShowAddModal(true);
         setCurrentCategory(category);
         handleCancelEditProduct();
-    }, [])
+    }, []);
 
     const closeAddModal = () => {
         setIsShowAddModal(false);
@@ -65,7 +65,7 @@ const MainContent = () => {
     const handleAddProduct = useCallback((newProduct: Product) => {
         dispatch(addProduct(newProduct));
         setIsShowAddModal(false);
-    }, [])
+    }, []);
 
     const handleEditProduct = useCallback((productId: number) => {
         setEditingProductId(productId);
@@ -81,7 +81,7 @@ const MainContent = () => {
 
     const handleCancelEditProduct = useCallback(() => {
         setEditingProductId(null);
-    }, [])
+    }, []);
 
     const handleSaveProductAfterEdit = useCallback((product: Product) => {
         dispatch(editProduct(product));
@@ -90,7 +90,7 @@ const MainContent = () => {
 
     const resetStates = () => {
         setEditingProductId(null);
-    }
+    };
 
 
     return (

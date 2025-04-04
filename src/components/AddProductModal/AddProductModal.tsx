@@ -189,6 +189,6 @@ const AddProductModal = ({
             </Modal>
         </>
     )
-}
+};
 
 export default memo(AddProductModal);

@@ -65,13 +65,13 @@ const ProductItem = memo(({
 
     const handleTogglePurchased = useCallback(() => {
         onTogglePurchasedProduct(product.id);
-    }, [])
+    }, []);
 
     const handleEditProduct = () => {
         if (product.id) {
             onEditProduct(product.id);
         }
-    }
+    };
 
     const handleDeleteProduct = useCallback(() => {
         onDeleteProduct(product.id);
@@ -91,7 +91,7 @@ const ProductItem = memo(({
 
         saveProduct();
         focusEditInput();
-    }
+    };
 
 
     const isFormValid = (form: HTMLFormElement): boolean => {
@@ -121,7 +121,7 @@ const ProductItem = memo(({
             ...formData,
         }
         onSaveEditProduct(updatedProduct);
-    }
+    };
 
     const resetForm = useCallback(() => {
         setFormData({

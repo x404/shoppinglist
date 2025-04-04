@@ -20,7 +20,7 @@ export const CategoryHeader = memo(({ category, counter, activeCategory, onAddPr
 
     const handlerAddProduct = useCallback((category: string) => {
         onAddProduct(category)
-    }, [])
+    }, []);
 
 
     return (

@@ -23,6 +23,6 @@ const AppHeader = () => {
             {(isDebug || productList.length === 0 ) && <MockupProductData/>}
         </header>
     )
-}
+};
 
 export default AppHeader;

@@ -30,6 +30,6 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
             </li>
         </>
     )
-}
+};
 
 export default CategoryItem;
