@@ -41,7 +41,7 @@ const ProductItem = memo(({
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const editButtonRef = useRef<HTMLButtonElement>(null);
-    
+
     // ESC press and exit from edit mode
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -58,13 +58,9 @@ const ProductItem = memo(({
         };
     }, [editingProductId, product.id]);
 
-    const handleTogglePurchased = () => {
+    const handleTogglePurchased = useCallback(() => {
         onTogglePurchasedProduct(product.id);
-    }
-
-    const handleDeleteProduct = () => {
-        onDeleteProduct(product.id)
-    }
+    }, [])
 
     const handleEditProduct = () => {
         if (product.id) {
@@ -72,6 +68,11 @@ const ProductItem = memo(({
         }
     }
 
+    const handleDeleteProduct = useCallback(() => {
+        onDeleteProduct(product.id)
+    }, []);
+
+    
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -117,7 +118,6 @@ const ProductItem = memo(({
     }
 
     const resetForm = useCallback(() => {
-        console.log(product.name, product.quantity, product.category)
         setFormData({
             name: product.name,
             quantity: product.quantity,
@@ -126,20 +126,20 @@ const ProductItem = memo(({
     }, [product.name, product.quantity, product.category]);
 
 
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
         setFormData(prev => ({
             ...prev,
             [name]: name === 'quantity' ? Math.max(1, parseInt(value as string) || 1) : value
         }));
-    };
+    }, []);
 
 
     const handleCancel = useCallback(() => {
         resetForm();
         onCancelEditProduct();
         focusEditInput();
-    }, [resetForm, onCancelEditProduct]);
+    }, [resetForm, onCancelEditProduct, focusEditInput]);
 
 
     return (

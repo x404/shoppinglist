@@ -29,6 +29,16 @@ import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 import { PlusIcon } from "../Icons/PlusIcon";
 
 
+const GeneralHeaderMemo = memo(({ onAdd }: { onAdd: () => void }) => (
+    <header className="d-flex gap-3 align-items-center mb-4">
+        <h3 className="h5 mb-0" id="my-list-title">My List</h3>
+        <Button variant="light" size="sm" onClick={onAdd}>
+            <PlusIcon/>
+            Add product
+        </Button>
+    </header>
+));
+
 const MainContent = memo(() => {
     const dispatch = useDispatch();
     // const defaultCategories = getCategories();
@@ -50,16 +60,15 @@ const MainContent = memo(() => {
         return groupProductsByCategory(filteredProducts);
     }, [filteredProducts])
 
-    const openAddModal = (category?: string) => {
+    const openAddModal = useCallback((category?: string) => {
         setIsShowAddModal(true);
         setCurrentCategory(category);
-    }
+    }, [])
 
     const closeAddModal = () => {
         setIsShowAddModal(false);
     };
 
-    
 
     // CRUD
     const handleAddProduct = (newProduct: Product) => {
@@ -67,31 +76,39 @@ const MainContent = memo(() => {
         setIsShowAddModal(false);
     }
 
-    const handleEditProduct = (productId: number) => {
+    const handleEditProduct = useCallback((productId: number) => {
         setEditingProductId(productId);
-    }
+    }, []);
 
-    const handleDeleteProduct = (productId: number) => {
+    const handleDeleteProduct = useCallback((productId: number) => {
         dispatch(deleteProduct(productId));
-    }
+    },[]);
 
-    const handleTogglePurchased = (productId: number) => {
+    const handleTogglePurchased = useCallback((productId: number) => {
         dispatch(togglePurchased(productId));
-    }
+    },[]);
 
     const handleCancelEditProduct = useCallback(() => {
-        console.log('handleCancelEditProduct')
         setEditingProductId(null);
     }, [])
 
-    const handleSaveProductAfterEdit = (product: Product) => {
+    const handleSaveProductAfterEdit = useCallback((product: Product) => {
         dispatch(editProduct(product));
         resetStates();
-    }
+    },[]);
 
     const resetStates = () => {
-        setEditingProductId(-1);
+        setEditingProductId(null);
     }
+
+    const CategoryHeaderMemo = memo(({ category, counter }: { category: string; counter: number }) => (
+        <CategoryHeader
+            category={category}
+            activeCategory={activeCategory}
+            counter={counter}
+            onAddProduct={openAddModal}
+        />
+    ));
 
     return (
         <>
@@ -106,29 +123,13 @@ const MainContent = memo(() => {
 
                     {filteredProducts.length > 0 && (
                         <>
-                            
                             {activeCategory === ALL_CATEGORY_NAME && (
-                                <header className="d-flex gap-3 align-items-center mb-4">
-                                    <h3 className="h5 mb-0" id="my-list-title">My List</h3>
-                                    <Button
-                                        variant="light"
-                                        size="sm"
-                                        onClick={() => openAddModal()}
-                                    >
-                                        <PlusIcon/>
-                                        Add product
-                                    </Button>
-                                </header>
+                                <GeneralHeaderMemo onAdd={() => openAddModal()}/>
                             )}
 
                             {Object.entries(groupedProducts).map(([category, products]) => (
                                 <article className="mb-3 mb-sm-2" key={category}>
-                                    <CategoryHeader
-                                        category={category}
-                                        activeCategory={activeCategory}
-                                        counter={products.length}
-                                        onAddProduct={openAddModal}
-                                    />
+                                    <CategoryHeaderMemo category={category} counter={products.length}/>
 
                                     <ul className="list-group mt-2" aria-label={category}>
                                         {products.map((product) => (
