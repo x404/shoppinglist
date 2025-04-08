@@ -1,6 +1,8 @@
 import { Modal, Button, Form } from 'react-bootstrap';
 import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
 
+import { v4 as uuidv4 } from 'uuid';
+
 // interfaces
 import { Product } from "../../types/types";
 
@@ -80,7 +82,7 @@ const AddProductModal = ({
 
     const createProductData = (): Product => {
         return {
-            id: Date.now(), // Generate unique ID
+            id: uuidv4(),
             name: name.trim(),
             category,
             purchased: false,
