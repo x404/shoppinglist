@@ -13,10 +13,10 @@ import { Product } from "../../types/types";
 
 interface ProductItemProps {
     product: Product;
-    editingProductId?: number | null;
-    onEditProduct: (productId: number) => void;
-    onDeleteProduct: (productId: number) => void;
-    onTogglePurchasedProduct: (productId: number) => void;
+    editingProductId?: string | null;
+    onEditProduct: (productId: string) => void;
+    onDeleteProduct: (productId: string) => void;
+    onTogglePurchasedProduct: (productId: string) => void;
     onCancelEditProduct: () => void;
     onSaveEditProduct: (product: Product) => void;
     categoriesList: string[];

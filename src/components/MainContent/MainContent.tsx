@@ -37,7 +37,7 @@ const MainContent = () => {
     const categoriesList = useSelector(selectCategoriesItems);
 
     const [isShowAddModal, setIsShowAddModal] = useState(false);
-    const [editingProductId, setEditingProductId] = useState<number | null>(null);
+    const [editingProductId, setEditingProductId] = useState<string | null>(null);
     const [currentCategory, setCurrentCategory] = useState<string>();
 
     const filteredProducts = useMemo(() => {
@@ -67,15 +67,15 @@ const MainContent = () => {
         setIsShowAddModal(false);
     }, []);
 
-    const handleEditProduct = useCallback((productId: number) => {
+    const handleEditProduct = useCallback((productId: string) => {
         setEditingProductId(productId);
     }, []);
 
-    const handleDeleteProduct = useCallback((productId: number) => {
+    const handleDeleteProduct = useCallback((productId: string) => {
         dispatch(deleteProduct(productId));
     }, []);
 
-    const handleTogglePurchased = useCallback((productId: number) => {
+    const handleTogglePurchased = useCallback((productId: string) => {
         dispatch(togglePurchased(productId));
     }, []);
 

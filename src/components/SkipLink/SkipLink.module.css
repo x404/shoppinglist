@@ -1,4 +1,4 @@
-.skip-link {
+.skipLink {
     background-color: var(--bs-gray-500);
     color: var(--bs-black);
     line-height: 1;
@@ -8,6 +8,6 @@
     z-index: 10;
 }
 
-.skip-link:focus {
+.skipLink:focus {
     transform: translateY(0%);
 }
