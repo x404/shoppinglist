@@ -8,6 +8,10 @@
     &:hover {
         background-color: var(--bs-gray-200);
         border-radius: 4px;
+
+        a {
+            color: var(--bs-gray-800);
+        }
     }
 }
 

@@ -13,7 +13,7 @@ import { Product } from "../../types/types";
 
 interface ProductItemProps {
     product: Product;
-    editingProductId?: string | null;
+    isEditing: boolean;
     onEditProduct: (productId: string) => void;
     onDeleteProduct: (productId: string) => void;
     onTogglePurchasedProduct: (productId: string) => void;
@@ -25,7 +25,7 @@ interface ProductItemProps {
 
 const ProductItem = memo(({
                               product,
-                              editingProductId,
+                              isEditing,
                               onEditProduct,
                               onDeleteProduct,
                               onTogglePurchasedProduct,
@@ -45,12 +45,11 @@ const ProductItem = memo(({
     const nameInputRef = useRef<HTMLInputElement>(null);
     const editButtonRef = useRef<HTMLButtonElement>(null);
 
-    const isEditingMode = editingProductId === product.id;
 
     // ESC press and exit from edit mode
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape' && isEditingMode) {
+            if (event.key === 'Escape' && isEditing) {
                 handleCancel();
                 focusEditInput();
             }
@@ -61,17 +60,18 @@ const ProductItem = memo(({
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [editingProductId, product.id]);
+    }, [isEditing]);
+    
 
     const handleTogglePurchased = useCallback(() => {
         onTogglePurchasedProduct(product.id);
     }, []);
 
-    const handleEditProduct = () => {
+    const handleEditProduct = useCallback( () => {
         if (product.id) {
             onEditProduct(product.id);
         }
-    };
+    }, []);
 
     const handleDeleteProduct = useCallback(() => {
         onDeleteProduct(product.id);
@@ -124,10 +124,12 @@ const ProductItem = memo(({
     };
 
     const resetForm = useCallback(() => {
+        const {name, quantity, category} = product;
+        console.log(name, quantity, category, product.name, product.quantity, product.category)
         setFormData({
-            name: product.name,
-            quantity: product.quantity,
-            category: product.category
+            name,
+            quantity,
+            category
         })
     }, [product.name, product.quantity, product.category]);
 
@@ -146,13 +148,15 @@ const ProductItem = memo(({
         onCancelEditProduct();
         focusEditInput();
     }, []);
-
+    
 
     return (
         <>
-            <li className={`list-group-item ${styles.productItem} ${isEditingMode ? styles.active : ''}`}>
+            <li
+                className={`list-group-item ${styles.productItem} ${isEditing ? styles.active : ''}`}
+            >
 
-                {isEditingMode ? (
+                {isEditing ? (
                     <>
                         <ProductEditForm
                             formData={formData}

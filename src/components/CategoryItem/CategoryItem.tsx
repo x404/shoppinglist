@@ -1,5 +1,6 @@
 import { MouseEvent } from "react";
-import styles from './Category.module.css';
+
+import styles from './CategoryItem.module.css';
 
 interface CategoryItem {
     category: string;
@@ -18,7 +19,7 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
         <>
             <li className={`${styles.menuItem} d-flex align-items-center mt-1 ps-2 pe-2 ${activeClass}`}>
                 <a href={`#${category}`}
-                   className={`${styles.SidebarLink} flex-grow-1 ps-2 ${allCategoryClass}`}
+                   className={`${styles.sidebarLink} flex-grow-1 ps-2 ${allCategoryClass}`}
                    {...(isActive ? { 'aria-current': 'page' } : {})}
                    title=""
                    onClick={(event) => onSelectCategory(event, category)}
