@@ -26,7 +26,7 @@ export const productListSlice = createSlice({
     name: "productList",
     initialState,
     reducers: {
-        togglePurchased: (state, action: PayloadAction<number>) => {
+        togglePurchased: (state, action: PayloadAction<string>) => {
             state.products = state.products.map(product =>
                 product.id === action.payload
                     ? { ...product, purchased: !product.purchased }
@@ -47,7 +47,7 @@ export const productListSlice = createSlice({
             );
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },
-        deleteProduct: (state, action: PayloadAction<number>) => {
+        deleteProduct: (state, action: PayloadAction<string>) => {
             state.products = state.products.filter(product => product.id !== action.payload);
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },

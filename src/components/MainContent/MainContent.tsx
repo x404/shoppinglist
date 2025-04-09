@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,9 +9,9 @@ import {
 } from '../../store/productListSlice';
 
 // components
-import { Button, ModalDialog } from "react-bootstrap";
-import ProductItem from "../ProductItem/ProductItem";
+import { Button } from "react-bootstrap";
 import AddProductModal from "../AddProductModal/AddProductModal";
+import GroupedProductList from "../GroupedProductList";
 
 // styles
 import styles from "./MainContent.module.css";
@@ -25,7 +25,6 @@ import { ALL_CATEGORY_NAME } from "../../constants/categories";
 // interfaces
 import { Product } from "../../types/types";
 import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
-import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 import { PlusIcon } from "../Icons/PlusIcon";
 
 
@@ -37,7 +36,7 @@ const MainContent = () => {
     const categoriesList = useSelector(selectCategoriesItems);
 
     const [isShowAddModal, setIsShowAddModal] = useState(false);
-    const [editingProductId, setEditingProductId] = useState<number | null>(null);
+    const [editingProductId, setEditingProductId] = useState<string | null>(null);
     const [currentCategory, setCurrentCategory] = useState<string>();
 
     const filteredProducts = useMemo(() => {
@@ -67,15 +66,15 @@ const MainContent = () => {
         setIsShowAddModal(false);
     }, []);
 
-    const handleEditProduct = useCallback((productId: number) => {
+    const handleEditProduct = useCallback((productId: string) => {
         setEditingProductId(productId);
     }, []);
 
-    const handleDeleteProduct = useCallback((productId: number) => {
+    const handleDeleteProduct = useCallback((productId: string) => {
         dispatch(deleteProduct(productId));
     }, []);
 
-    const handleTogglePurchased = useCallback((productId: number) => {
+    const handleTogglePurchased = useCallback((productId: string) => {
         dispatch(togglePurchased(productId));
     }, []);
 
@@ -116,32 +115,18 @@ const MainContent = () => {
                                 </header>
                             )}
 
-                            {Object.entries(groupedProducts).map(([category, products]) => (
-                                <article className="mb-3 mb-sm-2" key={category}>
-                                    <CategoryHeader
-                                        category={category}
-                                        activeCategory={activeCategory}
-                                        counter={products.length}
-                                        onAddProduct={openAddModal}
-                                    />
-  
-                                    <ul className="list-group mt-2" aria-label={category}>
-                                        {products.map((product) => (
-                                            <ProductItem
-                                                key={product.id}
-                                                product={product}
-                                                editingProductId={editingProductId}
-                                                categoriesList={categoriesList}
-                                                onEditProduct={handleEditProduct}
-                                                onDeleteProduct={handleDeleteProduct}
-                                                onTogglePurchasedProduct={handleTogglePurchased}
-                                                onCancelEditProduct={handleCancelEditProduct}
-                                                onSaveEditProduct={handleSaveProductAfterEdit}
-                                            />
-                                        ))}
-                                    </ul>
-                                </article>
-                            ))}
+                            <GroupedProductList
+                                groupedProducts={groupedProducts}
+                                editingProductId={editingProductId}
+                                categoriesList={categoriesList}
+                                activeCategory={activeCategory}
+                                onAddProduct={openAddModal}
+                                onEditProduct={handleEditProduct}
+                                onDeleteProduct={handleDeleteProduct}
+                                onTogglePurchasedProduct={handleTogglePurchased}
+                                onCancelEditProduct={handleCancelEditProduct}
+                                onSaveEditProduct={handleSaveProductAfterEdit}
+                            />
                         </>
                     )}
                 </section>

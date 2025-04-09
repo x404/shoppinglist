@@ -1,5 +1,5 @@
-import { Button } from "react-bootstrap";
 import { ComponentProps, forwardRef, Ref } from "react";
+import { Button } from "react-bootstrap";
 
 import styles from "./../ProductItem.module.css";
 
@@ -54,7 +54,7 @@ const ProductView = ({
                         />
                     </div>
                     <div id={`item-title-${product.id}`}
-                         className={`${styles['item-title']} ${product.purchased ? 'text-decoration-line-through' : ''}`}>
+                         className={`${styles.itemTitle} ${product.purchased ? 'text-decoration-line-through' : ''}`}>
                         {product.name}
                     </div>
                     <div className="counter ms-3">

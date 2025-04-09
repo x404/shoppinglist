@@ -1,4 +1,4 @@
-.item-title {
+.itemTitle {
     width: calc(100vw - 250px);
     overflow: hidden;
     text-overflow: ellipsis;

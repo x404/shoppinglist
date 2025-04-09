@@ -1,20 +1,25 @@
-import styles from './Category.module.css';
+import { MouseEvent } from "react";
+
+import styles from './CategoryItem.module.css';
 
 interface CategoryItem {
     category: string;
     count: number;
     isActive: boolean;
-    onSelectCategory: (event: React.MouseEvent<HTMLAnchorElement>, category: string) => void;
+    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, category: string) => void;
     allCategory: string;
 }
 
 
 const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory }: CategoryItem) => {
+    const activeClass = isActive ? styles.active : '';
+    const allCategoryClass = category === allCategory ? 'fw-bold text-uppercase' : '';
+
     return (
         <>
-            <li className={`${styles['menu-item']} d-flex align-items-center mt-1 ps-2 pe-2 ${isActive ? styles.active : ''}`}>
+            <li className={`${styles.menuItem} d-flex align-items-center mt-1 ps-2 pe-2 ${activeClass}`}>
                 <a href={`#${category}`}
-                   className={`${styles['sidebar-link']} flex-grow-1 ps-2 ${category === allCategory ? 'fw-bold text-uppercase' : ''}`}
+                   className={`${styles.sidebarLink} flex-grow-1 ps-2 ${allCategoryClass}`}
                    {...(isActive ? { 'aria-current': 'page' } : {})}
                    title=""
                    onClick={(event) => onSelectCategory(event, category)}

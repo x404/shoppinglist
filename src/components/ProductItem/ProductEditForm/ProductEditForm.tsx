@@ -1,5 +1,5 @@
 import { Button, Form } from "react-bootstrap";
-import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref } from "react";
+import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState, memo } from "react";
 
 import styles from "./../ProductItem.module.css";
 import { SaveIcon } from "../../Icons/SaveIcon";
@@ -20,7 +20,6 @@ interface EditFormProps {
     onCancel: () => void;
 }
 
-
 const ProductEditForm = ({
                              formData,
                              validated,
@@ -30,6 +29,17 @@ const ProductEditForm = ({
                              onSubmit,
                              onCancel
                          }: EditFormProps) => {
+
+    const [name, setName] = useState("");
+    const [quantity, setQuantity] = useState(1);
+    const [category, setCategory] = useState("");
+
+    useEffect(() => {
+        const { name, quantity, category } = formData;
+        setName(name);
+        setQuantity(quantity);
+        setCategory(category);
+    }, [formData.name, formData.category, formData.quantity]);
 
     const handleCancel = useCallback((event: MouseEvent) => {
         event.preventDefault();
@@ -52,6 +62,10 @@ const ProductEditForm = ({
         [onInputChange]
     );
 
+    // useEffect(() => {
+    //     console.log('ProductEditForm');
+    // }, []);
+
 
     return (
         <>
@@ -65,7 +79,7 @@ const ProductEditForm = ({
                             type="text"
                             ref={nameInputRef}
                             placeholder="Enter product name"
-                            value={formData.name}
+                            value={name}
                             autoFocus
                             onChange={handleNameChange}
                         />
@@ -80,7 +94,7 @@ const ProductEditForm = ({
                             name="quantity"
                             type="number"
                             min="1"
-                            value={formData.quantity}
+                            value={quantity}
                             onChange={handleQuantityChange}
                         />
                     </Form.Group>
@@ -89,7 +103,7 @@ const ProductEditForm = ({
                         <Form.Label className="visually-hidden">Category</Form.Label>
                         <Form.Select
                             name="category"
-                            value={formData.category}
+                            value={category}
                             onChange={handleCategoryChange}
                         >
                             {categoriesList.map((category) => (
