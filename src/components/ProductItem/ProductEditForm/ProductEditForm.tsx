@@ -1,11 +1,13 @@
 import { Button, Form } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState, memo } from "react";
 
-import styles from "./../ProductItem.module.css";
 import { SaveIcon } from "../../Icons/SaveIcon";
 import { CancelIcon } from "../../Icons/CancelIcon";
 
+// styles
+import styles from "./../ProductItem.module.css";
 
+// interfaces
 interface EditFormProps {
     formData: {
         name: string;
@@ -61,10 +63,6 @@ const ProductEditForm = ({
         (e: ChangeEvent<HTMLSelectElement>) => onInputChange(e),
         [onInputChange]
     );
-
-    // useEffect(() => {
-    //     console.log('ProductEditForm');
-    // }, []);
 
 
     return (

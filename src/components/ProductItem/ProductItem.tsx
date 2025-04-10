@@ -1,5 +1,8 @@
 import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
 
+// helpers
+import { isSameProduct } from "../../helpers/isSameProduct";
+
 // components
 import ProductEditForm from "./ProductEditForm/ProductEditForm";
 import ProductView from "./ProductView/ProductView";
@@ -115,11 +118,19 @@ const ProductItem = memo(({
         }, 100);
     }, []);
 
+
+
     const saveProduct = () => {
         const updatedProduct = {
             ...product,
             ...formData,
         }
+
+        if (isSameProduct(product, updatedProduct) ){
+            onCancelEditProduct();
+            return;
+        }
+
         onSaveEditProduct(updatedProduct);
     };
 
