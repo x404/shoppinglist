@@ -80,8 +80,7 @@ const ProductItem = memo(({
         onDeleteProduct(product.id);
         onCancelEditProduct();
     }, []);
-
-
+    
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -95,7 +94,6 @@ const ProductItem = memo(({
         saveProduct();
         focusEditInput();
     };
-
 
     const isFormValid = (form: HTMLFormElement): boolean => {
         return form.checkValidity();
@@ -118,8 +116,7 @@ const ProductItem = memo(({
         }, 100);
     }, []);
 
-
-
+    
     const saveProduct = () => {
         const updatedProduct = {
             ...product,
@@ -136,7 +133,6 @@ const ProductItem = memo(({
 
     const resetForm = useCallback(() => {
         const {name, quantity, category} = product;
-        console.log(name, quantity, category, product.name, product.quantity, product.category)
         setFormData({
             name,
             quantity,
@@ -152,14 +148,12 @@ const ProductItem = memo(({
             [name]: name === 'quantity' ? Math.max(1, parseInt(value as string) || 1) : value
         }));
     }, []);
-
-
-    const handleCancel = useCallback(() => {
+    
+    const handleCancel = () => {
         resetForm();
         onCancelEditProduct();
         focusEditInput();
-    }, []);
-    
+    };
 
     return (
         <>
