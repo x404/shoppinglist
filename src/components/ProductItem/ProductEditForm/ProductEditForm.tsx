@@ -36,6 +36,7 @@ const ProductEditForm = ({
     const [quantity, setQuantity] = useState(1);
     const [category, setCategory] = useState("");
 
+    console.log('editForm');
     useEffect(() => {
         const { name, quantity, category } = formData;
         setName(name);
@@ -120,7 +121,7 @@ const ProductEditForm = ({
                             data-tooltip-id="save-tooltip"
                             data-tooltip-content="Save item"
                             data-tooltip-place="top"
-                            className={styles.saveButton}
+                            className={`${styles.saveButton} d-flex align-items-center`}
                             type="submit"
                         >
                             <SaveIcon/>
@@ -128,7 +129,7 @@ const ProductEditForm = ({
                         </Button>
                         <Button variant="outline-dark"
                                 size="sm"
-                                className={styles.deleteButton}
+                                className={`${styles.deleteButton} d-flex align-items-center`}
                                 aria-label={`Cancel`}
                                 data-tooltip-id="cancel-tooltip"
                                 data-tooltip-content="Cancel or press ESC"

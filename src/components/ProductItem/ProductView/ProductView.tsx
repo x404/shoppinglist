@@ -23,7 +23,7 @@ const EditButton = forwardRef<HTMLButtonElement, ComponentProps<typeof Button>>(
             ref={ref}
             variant="outline-dark"
             size="sm"
-            className={styles.editButton}
+            className={`${styles.editButton} d-flex align-items-center`}
             data-tooltip-id="edit-tooltip"
             data-tooltip-content="Edit item"
             data-tooltip-place="top"
@@ -75,7 +75,7 @@ const ProductView = ({
 
                     <Button variant="outline-dark"
                             size="sm"
-                            className={styles.deleteButton}
+                            className={`${styles.deleteButton} d-flex align-items-center`}
                             aria-label={`Delete ${product.name}`}
                             data-tooltip-id="delete-tooltip"
                             data-tooltip-content="Delete item"
