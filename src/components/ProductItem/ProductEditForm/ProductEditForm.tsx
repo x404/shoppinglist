@@ -1,8 +1,8 @@
 import { Button, Form } from "react-bootstrap";
-import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState, memo } from "react";
+import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState } from "react";
 
-import { SaveIcon } from "../../Icons/SaveIcon";
-import { CancelIcon } from "../../Icons/CancelIcon";
+import { SaveIcon } from "@icons/SaveIcon";
+import { CancelIcon } from "@icons/CancelIcon";
 
 // styles
 import styles from "./../ProductItem.module.css";

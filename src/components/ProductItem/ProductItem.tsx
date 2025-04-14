@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
 
 // helpers
-import { isSameProduct } from "../../helpers/isSameProduct";
+import { isSameProduct } from "@helpers/isSameProduct";
 
 // components
 import ProductEditForm from "./ProductEditForm/ProductEditForm";
@@ -11,7 +11,7 @@ import ProductView from "./ProductView/ProductView";
 import styles from "./ProductItem.module.css";
 
 // interfaces
-import { Product } from "../../types/types";
+import { Product } from "@/types/types";
 
 
 interface ProductItemProps {

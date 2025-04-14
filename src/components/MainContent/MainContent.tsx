@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems,
     addProduct, editProduct, deleteProduct, togglePurchased
-} from '../../store/productListSlice';
+} from '@store/productListSlice';
 
 // components
 import { Button } from "react-bootstrap";
@@ -16,10 +16,10 @@ import GroupedProductList from "../GroupedProductList";
 import styles from "./MainContent.module.css";
 
 // helpers
-import { groupProductsByCategory } from "../../helpers/groupProductsByCategory";
+import { groupProductsByCategory } from "@helpers/groupProductsByCategory";
 
 // interfaces
-import { ALL_CATEGORY_NAME } from "../../constants/categories";
+import { ALL_CATEGORY_NAME } from "@constants/categories";
 
 // interfaces
 import { Product } from "../../types/types";

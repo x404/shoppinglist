@@ -4,9 +4,9 @@ import { Button } from "react-bootstrap";
 import styles from "./../ProductItem.module.css";
 
 // interfaces
-import { Product } from "../../../types/types";
-import { DeleteIcon } from "../../Icons/DeleteIcon";
-import { EditIcon } from "../../Icons/EditIcon";
+import { Product } from "@/types/types";
+import { DeleteIcon } from "@icons/DeleteIcon";
+import { EditIcon } from "@icons/EditIcon";
 
 interface AddFormProps {
     product: Product;

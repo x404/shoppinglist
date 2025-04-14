@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LocalStorageService } from "../services/LocalStorageService";
+import { LocalStorageService } from "@services/LocalStorageService";
 
 // interfaces
-import { CategoryListState } from "../types/types";
+import { CategoryListState } from "@/types/types";
 
 // constants
-import { DEFAULT_CATEGORIES } from "../constants/categories";
+import { DEFAULT_CATEGORIES } from "@constants/categories";
 
 const LOCAL_STORAGE_CATEGORY_KEY = "categories";
 const storedCategories = LocalStorageService.get<string[]>(LOCAL_STORAGE_CATEGORY_KEY);

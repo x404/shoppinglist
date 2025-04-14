@@ -4,7 +4,8 @@ import { MouseEvent, useMemo } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems,
-} from '../../store/productListSlice';
+} from '@store/productListSlice';
+import { selectActiveCategory, selectCategoriesItems, setActiveCategory } from "@store/categoriesSlice";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
@@ -13,8 +14,7 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 import styles from "./Sidebar.module.css";
 
 // interfaces
-import { ALL_CATEGORY_NAME } from "../../constants/categories";
-import { selectActiveCategory, selectCategoriesItems, setActiveCategory } from "../../store/categoriesSlice";
+import { ALL_CATEGORY_NAME } from "@constants/categories";
 
 
 const Sidebar = () => {

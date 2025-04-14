@@ -2,9 +2,9 @@ import { memo, useCallback } from "react";
 import { Badge, Button } from "react-bootstrap";
 
 // constants
-import { ALL_CATEGORY_NAME } from "../../constants/categories";
+import { ALL_CATEGORY_NAME } from "@constants/categories";
 
-import { PlusIcon } from "../Icons/PlusIcon";
+import { PlusIcon } from "@icons/PlusIcon";
 
 
 // interfaces

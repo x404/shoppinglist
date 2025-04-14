@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState 
 import { v4 as uuidv4 } from 'uuid';
 
 // interfaces
-import { Product } from "../../types/types";
+import { Product } from "@/types/types";
 
 interface AddProductModalProps {
     categoriesList: string[];

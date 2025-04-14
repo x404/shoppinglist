@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import MockupProductData from "../ProductData/MockupProductData";
 
 import styles from "./AppHeader.module.css";
-import { selectProductItems } from "../../store/productListSlice";
+import { selectProductItems } from "@store/productListSlice";
 import { useSelector } from "react-redux";
 
 

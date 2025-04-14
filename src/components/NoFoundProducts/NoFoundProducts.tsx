@@ -4,10 +4,10 @@ import { Button } from "react-bootstrap";
 import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 
 // constants
-import { ALL_CATEGORY_NAME } from "../../constants/categories";
+import { ALL_CATEGORY_NAME } from "@constants/categories";
 
 // interfaces
-import { Product } from "../../types/types";
+import { Product } from "@/types/types";
 
 interface NoFoundProductsProps {
     products: Product[];
