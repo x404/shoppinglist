@@ -4,8 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems,
-    selectActiveCategory,
-    addProduct, editProduct, deleteProduct, togglePurchased, selectCategoriesItems
+    addProduct, editProduct, deleteProduct, togglePurchased
 } from '../../store/productListSlice';
 
 // components
@@ -26,6 +25,7 @@ import { ALL_CATEGORY_NAME } from "../../constants/categories";
 import { Product } from "../../types/types";
 import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 import { PlusIcon } from "../Icons/PlusIcon";
+import { selectActiveCategory, selectCategoriesItems } from "../../store/categoriesSlice";
 
 
 const MainContent = () => {

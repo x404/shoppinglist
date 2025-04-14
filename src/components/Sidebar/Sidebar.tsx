@@ -3,10 +3,7 @@ import { MouseEvent, useMemo } from "react";
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    selectActiveCategory,
     selectProductItems,
-    selectCategoriesItems,
-    setActiveCategory
 } from '../../store/productListSlice';
 
 // components
@@ -17,11 +14,13 @@ import styles from "./Sidebar.module.css";
 
 // interfaces
 import { ALL_CATEGORY_NAME } from "../../constants/categories";
+import { selectActiveCategory, selectCategoriesItems, setActiveCategory } from "../../store/categoriesSlice";
 
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
+    console.log('tes', useSelector(selectActiveCategory));
     const categoriesList = useSelector(selectCategoriesItems);
     const activeCategory = useSelector(selectActiveCategory);
 
