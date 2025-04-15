@@ -120,12 +120,19 @@ const AddProductModal = ({
     return (
         <>
             <Modal show={isShowModal} onHide={handleClose} centered>
-                <Modal.Header className="" closeButton>
+                <Modal.Header className="align-items-start">
                     <Modal.Title>Add New Product
                         {hasInitialCategory && (
                             <div className="h6 mt-1 text-black-50">Category: <strong>{category}</strong></div>
                         )}
                     </Modal.Title>
+
+                    <Button
+                        variant="close"
+                        aria-label="Close"
+                        className="mt-1"
+                        onClick={handleClose}
+                    />
                 </Modal.Header>
                 <Modal.Body>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
