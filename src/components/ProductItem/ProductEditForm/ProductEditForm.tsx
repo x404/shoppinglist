@@ -36,7 +36,6 @@ const ProductEditForm = ({
     const [quantity, setQuantity] = useState(1);
     const [category, setCategory] = useState("");
 
-    console.log('editForm');
     useEffect(() => {
         const { name, quantity, category } = formData;
         setName(name);

@@ -59,6 +59,10 @@ const MainContent = () => {
         setIsShowAddModal(false);
     };
 
+    useEffect(() => {
+        setEditingProductId(null);
+    }, [activeCategory]);
+
 
     // CRUD
     const handleAddProduct = useCallback((newProduct: Product) => {
