@@ -15,12 +15,13 @@ import styles from "./Sidebar.module.css";
 
 // interfaces
 import { ALL_CATEGORY_NAME } from "@constants/categories";
+import { Button } from "react-bootstrap";
+import { PlusIcon } from "../Icons/PlusIcon";
 
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
-    console.log('tes', useSelector(selectActiveCategory));
     const categoriesList = useSelector(selectCategoriesItems);
     const activeCategory = useSelector(selectActiveCategory);
 
@@ -50,7 +51,22 @@ const Sidebar = () => {
     return (
         <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 shadow-sm z-1`}>
             <nav>
-                <h2 className="visually-hidden">Main menu</h2>
+                <div className={`${styles.sidebarRow} d-flex justify-content-between align-items-center px-2`}>
+                    <h2 className="h6 mb-0 py-2">Categories space</h2>
+                    <div className={`${styles.actions}`}>
+                        <Button
+                            size="sm"
+                            variant=""
+                            className={`${styles.addBtn}`}
+                            data-tooltip-id="sidebar-tooltip"
+                            data-tooltip-content="Create category, add product, etc."
+                            data-tooltip-place="top"
+                        >
+                            <PlusIcon/>
+                        </Button>
+                    </div>
+                </div>
+
                 <ul className="list-unstyled menu">
                     {categories.map((category) => (
                         <CategoryItem
@@ -64,6 +80,8 @@ const Sidebar = () => {
                     ))}
                 </ul>
             </nav>
+
+            
         </aside>
     )
 }
