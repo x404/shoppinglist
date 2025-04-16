@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Button } from "react-bootstrap";
+import { Plus } from "react-bootstrap-icons";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,9 +10,9 @@ import {
 } from '@store/productListSlice';
 
 // components
-import { Button } from "react-bootstrap";
 import AddProductModal from "../AddProductModal/AddProductModal";
 import GroupedProductList from "../GroupedProductList";
+import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 
 // styles
 import styles from "./MainContent.module.css";
@@ -18,13 +20,11 @@ import styles from "./MainContent.module.css";
 // helpers
 import { groupProductsByCategory } from "@helpers/groupProductsByCategory";
 
-// interfaces
+// constants
 import { ALL_CATEGORY_NAME } from "@constants/categories";
 
 // interfaces
 import { Product } from "../../types/types";
-import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
-import { PlusIcon } from "../Icons/PlusIcon";
 import { selectActiveCategory, selectCategoriesItems } from "../../store/categoriesSlice";
 
 
@@ -113,7 +113,7 @@ const MainContent = () => {
                                 <header className="d-flex gap-3 align-items-center mb-4">
                                     <h3 className="h5 mb-0" id="my-list-title">My List</h3>
                                     <Button variant="light" size="sm" onClick={() => openAddModal()}>
-                                        <PlusIcon/>
+                                        <Plus size={16}/>
                                         Add product
                                     </Button>
                                 </header>

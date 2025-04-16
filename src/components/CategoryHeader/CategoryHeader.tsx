@@ -4,7 +4,7 @@ import { Badge, Button } from "react-bootstrap";
 // constants
 import { ALL_CATEGORY_NAME } from "@constants/categories";
 
-import { PlusIcon } from "@icons/PlusIcon";
+import { Plus } from "react-bootstrap-icons";
 
 
 // interfaces
@@ -32,7 +32,7 @@ export const CategoryHeader = memo(({ category, counter, activeCategory, onAddPr
                 size="sm"
                 onClick={() => handlerAddProduct(category)}
             >
-                <PlusIcon/>
+                <Plus size={16}/>
                 Add product
             </Button>
         </h4>

@@ -1,12 +1,12 @@
 import { ComponentProps, forwardRef, Ref } from "react";
 import { Button } from "react-bootstrap";
+import { Pencil, Trash } from "react-bootstrap-icons";
 
 import styles from "./../ProductItem.module.css";
 
 // interfaces
 import { Product } from "@/types/types";
-import { DeleteIcon } from "@icons/DeleteIcon";
-import { EditIcon } from "@icons/EditIcon";
+
 
 interface AddFormProps {
     product: Product;
@@ -70,19 +70,19 @@ const ProductView = ({
                         onClick={onEditProduct}
                         ref={editButtonRef}
                     >
-                        <EditIcon/>
+                        <Pencil size={16} />
                     </EditButton>
 
                     <Button variant="outline-dark"
                             size="sm"
-                            className={`${styles.deleteButton} d-flex align-items-center`}
+                            className={`${styles.deleteButton} ${styles.actionButton} d-flex align-items-center`}
                             aria-label={`Delete ${product.name}`}
                             data-tooltip-id="delete-tooltip"
                             data-tooltip-content="Delete item"
                             data-tooltip-place="top"
                             onClick={onDeleteProduct}
                     >
-                        <DeleteIcon/>
+                        <Trash size={18}/>
                     </Button>
                 </div>
             </div>

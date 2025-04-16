@@ -1,11 +1,10 @@
 import { Button, Form } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState } from "react";
 
-import { SaveIcon } from "@icons/SaveIcon";
-import { CancelIcon } from "@icons/CancelIcon";
 
 // styles
 import styles from "./../ProductItem.module.css";
+import { CheckLg, Save, X, XLg } from "react-bootstrap-icons";
 
 // interfaces
 interface EditFormProps {
@@ -120,22 +119,22 @@ const ProductEditForm = ({
                             data-tooltip-id="save-tooltip"
                             data-tooltip-content="Save item"
                             data-tooltip-place="top"
-                            className={`${styles.saveButton} d-flex align-items-center`}
+                            className={`${styles.saveButton} ${styles.actionButton} d-flex align-items-center`}
                             type="submit"
                         >
-                            <SaveIcon/>
+                            <CheckLg size="20"/>
                             <span className="px-1 d-sm-none">Save</span>
                         </Button>
                         <Button variant="outline-dark"
                                 size="sm"
-                                className={`${styles.deleteButton} d-flex align-items-center`}
+                                className={`${styles.cancelButton} ${styles.actionButton} d-flex align-items-center`}
                                 aria-label={`Cancel`}
                                 data-tooltip-id="cancel-tooltip"
                                 data-tooltip-content="Cancel or press ESC"
                                 data-tooltip-place="top"
                                 onClick={handleCancel}
                         >
-                            <CancelIcon/>
+                            <X size="24"/>
                             <span className="px-1 d-sm-none">Cancel</span>
                         </Button>
                     </div>

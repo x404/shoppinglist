@@ -1,16 +1,15 @@
 import { MouseEvent, useMemo } from "react";
 import { Dropdown } from "react-bootstrap";
+import { Plus } from "react-bootstrap-icons";
+
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    selectProductItems,
-} from '@store/productListSlice';
+import { selectProductItems } from '@store/productListSlice';
 import { selectActiveCategory, selectCategoriesItems, setActiveCategory } from "@store/categoriesSlice";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
-import { PlusIcon } from "../Icons/PlusIcon";
 
 // styles
 import styles from "./Sidebar.module.css";
@@ -64,7 +63,7 @@ const Sidebar = () => {
                                 data-tooltip-content="Create category, add product, etc."
                                 data-tooltip-place="top"
                             >
-                                <PlusIcon/>
+                                <Plus size={20}/>
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>

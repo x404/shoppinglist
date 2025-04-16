@@ -26,9 +26,18 @@
     @media (width > 575px) {
         width: auto;
     }
+
+    button {
+        /*min-height: 30px;*/
+    }
+}
+
+.actionButton {
+    height: 30px;
+    min-width: 34px;
     
-    button{
-        min-height: 30px;
+    svg{
+        margin: 0 auto;
     }
 }
 
@@ -50,6 +59,8 @@
 .saveButton {
     background-color: var(--bs-white);
     border-color: var(--bs-success);
+    padding-left: 6px;
+    padding-right: 6px;
 
     path {
         color: var(--bs-success);
@@ -72,6 +83,8 @@
     background-color: var(--bs-white);
     border-color: var(--bs-btn-border-color);
 
+    height: 30px;
+
     path {
         color: var(--bs-btn-border-color);
     }
@@ -88,9 +101,13 @@
     }
 }
 
+.cancelButton,
 .deleteButton {
     background-color: var(--bs-white);
     border-color: var(--bs-red);
+    padding-left: 4px;
+    padding-right: 4px;
+    height: 30px;
 
     path {
         color: var(--bs-red);
