@@ -1,4 +1,5 @@
 import { MouseEvent, useMemo } from "react";
+import { Dropdown } from "react-bootstrap";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,14 +10,13 @@ import { selectActiveCategory, selectCategoriesItems, setActiveCategory } from "
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
+import { PlusIcon } from "../Icons/PlusIcon";
 
 // styles
 import styles from "./Sidebar.module.css";
 
 // interfaces
 import { ALL_CATEGORY_NAME } from "@constants/categories";
-import { Button } from "react-bootstrap";
-import { PlusIcon } from "../Icons/PlusIcon";
 
 
 const Sidebar = () => {
@@ -54,16 +54,26 @@ const Sidebar = () => {
                 <div className={`${styles.sidebarRow} d-flex justify-content-between align-items-center px-2`}>
                     <h2 className="h6 mb-0 py-2">Categories space</h2>
                     <div className={`${styles.actions}`}>
-                        <Button
-                            size="sm"
-                            variant=""
-                            className={`${styles.addBtn}`}
-                            data-tooltip-id="sidebar-tooltip"
-                            data-tooltip-content="Create category, add product, etc."
-                            data-tooltip-place="top"
-                        >
-                            <PlusIcon/>
-                        </Button>
+                        <Dropdown drop="end">
+                            <Dropdown.Toggle
+                                as="button"
+                                className={`${styles.addBtn} btn d-flex align-items-center`}
+                                size="sm"
+                                variant=""
+                                data-tooltip-id="sidebar-tooltip"
+                                data-tooltip-content="Create category, add product, etc."
+                                data-tooltip-place="top"
+                            >
+                                <PlusIcon/>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item as="button">Category</Dropdown.Item>
+                                <Dropdown.Item as="button">Product</Dropdown.Item>
+                                <Dropdown.Divider/>
+                                <Dropdown.Item as="button">Something else</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
                 </div>
 
@@ -81,7 +91,7 @@ const Sidebar = () => {
                 </ul>
             </nav>
 
-            
+
         </aside>
     )
 }

@@ -2,6 +2,17 @@
     grid-area: aside;
 }
 
+.actions {
+    width: 100%;
+    @media (width > 575px) {
+        width: auto;
+    }
+
+    button{
+        /*min-height: 30px;*/
+    }
+}
+
 .sidebarRow {
     &:hover {
         background-color: var(--bs-gray-200);
@@ -18,8 +29,13 @@
     transition: .3s opacity;
     border: none;
     padding: 2px;
+    min-height: 0;
     &:hover {
         background-color: var(--bs-gray-400);
+    }
+    
+    &:after{
+        display: none !important;
     }
 
     svg {
