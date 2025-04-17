@@ -67,7 +67,7 @@ const Sidebar = () => {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item as="button">
+                                <Dropdown.Item as="button" className="disabled">
                                     <div className="d-flex">
                                         <div className={`${styles.icon} me-2`}>
                                             <FolderPlus size={16}/>
@@ -77,7 +77,7 @@ const Sidebar = () => {
                                         </div>
                                     </div>
                                 </Dropdown.Item>
-                                <Dropdown.Item as="button">
+                                <Dropdown.Item as="button" className="disabled">
                                     <div className="d-flex">
                                         <div className={`${styles.icon} me-2`}>
                                             <FileEarmarkPlus size={16}/>
@@ -87,8 +87,8 @@ const Sidebar = () => {
                                         </div>
                                     </div>
                                 </Dropdown.Item>
-                                <Dropdown.Divider/>
-                                <Dropdown.Item as="button">Something else</Dropdown.Item>
+                                {/*<Dropdown.Divider/>*/}
+                                {/*<Dropdown.Item as="button">Something else</Dropdown.Item>*/}
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>

@@ -1,32 +1,45 @@
-.menuItem {
+.menuItem{
     border-radius: 8px;
 
-    &.active {
+    .actions{
+        display: none;
+    }
+
+    &.active{
         background-color: var(--bs-gray-200);
     }
 
-    &:hover {
+    &:hover{
         background-color: var(--bs-gray-200);
-        /*border-radius: 4px;*/
 
-        a {
+        a{
             color: var(--bs-gray-800);
+        }
+    }
+
+    &:hover:not(.menuAllItem){
+        .actions{
+            display: block;
+        }
+
+        .counter{
+            display: none !important;
         }
     }
 }
 
-a {
+a{
     color: var(--bs-gray-800);
     text-decoration: none;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
-.sidebarLink {
+.sidebarLink{
     line-height: 32px;
 }
 
-.counter {
+.counter{
     font-size: 11px;
     width: 24px;
     height: 24px;
