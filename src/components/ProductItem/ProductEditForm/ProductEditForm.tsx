@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useSta
 
 // styles
 import styles from "./../ProductItem.module.css";
-import { CheckLg, Save, X, XLg } from "react-bootstrap-icons";
+import { CheckLg, X } from "react-bootstrap-icons";
 
 // interfaces
 interface EditFormProps {

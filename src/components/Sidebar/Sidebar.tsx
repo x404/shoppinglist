@@ -1,6 +1,6 @@
 import { MouseEvent, useMemo } from "react";
 import { Dropdown } from "react-bootstrap";
-import { Plus } from "react-bootstrap-icons";
+import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
 
 // redux
@@ -56,7 +56,7 @@ const Sidebar = () => {
                         <Dropdown drop="end">
                             <Dropdown.Toggle
                                 as="button"
-                                className={`${styles.addBtn} btn d-flex align-items-center`}
+                                className={`${styles.addBtn} ${styles.noRightArrow} btn d-flex align-items-center`}
                                 size="sm"
                                 variant=""
                                 data-tooltip-id="sidebar-tooltip"
@@ -67,8 +67,26 @@ const Sidebar = () => {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item as="button">Category</Dropdown.Item>
-                                <Dropdown.Item as="button">Product</Dropdown.Item>
+                                <Dropdown.Item as="button">
+                                    <div className="d-flex">
+                                        <div className={`${styles.icon} me-2`}>
+                                            <FolderPlus size={16}/>
+                                        </div>
+                                        <div className="title flex-grow-1">
+                                            Category
+                                        </div>
+                                    </div>
+                                </Dropdown.Item>
+                                <Dropdown.Item as="button">
+                                    <div className="d-flex">
+                                        <div className={`${styles.icon} me-2`}>
+                                            <FileEarmarkPlus size={16}/>
+                                        </div>
+                                        <div className="title flex-grow-1">
+                                            Product
+                                        </div>
+                                    </div>
+                                </Dropdown.Item>
                                 <Dropdown.Divider/>
                                 <Dropdown.Item as="button">Something else</Dropdown.Item>
                             </Dropdown.Menu>

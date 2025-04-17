@@ -37,6 +37,7 @@ const GlobalTooltips = () => {
                 place="top"
                 delayShow={200}
                 delayHide={200}
+                className="sidebarTooltip"
             />
         </>
     )
