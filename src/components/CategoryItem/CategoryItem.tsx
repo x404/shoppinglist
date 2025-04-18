@@ -9,7 +9,7 @@ import {
     Plus,
     Shuffle,
     ThreeDots,
-    Trash
+    Trash, XOctagon
 } from "react-bootstrap-icons";
 
 // styles
@@ -34,7 +34,7 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
 
     return (
         <>
-            <li className={`${styles.menuItem} ${allCategoryClass} d-flex align-items-center mt-1 px-2 ${activeClass}`}>
+            <li className={`${styles.menuItem} ${allCategoryClass} d-flex align-items-center mt-1 px-2 position-relative ${activeClass}`}>
                 <a href={`#${category}`}
                    className={`${styles.sidebarLink} flex-grow-1 ps-2 ${allCategoryHighlightClass}`}
                    {...(isActive ? { 'aria-current': 'page' } : {})}
@@ -50,7 +50,7 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                     {count}
                 </div>
                 {category !== allCategory && (
-                    <div className={`${sidebarStyles.actions} ${styles.actions}`}>
+                    <div className={`${sidebarStyles.actions} ${styles.actions} position-absolute me-2 end-0`}>
                         <Dropdown drop="end">
                             <Dropdown.Toggle
                                 as="button"
@@ -75,6 +75,22 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                                         </div>
                                     </div>
                                 </Dropdown.Item>
+
+                                <Dropdown.Item
+                                    as="button"
+                                    className="ps-2  disabled"
+                                >
+                                    <div className="d-flex">
+                                        <div className={`${styles.icon} me-2`}>
+                                            <XOctagon size={16}/>
+                                        </div>
+                                        <div className={`${styles.title} flex-grow-1`}>
+                                            Clear
+                                        </div>
+                                    </div>
+                                </Dropdown.Item>
+                                
+                                
                                 <Dropdown.Divider/>
 
 

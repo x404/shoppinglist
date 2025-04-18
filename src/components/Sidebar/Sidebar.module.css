@@ -7,10 +7,6 @@
     @media (width > 575px) {
         width: auto;
     }
-
-    button{
-        /*min-height: 30px;*/
-    }
 }
 
 .sidebarRow {
