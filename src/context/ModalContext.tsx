@@ -20,12 +20,12 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     const openAddProductModal = useCallback((category?: string) => {
         console.log('category', category);
         setModalOpen(true);
+        category ? setCurrentCategory(category) : setCurrentCategory(undefined);
         setCurrentCategory(category || undefined);
     }, []);
 
     const closeAddProductModal = useCallback(() => {
         setModalOpen(false);
-        setCurrentCategory(undefined);
     }, []);
 
     return (
