@@ -38,6 +38,7 @@ const GroupedProductList = memo(({
                         category={category}
                         activeCategory={activeCategory}
                         counter={products.length}
+                        onCancelEditProduct={onCancelEditProduct}
                     />
 
                     <ul className="list-group mt-2" aria-label={category}>

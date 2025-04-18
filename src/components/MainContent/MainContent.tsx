@@ -57,6 +57,7 @@ const MainContent = () => {
 
     // CRUD
     const handleAddProduct = useCallback(() => {
+        resetStates();
         openAddProductModal();
     }, []);
 

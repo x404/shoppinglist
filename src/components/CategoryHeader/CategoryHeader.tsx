@@ -13,14 +13,16 @@ interface CategoryHeaderProp {
     category: string;
     counter: number;
     activeCategory: string;
+    onCancelEditProduct: () => void;
 }
 
-export const CategoryHeader = memo(({ category, counter, activeCategory }: CategoryHeaderProp) => {
+export const CategoryHeader = memo(({ category, counter, activeCategory, onCancelEditProduct}: CategoryHeaderProp) => {
     const { openAddProductModal } = useModal();
     
     const isAllCategory = activeCategory === ALL_CATEGORY_NAME;
 
     const handlerAddProduct = useCallback((category: string) => {
+        onCancelEditProduct();
         openAddProductModal(category);
     }, []);
 
