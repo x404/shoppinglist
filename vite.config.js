@@ -19,6 +19,7 @@ export default defineConfig({
       '@services': resolve(__dirname, 'src/services'),
       '@constants': resolve(__dirname, 'src/constants'),
       '@icons': resolve(__dirname, 'src/components/Icons'),
+      '@context': resolve(__dirname, 'src/context'),
     }
   }
 })

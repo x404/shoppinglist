@@ -12,7 +12,6 @@ interface GroupedProductListProps {
     editingProductId: string | null;
     categoriesList: string[];
     activeCategory: string;
-    onAddProduct: (category?: string) => void;
     onEditProduct: (id: string) => void;
     onDeleteProduct: (id: string) => void;
     onTogglePurchasedProduct: (id: string) => void;
@@ -25,7 +24,6 @@ const GroupedProductList = memo(({
                                      editingProductId,
                                      categoriesList,
                                      activeCategory,
-                                     onAddProduct,
                                      onEditProduct,
                                      onDeleteProduct,
                                      onTogglePurchasedProduct,
@@ -40,7 +38,6 @@ const GroupedProductList = memo(({
                         category={category}
                         activeCategory={activeCategory}
                         counter={products.length}
-                        onAddProduct={onAddProduct}
                     />
 
                     <ul className="list-group mt-2" aria-label={category}>

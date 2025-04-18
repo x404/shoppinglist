@@ -5,6 +5,7 @@ import { Badge, Button } from "react-bootstrap";
 import { ALL_CATEGORY_NAME } from "@constants/categories";
 
 import { Plus } from "react-bootstrap-icons";
+import { useModal } from "../../context/ModalContext";
 
 
 // interfaces
@@ -12,14 +13,15 @@ interface CategoryHeaderProp {
     category: string;
     counter: number;
     activeCategory: string;
-    onAddProduct: (category: string) => void;
 }
 
-export const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }: CategoryHeaderProp) => {
+export const CategoryHeader = memo(({ category, counter, activeCategory }: CategoryHeaderProp) => {
+    const { openAddProductModal } = useModal();
+    
     const isAllCategory = activeCategory === ALL_CATEGORY_NAME;
 
     const handlerAddProduct = useCallback((category: string) => {
-        onAddProduct(category)
+        openAddProductModal(category);
     }, []);
 
 

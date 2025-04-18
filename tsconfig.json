@@ -24,6 +24,7 @@
       "@constants/*":  ["src/constants/*"],
       "@components/*":  ["src/components/*"],
       "@icons/*":  ["src/components/Icons/*"],
+      "@context/*":  ["src/context/*"],
     }
   },
   "include": ["src", "global.d.ts"]

@@ -1,4 +1,4 @@
-import { MouseEvent, useMemo } from "react";
+import { MouseEvent, useContext, useMemo } from "react";
 import { Dropdown } from "react-bootstrap";
 import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
@@ -16,9 +16,12 @@ import styles from "./Sidebar.module.css";
 
 // interfaces
 import { ALL_CATEGORY_NAME } from "@constants/categories";
+import { useModal } from "../../context/ModalContext";
 
 
 const Sidebar = () => {
+    // const context = useContext(modalContext);
+    // console.log('context', context.mail);
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
@@ -46,6 +49,9 @@ const Sidebar = () => {
         event.preventDefault();
         dispatch(setActiveCategory(category));
     }
+    
+    const {openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategory} = useModal();
+
 
     return (
         <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 shadow-sm z-1`}>
@@ -77,7 +83,7 @@ const Sidebar = () => {
                                         </div>
                                     </div>
                                 </Dropdown.Item>
-                                <Dropdown.Item as="button" className="disabled">
+                                <Dropdown.Item as="button" className="" onClick={() => openAddProductModal()}>
                                     <div className="d-flex">
                                         <div className={`${styles.icon} me-2`}>
                                             <FileEarmarkPlus size={16}/>
@@ -107,8 +113,6 @@ const Sidebar = () => {
                     ))}
                 </ul>
             </nav>
-
-
         </aside>
     )
 }
