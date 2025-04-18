@@ -20,8 +20,6 @@ import { useModal } from "../../context/ModalContext";
 
 
 const Sidebar = () => {
-    // const context = useContext(modalContext);
-    // console.log('context', context.mail);
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
@@ -49,8 +47,12 @@ const Sidebar = () => {
         event.preventDefault();
         dispatch(setActiveCategory(category));
     }
-    
-    const {openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategory} = useModal();
+
+    const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategory } = useModal();
+
+    const onAddProduct = () => {
+        openAddProductModal()
+    }
 
 
     return (
@@ -62,7 +64,7 @@ const Sidebar = () => {
                         <Dropdown drop="end">
                             <Dropdown.Toggle
                                 as="button"
-                                className={`${styles.addBtn} ${styles.noRightArrow} btn d-flex align-items-center`}
+                                className={`${styles.addBtn} ${styles.noRightArrow} btn d-flex align-items-center p-0`}
                                 size="sm"
                                 variant=""
                                 data-tooltip-id="sidebar-tooltip"
@@ -83,7 +85,7 @@ const Sidebar = () => {
                                         </div>
                                     </div>
                                 </Dropdown.Item>
-                                <Dropdown.Item as="button" className="" onClick={() => openAddProductModal()}>
+                                <Dropdown.Item as="button" className="" onClick={onAddProduct}>
                                     <div className="d-flex">
                                         <div className={`${styles.icon} me-2`}>
                                             <FileEarmarkPlus size={16}/>

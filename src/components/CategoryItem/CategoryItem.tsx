@@ -15,6 +15,7 @@ import {
 // styles
 import styles from './CategoryItem.module.css';
 import sidebarStyles from './../Sidebar/Sidebar.module.css';
+import { useModal } from "../../context/ModalContext";
 
 
 // interfaces
@@ -28,9 +29,15 @@ interface CategoryItem {
 
 
 const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory }: CategoryItem) => {
+    const { openAddProductModal } = useModal();
     const activeClass = isActive ? styles.active : '';
     const allCategoryHighlightClass = category === allCategory ? 'fw-bold text-uppercase' : '';
     const allCategoryClass = category === allCategory ? styles.menuAllItem : '';
+
+
+    const onAddProduct = () => {
+        openAddProductModal(category);
+    }
 
     return (
         <>
@@ -50,7 +57,7 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                     {count}
                 </div>
                 {category !== allCategory && (
-                    <div className={`${sidebarStyles.actions} ${styles.actions} position-absolute me-2 end-0`}>
+                    <div className={`${sidebarStyles.actions} ${styles.actions} d-flex align-items-center position-absolute me-2 end-0`}>
                         <Dropdown drop="end">
                             <Dropdown.Toggle
                                 as="button"
@@ -89,8 +96,8 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                                         </div>
                                     </div>
                                 </Dropdown.Item>
-                                
-                                
+
+
                                 <Dropdown.Divider/>
 
 
@@ -124,7 +131,7 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                                                 </div>
                                             </div>
                                         </Dropdown.Item>
-                                        <Dropdown.Item as="button" className="ps-2 disabled">
+                                        <Dropdown.Item as="button" className="ps-2" onClick={onAddProduct}>
                                             <div className="d-flex">
                                                 <div className={`${styles.icon} me-2`}>
                                                     <FileEarmarkPlus size={16}/>
@@ -180,6 +187,36 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                                     </div>
                                 </Dropdown.Item>
 
+                            </Dropdown.Menu>
+                        </Dropdown>
+
+
+                        <Dropdown drop="end">
+                            <Dropdown.Toggle
+                                as="button"
+                                className={` ${sidebarStyles.noRightArrow} btn d-flex align-items-center p-0 border-0`}
+                                size="sm"
+                                variant=""
+                                data-tooltip-id="sidebar-tooltip"
+                                data-tooltip-content="Add product"
+                                data-tooltip-place="top"
+                            >
+                                <Plus size={20}/>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item as="button" className="" onClick={onAddProduct}>
+                                    <div className="d-flex">
+                                        <div className={`${sidebarStyles.noRightArrow} me-2`}>
+                                            <FileEarmarkPlus size={16}/>
+                                        </div>
+                                        <div className="title flex-grow-1">
+                                            Product
+                                        </div>
+                                    </div>
+                                </Dropdown.Item>
+                                {/*<Dropdown.Divider/>*/}
+                                {/*<Dropdown.Item as="button">Something else</Dropdown.Item>*/}
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
