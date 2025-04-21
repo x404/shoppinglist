@@ -28,14 +28,21 @@ const AddProductModal = ({
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
-
     const hasInitialCategory = !!currentCategory;
 
     useEffect(() => {
+        if (isShowModal){
+            resetFormState();
+            console.log(isShowModal);
+            setCategory('');
+        }
+        
+    }, [isShowModal]);
+    
+    
+    useEffect(() => {
         if (currentCategory && categoriesList.includes(currentCategory)) {
             setCategory(currentCategory);
-        } else {
-            setCategory('');
         }
     }, [currentCategory, categoriesList]);
 
@@ -57,7 +64,7 @@ const AddProductModal = ({
         }
 
         addNewProduct();
-        resetFormState();
+        // resetFormState();
     };
 
     const isFormValid = (form: HTMLFormElement): boolean => {
