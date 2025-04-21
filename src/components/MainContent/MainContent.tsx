@@ -24,7 +24,7 @@ import styles from "./MainContent.module.css";
 import { groupProductsByCategory } from "@helpers/groupProductsByCategory";
 
 // constants
-import { ALL_CATEGORY_NAME } from "@constants/categories";
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "../../types/types";
@@ -35,16 +35,17 @@ const MainContent = () => {
     const { openAddProductModal } = useModal();
 
     const productList = useSelector(selectProductItems);
-    const activeCategory = useSelector(selectActiveCategory);
+    const activeCategoryId = useSelector(selectActiveCategory);
     const categoriesList = useSelector(selectCategoriesItems);
 
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
 
+    console.log('activeCategoryId', activeCategoryId);
     const filteredProducts = useMemo(() => {
-        return activeCategory === ALL_CATEGORY_NAME
+        return activeCategoryId === ALL_CATEGORY_OBJECT.id
             ? productList
-            : productList.filter((product: Product) => product.category === activeCategory);
-    }, [activeCategory, productList]);
+            : productList.filter((product: Product) => product.categoryId === activeCategoryId);
+    }, [activeCategoryId, productList]);
 
     const groupedProducts = useMemo(() => {
         return groupProductsByCategory(filteredProducts);
@@ -52,7 +53,7 @@ const MainContent = () => {
 
     useEffect(() => {
         setEditingProductId(null);
-    }, [activeCategory]);
+    }, [activeCategoryId]);
 
 
     // CRUD
@@ -95,12 +96,12 @@ const MainContent = () => {
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
                     <NoFoundProducts
                         products={filteredProducts}
-                        activeCategory={activeCategory}
+                        activeCategory={activeCategoryId}
                     />
 
                     {filteredProducts.length > 0 && (
                         <>
-                            {activeCategory === ALL_CATEGORY_NAME && (
+                            {activeCategoryId === ALL_CATEGORY_OBJECT.id && (
                                 <header className="d-flex gap-3 align-items-center mb-4">
                                     <h3 className="h5 mb-0" id="my-list-title">My List</h3>
                                     <Button variant="light" size="sm" onClick={() => handleAddProduct()}>
@@ -114,7 +115,7 @@ const MainContent = () => {
                                 groupedProducts={groupedProducts}
                                 editingProductId={editingProductId}
                                 categoriesList={categoriesList}
-                                activeCategory={activeCategory}
+                                activeCategory={activeCategoryId}
                                 onEditProduct={handleEditProduct}
                                 onDeleteProduct={handleDeleteProduct}
                                 onTogglePurchasedProduct={handleTogglePurchased}

@@ -13,7 +13,7 @@ interface EditFormProps {
     formData: {
         name: string;
         quantity: number;
-        category: string
+        categoryId: string
     };
     validated: boolean;
     categoriesList: Category[];
@@ -38,11 +38,11 @@ const ProductEditForm = ({
     const [category, setCategory] = useState("");
 
     useEffect(() => {
-        const { name, quantity, category } = formData;
+        const { name, quantity, categoryId } = formData;
         setName(name);
         setQuantity(quantity);
         setCategory(category);
-    }, [formData.name, formData.category, formData.quantity]);
+    }, [formData.name, formData.categoryId, formData.quantity]);
 
     const handleCancel = useCallback((event: MouseEvent) => {
         event.preventDefault();

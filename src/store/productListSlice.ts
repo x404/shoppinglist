@@ -34,10 +34,10 @@ export const productListSlice = createSlice({
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },
         editProduct: (state, action: PayloadAction<Product>) => {
-            const {id, name, category, quantity} = action.payload;
+            const {id, name, categoryId, quantity} = action.payload;
             state.products = state.products.map(product => 
                 product.id === id
-                ? { ...product, name, quantity, category }
+                ? { ...product, name, quantity, categoryId }
                 : product
             );
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);

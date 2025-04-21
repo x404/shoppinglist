@@ -12,6 +12,7 @@ import styles from "./ProductItem.module.css";
 
 // interfaces
 import { Product } from "@/types/types";
+import { Category } from "../../types/types";
 
 
 interface ProductItemProps {
@@ -22,7 +23,7 @@ interface ProductItemProps {
     onTogglePurchasedProduct: (productId: string) => void;
     onCancelEditProduct: () => void;
     onSaveEditProduct: (product: Product) => void;
-    categoriesList: string[];
+    categoriesList: Category[];
 }
 
 
@@ -37,12 +38,13 @@ const ProductItem = memo(({
                               onSaveEditProduct
                           }: ProductItemProps) => {
 
+    // console.log(product)
     const [validated, setValidated] = useState(false);
 
     const [formData, setFormData] = useState({
         name: product.name,
         quantity: product.quantity,
-        category: product.category,
+        categoryId: product.categoryId,
     });
 
     const nameInputRef = useRef<HTMLInputElement>(null);
@@ -132,13 +134,13 @@ const ProductItem = memo(({
     };
 
     const resetForm = useCallback(() => {
-        const {name, quantity, category} = product;
+        const {name, quantity, categoryId} = product;
         setFormData({
             name,
             quantity,
-            category
+            categoryId
         })
-    }, [product.name, product.quantity, product.category]);
+    }, [product.name, product.quantity, product.categoryId]);
 
 
     const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {

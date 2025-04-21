@@ -1,9 +1,10 @@
 export interface Product {
-    id: string;
+    id: string;  // UUID
     name: string;
-    category: string;
     purchased: boolean;
     quantity: number;
+    categoryId: string;
+    subCategoryId?: string;
 }
 
 export interface ProductListState {
@@ -25,7 +26,7 @@ export interface Category{
 
 export interface CategoryListState {
     categories: Category[];
-    selectedCategory: string;
+    selectedCategoryId: string;
 }
 
 export interface ProductsByCategory {

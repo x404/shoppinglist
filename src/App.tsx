@@ -41,6 +41,8 @@ function ModalManager() {
         closeAddProductModal();
     }, []);
 
+    // console.log(categoriesList)
+
     return (
         <AddProductModal
             categoriesList={categoriesList}

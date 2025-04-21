@@ -6,7 +6,7 @@ import { useModal } from "@context/ModalContext";
 import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 
 // constants
-import { ALL_CATEGORY_NAME } from "@constants/categories";
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "@/types/types";
@@ -14,16 +14,17 @@ import { Product } from "@/types/types";
 interface NoFoundProductsProps {
     products: Product[];
     activeCategory: string;
+    onCancelEditProduct?: () => void;
 }
 
 
-const NoFoundProducts = ({ products, activeCategory }: NoFoundProductsProps) => {
-    if (products.length > 0) return;
+const NoFoundProducts = ({ products, activeCategory, onCancelEditProduct }: NoFoundProductsProps) => {
+    if (products.length > 0) return null;
 
     const { openAddProductModal } = useModal();
     
     const handleAddProduct = () => {
-        const category = activeCategory !== ALL_CATEGORY_NAME ? activeCategory : undefined;
+        const category = activeCategory !== ALL_CATEGORY_OBJECT.name ? activeCategory : undefined;
         openAddProductModal(category);
     };
     
@@ -34,6 +35,7 @@ const NoFoundProducts = ({ products, activeCategory }: NoFoundProductsProps) => 
                     category={activeCategory}
                     counter={0}
                     activeCategory={activeCategory}
+                    onCancelEditProduct={onCancelEditProduct ?? (() => {})}
                 />
                 <p>No products found</p>
                 <Button variant="dark" onClick={handleAddProduct}>Add first product</Button>

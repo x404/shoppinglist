@@ -6,6 +6,7 @@ import { CategoryListState, Category } from "@/types/types";
 
 // constants
 import { DEFAULT_CATEGORIES } from "@constants/categories";
+import { ALL_CATEGORY_OBJECT } from "../constants/categories";
 
 
 const LOCAL_STORAGE_CATEGORY_KEY = "newCategories";
@@ -13,7 +14,7 @@ const storedCategories = LocalStorageService.get<Category[]>(LOCAL_STORAGE_CATEG
 
 const initialState: CategoryListState = {
     categories: Array.isArray(storedCategories) ? storedCategories : DEFAULT_CATEGORIES,
-    selectedCategory: 'All'
+    selectedCategoryId: ALL_CATEGORY_OBJECT.id
 }
 
 export const categoriesSlice = createSlice({
@@ -30,14 +31,15 @@ export const categoriesSlice = createSlice({
             console.log(action.payload, state);
         },
         setActiveCategory: (state, action: PayloadAction<string>) => {
-            state.selectedCategory = action.payload;
+            console.log('action.payload', action.payload);
+            state.selectedCategoryId = action.payload;
         }
     }
 })
 
 
 export const { setActiveCategory } = categoriesSlice.actions;
-export const selectActiveCategory = (state: { categories: CategoryListState }) => state.categories.selectedCategory;
+export const selectActiveCategory = (state: { categories: CategoryListState }) => state.categories.selectedCategoryId;
 export const selectCategoriesItems = (state: { categories: CategoryListState }) => state.categories.categories;
 
 export default categoriesSlice.reducer;

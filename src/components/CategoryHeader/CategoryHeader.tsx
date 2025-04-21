@@ -1,10 +1,10 @@
 import { memo, useCallback } from "react";
 import { Badge, Button } from "react-bootstrap";
+import { Plus } from "react-bootstrap-icons";
 
 // constants
-import { ALL_CATEGORY_NAME } from "@constants/categories";
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
-import { Plus } from "react-bootstrap-icons";
 import { useModal } from "../../context/ModalContext";
 
 
@@ -19,7 +19,7 @@ interface CategoryHeaderProp {
 export const CategoryHeader = memo(({ category, counter, activeCategory, onCancelEditProduct}: CategoryHeaderProp) => {
     const { openAddProductModal } = useModal();
     
-    const isAllCategory = activeCategory === ALL_CATEGORY_NAME;
+    const isAllCategory = activeCategory === ALL_CATEGORY_OBJECT.name;
 
     const handlerAddProduct = useCallback((category: string) => {
         onCancelEditProduct();

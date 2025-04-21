@@ -5,12 +5,12 @@ import ProductItem from "./ProductItem/ProductItem";
 import { CategoryHeader } from "./CategoryHeader/CategoryHeader";
 
 // interfaces
-import { Product } from "../types/types";
+import { Category, Product } from "../types/types";
 
 interface GroupedProductListProps {
     groupedProducts: Record<string, Product[]>;
     editingProductId: string | null;
-    categoriesList: string[];
+    categoriesList: Category[];
     activeCategory: string;
     onEditProduct: (id: string) => void;
     onDeleteProduct: (id: string) => void;

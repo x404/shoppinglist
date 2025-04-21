@@ -16,39 +16,42 @@ import {
 import styles from './CategoryItem.module.css';
 import sidebarStyles from './../Sidebar/Sidebar.module.css';
 import { useModal } from "../../context/ModalContext";
+import { Category } from "../../types/types";
 
 
 // interfaces
 interface CategoryItem {
-    category: string;
+    category: Category;
     count: number;
     isActive: boolean;
-    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, category: string) => void;
+    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
     allCategory: string;
 }
 
 
 const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory }: CategoryItem) => {
+    const { id, name } = category;
+    
     const { openAddProductModal } = useModal();
     const activeClass = isActive ? styles.active : '';
-    const allCategoryHighlightClass = category === allCategory ? 'fw-bold text-uppercase' : '';
-    const allCategoryClass = category === allCategory ? styles.menuAllItem : '';
+    const allCategoryHighlightClass = name === allCategory ? 'fw-bold text-uppercase' : '';
+    const allCategoryClass = name === allCategory ? styles.menuAllItem : '';
 
 
     const onAddProduct = () => {
-        openAddProductModal(category);
+        openAddProductModal(name);
     }
 
     return (
         <>
             <li className={`${styles.menuItem} ${allCategoryClass} d-flex align-items-center mt-1 px-2 position-relative ${activeClass}`}>
-                <a href={`#${category}`}
+                <a href={`#${id}`}
                    className={`${styles.sidebarLink} flex-grow-1 ps-2 ${allCategoryHighlightClass}`}
                    {...(isActive ? { 'aria-current': 'page' } : {})}
                    title=""
-                   onClick={(event) => onSelectCategory(event, category)}
+                   onClick={(event) => onSelectCategory(event, id)}
                 >
-                    {category}
+                    {name}
                 </a>
                 <div
                     className={`${styles.counter} d-flex align-items-center justify-content-center p-1`}
@@ -56,8 +59,9 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                 >
                     {count}
                 </div>
-                {category !== allCategory && (
-                    <div className={`${sidebarStyles.actions} ${styles.actions} d-flex align-items-center position-absolute me-2 end-0`}>
+                {name !== allCategory && (
+                    <div
+                        className={`${sidebarStyles.actions} ${styles.actions} d-flex align-items-center position-absolute me-2 end-0`}>
                         <Dropdown drop="end">
                             <Dropdown.Toggle
                                 as="button"

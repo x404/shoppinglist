@@ -15,7 +15,7 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 import styles from "./Sidebar.module.css";
 
 // interfaces
-import { ALL_CATEGORY_NAME } from "@constants/categories";
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 import { useModal } from "../../context/ModalContext";
 import { getNamesCategories } from "../../helpers/getNamesCategories";
 
@@ -23,30 +23,33 @@ import { getNamesCategories } from "../../helpers/getNamesCategories";
 const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
-    const categoriesList = getNamesCategories(useSelector(selectCategoriesItems));
+    const categoriesList = useSelector(selectCategoriesItems);
 
     const activeCategory = useSelector(selectActiveCategory);
-    const categories = [ALL_CATEGORY_NAME, ...categoriesList];
-    
-    const getCategoryCount = (categoryName: string): number => {
-        return categoryName === ALL_CATEGORY_NAME
+    const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
+
+
+    const getCategoryCountById = (id: string): number => {
+        return id === ALL_CATEGORY_OBJECT.id
             ? productList.length
-            : productList.filter(item => item.category === categoryName).length;
+            : productList.filter(product => product.categoryId === id).length;
     };
+
 
     const categoryCounts = useMemo(() => {
         const counts: { [key: string]: number } = {};
         categories.forEach(category => {
-            counts[category] = getCategoryCount(category);
+            console.log(category.id)
+            counts[category.id] = getCategoryCountById(category.id);
         });
-
+        
         return counts;
     }, [productList]);
 
-
-    const onSelectCategory = (event: MouseEvent<HTMLAnchorElement>, category: string) => {
+    
+    const onSelectCategory = (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => {
         event.preventDefault();
-        dispatch(setActiveCategory(category));
+        dispatch(setActiveCategory(categoryId));
     }
 
     const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategory } = useModal();
@@ -104,14 +107,30 @@ const Sidebar = () => {
                 </div>
 
                 <ul className="list-unstyled menu">
+                    {/*<li className={`${styles.menuItem}  d-flex align-items-center mt-1 px-2 position-relative`}>*/}
+                    {/*    <a href={`#`}*/}
+                    {/*       className={`${styles.sidebarLink} flex-grow-1 ps-2`}*/}
+                    {/*       title=""*/}
+                    {/*       onClick={(event) => onSelectCategory(event, 'all')}*/}
+                    {/*    >*/}
+                    {/*        All*/}
+                    {/*    </a>*/}
+                    {/*    <div*/}
+                    {/*        className={`${styles.counter} d-flex align-items-center justify-content-center p-1`}*/}
+                    {/*        aria-label={`${categoryCounts['all']} items`}*/}
+                    {/*    >*/}
+                    {/*        {categoryCounts['all']}*/}
+                    {/*    </div>*/}
+                    {/*</li>*/}
+                    
                     {categories.map((category) => (
                         <CategoryItem
-                            key={category}
+                            key={category.id}
                             category={category}
-                            count={categoryCounts[category]}
-                            isActive={activeCategory === category}
+                            count={categoryCounts[category.id]}
+                            isActive={activeCategory === category.id}
                             onSelectCategory={onSelectCategory}
-                            allCategory={ALL_CATEGORY_NAME}
+                            allCategory={ALL_CATEGORY_OBJECT.name}
                         />
                     ))}
                 </ul>
