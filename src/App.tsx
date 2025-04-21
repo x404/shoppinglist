@@ -1,5 +1,14 @@
+import { useCallback } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
+// context
+import { ModalProvider, useModal } from "./context/ModalContext";
+
+// redux 
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCategoriesItems } from "./store/categoriesSlice";
+import { addProduct } from "./store/productListSlice";
 
 // components
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -9,20 +18,17 @@ import AppHeader from "./components/AppHeader/AppHeader";
 import GlobalTooltips from "./components/GlobalTooltips/GlobalTooltips";
 import AddProductModal from "./components/AddProductModal/AddProductModal";
 
-// context
-import { ModalProvider, useModal } from "./context/ModalContext";
 
-// redux 
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCategoriesItems } from "./store/categoriesSlice";
-import { addProduct } from "./store/productListSlice";
-import { useCallback } from "react";
+// interfaces
 import { Product } from "./types/types";
+
+// helpers
+import { getNamesCategories } from "./helpers/getNamesCategories";
 
 
 function ModalManager() {
     const dispatch = useDispatch();
-    const categoriesList = useSelector(selectCategoriesItems);
+    const categoriesList = getNamesCategories(useSelector(selectCategoriesItems));
     const {
         isAddProductModalOpen,
         currentCategory,

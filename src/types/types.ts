@@ -10,13 +10,21 @@ export interface ProductListState {
     products: Product[];
 }
 
+interface CategoryProperties {
+    icon?: string;
+    color?: string;
+}
 
 export interface Category{
-    [key: string]: string;
+    id: string; // UUID
+    name: string;
+    categoryProperties?: CategoryProperties;
+    parentId: string | null;
+    children?: Category[];
 }
 
 export interface CategoryListState {
-    categories: string[];
+    categories: Category[];
     selectedCategory: string;
 }
 

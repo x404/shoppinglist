@@ -17,16 +17,17 @@ import styles from "./Sidebar.module.css";
 // interfaces
 import { ALL_CATEGORY_NAME } from "@constants/categories";
 import { useModal } from "../../context/ModalContext";
+import { getNamesCategories } from "../../helpers/getNamesCategories";
 
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
-    const categoriesList = useSelector(selectCategoriesItems);
+    const categoriesList = getNamesCategories(useSelector(selectCategoriesItems));
+
     const activeCategory = useSelector(selectActiveCategory);
-
     const categories = [ALL_CATEGORY_NAME, ...categoriesList];
-
+    
     const getCategoryCount = (categoryName: string): number => {
         return categoryName === ALL_CATEGORY_NAME
             ? productList.length

@@ -1,5 +1,6 @@
-export const getNamesCategories = (): string[] => {
-    // const categories = new Set(productList.map(product => product.category));
-    // return Array.from(categories);
-    return ['Fruits', 'Vegetables', 'Dairy'];
+import { Category } from "@/types/types";
+
+export const getNamesCategories = (categories: Category[]): string[] => {
+    const categoriesList = new Set(categories.map(category => category.name));
+    return Array.from(categoriesList);
 }

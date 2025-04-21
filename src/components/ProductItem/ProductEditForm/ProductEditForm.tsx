@@ -1,6 +1,8 @@
 import { Button, Form } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState } from "react";
 
+// interfaces
+import { Category } from "@/types/types";
 
 // styles
 import styles from "./../ProductItem.module.css";
@@ -14,7 +16,7 @@ interface EditFormProps {
         category: string
     };
     validated: boolean;
-    categoriesList: string[];
+    categoriesList: Category[];
     nameInputRef: Ref<HTMLInputElement | null>;
     onInputChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
     onSubmit: (event: FormEvent<HTMLFormElement>) => void,
@@ -104,8 +106,8 @@ const ProductEditForm = ({
                             onChange={handleCategoryChange}
                         >
                             {categoriesList.map((category) => (
-                                <option key={category} value={category}>
-                                    {category}
+                                <option key={category.name} value={category.name}>
+                                    {category.name}
                                 </option>
                             ))}
                         </Form.Select>
