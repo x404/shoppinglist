@@ -16,7 +16,15 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@types/*":  ["src/types/*"],
+      "@store/*":  ["src/store/*"],
+      "@services/*":  ["src/services/*"],
+      "@helpers/*":  ["src/helpers/*"],
+      "@constants/*":  ["src/constants/*"],
+      "@components/*":  ["src/components/*"],
+      "@icons/*":  ["src/components/Icons/*"],
+      "@context/*":  ["src/context/*"],
     }
   },
   "include": ["src", "global.d.ts"]

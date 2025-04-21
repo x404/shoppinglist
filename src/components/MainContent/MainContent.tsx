@@ -1,43 +1,44 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Button } from "react-bootstrap";
+import { Plus } from "react-bootstrap-icons";
+
+import { useModal } from "@context/ModalContext";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    selectProductItems,
-    selectActiveCategory,
-    addProduct, editProduct, deleteProduct, togglePurchased, selectCategoriesItems
-} from '../../store/productListSlice';
+    selectProductItems, editProduct, deleteProduct, togglePurchased
+} from '@store/productListSlice';
+import { selectActiveCategory, selectCategoriesItems } from "@store/categoriesSlice";
+
 
 // components
-import { Button } from "react-bootstrap";
 import AddProductModal from "../AddProductModal/AddProductModal";
 import GroupedProductList from "../GroupedProductList";
+import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 
 // styles
 import styles from "./MainContent.module.css";
 
 // helpers
-import { groupProductsByCategory } from "../../helpers/groupProductsByCategory";
+import { groupProductsByCategory } from "@helpers/groupProductsByCategory";
 
-// interfaces
-import { ALL_CATEGORY_NAME } from "../../constants/categories";
+// constants
+import { ALL_CATEGORY_NAME } from "@constants/categories";
 
 // interfaces
 import { Product } from "../../types/types";
-import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
-import { PlusIcon } from "../Icons/PlusIcon";
 
 
 const MainContent = () => {
     const dispatch = useDispatch();
-    // const defaultCategories = getCategories();
+    const { openAddProductModal } = useModal();
+
     const productList = useSelector(selectProductItems);
     const activeCategory = useSelector(selectActiveCategory);
     const categoriesList = useSelector(selectCategoriesItems);
 
-    const [isShowAddModal, setIsShowAddModal] = useState(false);
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
-    const [currentCategory, setCurrentCategory] = useState<string>();
 
     const filteredProducts = useMemo(() => {
         return activeCategory === ALL_CATEGORY_NAME
@@ -49,21 +50,15 @@ const MainContent = () => {
         return groupProductsByCategory(filteredProducts);
     }, [filteredProducts]);
 
-    const openAddModal = useCallback((category?: string) => {
-        setIsShowAddModal(true);
-        setCurrentCategory(category);
-        handleCancelEditProduct();
-    }, []);
-
-    const closeAddModal = () => {
-        setIsShowAddModal(false);
-    };
+    useEffect(() => {
+        setEditingProductId(null);
+    }, [activeCategory]);
 
 
     // CRUD
-    const handleAddProduct = useCallback((newProduct: Product) => {
-        dispatch(addProduct(newProduct));
-        setIsShowAddModal(false);
+    const handleAddProduct = useCallback(() => {
+        resetStates();
+        openAddProductModal();
     }, []);
 
     const handleEditProduct = useCallback((productId: string) => {
@@ -78,12 +73,13 @@ const MainContent = () => {
         dispatch(togglePurchased(productId));
     }, []);
 
-    const handleCancelEditProduct = useCallback(() => {
-        setEditingProductId(null);
-    }, []);
 
     const handleSaveProductAfterEdit = useCallback((product: Product) => {
         dispatch(editProduct(product));
+        resetStates();
+    }, []);
+
+    const handleCancelEditProduct = useCallback(() => {
         resetStates();
     }, []);
 
@@ -100,7 +96,6 @@ const MainContent = () => {
                     <NoFoundProducts
                         products={filteredProducts}
                         activeCategory={activeCategory}
-                        onAddProduct={openAddModal}
                     />
 
                     {filteredProducts.length > 0 && (
@@ -108,8 +103,8 @@ const MainContent = () => {
                             {activeCategory === ALL_CATEGORY_NAME && (
                                 <header className="d-flex gap-3 align-items-center mb-4">
                                     <h3 className="h5 mb-0" id="my-list-title">My List</h3>
-                                    <Button variant="light" size="sm" onClick={() => openAddModal()}>
-                                        <PlusIcon/>
+                                    <Button variant="light" size="sm" onClick={() => handleAddProduct()}>
+                                        <Plus size={16}/>
                                         Add product
                                     </Button>
                                 </header>
@@ -120,7 +115,6 @@ const MainContent = () => {
                                 editingProductId={editingProductId}
                                 categoriesList={categoriesList}
                                 activeCategory={activeCategory}
-                                onAddProduct={openAddModal}
                                 onEditProduct={handleEditProduct}
                                 onDeleteProduct={handleDeleteProduct}
                                 onTogglePurchasedProduct={handleTogglePurchased}
@@ -131,14 +125,6 @@ const MainContent = () => {
                     )}
                 </section>
             </main>
-
-            <AddProductModal
-                categoriesList={categoriesList}
-                currentCategory={currentCategory}
-                isShowModal={isShowAddModal}
-                onCloseModal={closeAddModal}
-                onAddProduct={handleAddProduct}
-            />
         </>
     )
 }

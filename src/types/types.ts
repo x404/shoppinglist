@@ -8,6 +8,14 @@ export interface Product {
 
 export interface ProductListState {
     products: Product[];
+}
+
+
+export interface Category{
+    [key: string]: string;
+}
+
+export interface CategoryListState {
     categories: string[];
     selectedCategory: string;
 }

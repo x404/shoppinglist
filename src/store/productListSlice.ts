@@ -1,24 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LocalStorageService } from "../services/LocalStorageService";
+import { LocalStorageService } from "@services/LocalStorageService";
 
 // helpers
-import { syncWithLocalStorage } from "../helpers/syncWithLocalStorage";
-
-// constants
-import { DEFAULT_CATEGORIES } from "../constants/categories";
+import { syncWithLocalStorage } from "@helpers/syncWithLocalStorage";
 
 // interfaces
-import { Product, ProductListState } from "../types/types";
+import { Product, ProductListState } from "@/types/types";
 
 
 const LOCAL_STORAGE_PRODUCT_KEY = "productList";
-const savedProductList = LocalStorageService.get<Product[]>(LOCAL_STORAGE_PRODUCT_KEY);
+const storedProductList = LocalStorageService.get<Product[]>(LOCAL_STORAGE_PRODUCT_KEY);
 
 
 const initialState: ProductListState = {
-    products: Array.isArray(savedProductList) ? savedProductList : [],
-    categories: LocalStorageService.get<string[]>('categories') || DEFAULT_CATEGORIES,
-    selectedCategory: 'All'
+    products: Array.isArray(storedProductList) ? storedProductList : []
 };
 
 
@@ -50,16 +45,11 @@ export const productListSlice = createSlice({
         deleteProduct: (state, action: PayloadAction<string>) => {
             state.products = state.products.filter(product => product.id !== action.payload);
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
-        },
-        setActiveCategory: (state, action: PayloadAction<string>) => {
-            state.selectedCategory = action.payload;
         }
     }
 });
 
-export const { setActiveCategory, togglePurchased, addProduct, editProduct, deleteProduct } = productListSlice.actions;
+export const { togglePurchased, addProduct, editProduct, deleteProduct } = productListSlice.actions;
 export const selectProductItems = (state: { productList: ProductListState }) => state.productList.products;
-export const selectCategoriesItems = (state: { productList: ProductListState }) => state.productList.categories;
-export const selectActiveCategory = (state: { productList: ProductListState }) => state.productList.selectedCategory;
 
 export default productListSlice.reducer;

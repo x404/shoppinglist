@@ -2,9 +2,10 @@ import { memo, useCallback } from "react";
 import { Badge, Button } from "react-bootstrap";
 
 // constants
-import { ALL_CATEGORY_NAME } from "../../constants/categories";
+import { ALL_CATEGORY_NAME } from "@constants/categories";
 
-import { PlusIcon } from "../Icons/PlusIcon";
+import { Plus } from "react-bootstrap-icons";
+import { useModal } from "../../context/ModalContext";
 
 
 // interfaces
@@ -12,14 +13,17 @@ interface CategoryHeaderProp {
     category: string;
     counter: number;
     activeCategory: string;
-    onAddProduct: (category: string) => void;
+    onCancelEditProduct: () => void;
 }
 
-export const CategoryHeader = memo(({ category, counter, activeCategory, onAddProduct }: CategoryHeaderProp) => {
+export const CategoryHeader = memo(({ category, counter, activeCategory, onCancelEditProduct}: CategoryHeaderProp) => {
+    const { openAddProductModal } = useModal();
+    
     const isAllCategory = activeCategory === ALL_CATEGORY_NAME;
 
     const handlerAddProduct = useCallback((category: string) => {
-        onAddProduct(category)
+        onCancelEditProduct();
+        openAddProductModal(category);
     }, []);
 
 
@@ -32,7 +36,7 @@ export const CategoryHeader = memo(({ category, counter, activeCategory, onAddPr
                 size="sm"
                 onClick={() => handlerAddProduct(category)}
             >
-                <PlusIcon/>
+                <Plus size={16}/>
                 Add product
             </Button>
         </h4>

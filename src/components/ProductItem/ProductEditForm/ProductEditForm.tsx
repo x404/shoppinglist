@@ -1,11 +1,10 @@
 import { Button, Form } from "react-bootstrap";
-import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState, memo } from "react";
+import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState } from "react";
 
-import { SaveIcon } from "../../Icons/SaveIcon";
-import { CancelIcon } from "../../Icons/CancelIcon";
 
 // styles
 import styles from "./../ProductItem.module.css";
+import { CheckLg, X } from "react-bootstrap-icons";
 
 // interfaces
 interface EditFormProps {
@@ -36,7 +35,6 @@ const ProductEditForm = ({
     const [quantity, setQuantity] = useState(1);
     const [category, setCategory] = useState("");
 
-    console.log('editForm');
     useEffect(() => {
         const { name, quantity, category } = formData;
         setName(name);
@@ -121,22 +119,22 @@ const ProductEditForm = ({
                             data-tooltip-id="save-tooltip"
                             data-tooltip-content="Save item"
                             data-tooltip-place="top"
-                            className={`${styles.saveButton} d-flex align-items-center`}
+                            className={`${styles.saveButton} ${styles.actionButton} d-flex align-items-center`}
                             type="submit"
                         >
-                            <SaveIcon/>
+                            <CheckLg size="20"/>
                             <span className="px-1 d-sm-none">Save</span>
                         </Button>
                         <Button variant="outline-dark"
                                 size="sm"
-                                className={`${styles.deleteButton} d-flex align-items-center`}
+                                className={`${styles.cancelButton} ${styles.actionButton} d-flex align-items-center`}
                                 aria-label={`Cancel`}
                                 data-tooltip-id="cancel-tooltip"
                                 data-tooltip-content="Cancel or press ESC"
                                 data-tooltip-place="top"
                                 onClick={handleCancel}
                         >
-                            <CancelIcon/>
+                            <X size="24"/>
                             <span className="px-1 d-sm-none">Cancel</span>
                         </Button>
                     </div>
