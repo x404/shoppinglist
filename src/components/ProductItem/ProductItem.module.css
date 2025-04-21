@@ -1,5 +1,5 @@
 .itemTitle {
-    width: calc(100vw - 250px);
+    width: calc(100vw - 275px);
     overflow: hidden;
     text-overflow: ellipsis;
     text-wrap: nowrap;
@@ -22,7 +22,7 @@
 
 
 .actions {
-    width: 100%;
+    /*width: 100%;*/
     @media (width > 575px) {
         width: auto;
     }
