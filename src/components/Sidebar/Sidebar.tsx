@@ -52,7 +52,7 @@ const Sidebar = () => {
         dispatch(setActiveCategory(categoryId));
     }
 
-    const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategory } = useModal();
+    const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategoryId } = useModal();
 
     const onAddProduct = () => {
         openAddProductModal()

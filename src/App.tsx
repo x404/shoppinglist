@@ -28,10 +28,10 @@ import { getNamesCategories } from "./helpers/getNamesCategories";
 
 function ModalManager() {
     const dispatch = useDispatch();
-    const categoriesList = getNamesCategories(useSelector(selectCategoriesItems));
+    const categoriesList = useSelector(selectCategoriesItems);
     const {
         isAddProductModalOpen,
-        currentCategory,
+        currentCategoryId,
         closeAddProductModal
     } = useModal();
 
@@ -46,7 +46,7 @@ function ModalManager() {
     return (
         <AddProductModal
             categoriesList={categoriesList}
-            currentCategory={currentCategory}
+            currentCategory={currentCategoryId}
             isShowModal={isAddProductModalOpen}
             onCloseModal={closeAddProductModal}
             onAddProduct={handleAddProduct}

@@ -32,11 +32,11 @@ const GroupedProductList = memo(({
                                  }: GroupedProductListProps) => {
 
     const categoriesList = useSelector(selectCategoriesItems);
-    
+
     return (
         <>
-            {Object.entries(groupedProducts).map(([categoryId, products] : [string, Product[]] ) => {
-                const categoryName = categoriesList.find(category => category.id === activeCategoryId)?.name || 'Others';
+            {Object.entries(groupedProducts).map(([categoryId, products]: [string, Product[]]) => {
+                const categoryName = categoriesList.find(category => category.id === categoryId)?.name || 'Others';
                 return (
 
                     <article className="mb-3 mb-sm-2" key={categoryId}>

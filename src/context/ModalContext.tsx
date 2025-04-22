@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useContext, useState, ReactNode } fr
 
 type ModalContextType = {
     isAddProductModalOpen: boolean;
-    currentCategory: string | undefined;
+    currentCategoryId: string | undefined;
     openAddProductModal: (category?: string | undefined) => void;
     closeAddProductModal: () => void;
 };
@@ -15,13 +15,13 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export const ModalProvider = ({ children }: ModalProviderProps) => {
     const [isAddProductModalOpen, setModalOpen] = useState(false);
-    const [currentCategory, setCurrentCategory] = useState<string | undefined>(undefined);
+    const [currentCategoryId, setCurrentCategoryId] = useState<string | undefined>(undefined);
 
     const openAddProductModal = useCallback((category?: string) => {
-        console.log('category', category);
+        // console.log('category', category);
         setModalOpen(true);
-        category ? setCurrentCategory(category) : setCurrentCategory(undefined);
-        setCurrentCategory(category || undefined);
+        category ? setCurrentCategoryId(category) : setCurrentCategoryId(undefined);
+        setCurrentCategoryId(category || undefined);
     }, []);
 
     const closeAddProductModal = useCallback(() => {
@@ -32,7 +32,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
         <ModalContext.Provider
             value={{
                 isAddProductModalOpen,
-                currentCategory,
+                currentCategoryId,
                 openAddProductModal,
                 closeAddProductModal,
             }}

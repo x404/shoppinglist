@@ -5,15 +5,17 @@ import { v4 as uuidv4 } from 'uuid';
 
 // interfaces
 import { Product } from "@/types/types";
+import { Category } from "../../types/types";
 
 interface AddProductModalProps {
-    categoriesList: string[];
+    categoriesList: Category[];
     currentCategory?: string;
     isShowModal: boolean;
     onCloseModal: () => void;
     onAddProduct: (product: Product) => void;
 }
 
+// TODO: remove onAddProduct
 const AddProductModal = ({
                              categoriesList,
                              currentCategory,
@@ -24,25 +26,25 @@ const AddProductModal = ({
 
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
-    const [category, setCategory] = useState<string>(currentCategory || '');
+    const [categoryId, setCategoryId] = useState<string>(currentCategory || '');
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const hasInitialCategory = !!currentCategory;
 
     useEffect(() => {
-        if (isShowModal){
+        if (isShowModal) {
             resetFormState();
-            console.log(isShowModal);
-            setCategory('');
+            // console.log(isShowModal);
+            setCategoryId('');
         }
-        
+
     }, [isShowModal]);
-    
-    
+
+
     useEffect(() => {
-        if (currentCategory && categoriesList.includes(currentCategory)) {
-            setCategory(currentCategory);
+        if (currentCategory && categoriesList.find(category => category.name === currentCategory)) {
+            setCategoryId(currentCategory);
         }
     }, [currentCategory, categoriesList]);
 
@@ -91,7 +93,7 @@ const AddProductModal = ({
         return {
             id: uuidv4(),
             name: name.trim(),
-            category,
+            categoryId: categoryId,
             purchased: false,
             quantity
         };
@@ -106,7 +108,7 @@ const AddProductModal = ({
         setName('');
         setQuantity(1);
         if (!hasInitialCategory) {
-            setCategory('');
+            setCategoryId('');
         }
     };
 
@@ -120,7 +122,7 @@ const AddProductModal = ({
     }, []);
 
     const changeCategory = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-        setCategory(event.target.value);
+        setCategoryId(event.target.value);
     }, []);
 
 
@@ -130,7 +132,7 @@ const AddProductModal = ({
                 <Modal.Header className="align-items-start">
                     <Modal.Title>Add New Product
                         {hasInitialCategory && (
-                            <div className="h6 mt-1 text-black-50">Category: <strong>{category}</strong></div>
+                            <div className="h6 mt-1 text-black-50">Category: <strong>{categoryId}</strong></div>
                         )}
                     </Modal.Title>
 
@@ -175,16 +177,19 @@ const AddProductModal = ({
                                 <Form.Label>Category</Form.Label>
                                 <Form.Select
                                     required
-                                    value={category}
+                                    value={categoryId}
                                     onChange={changeCategory}
-                                    isInvalid={validated && !category}
+                                    isInvalid={validated && !categoryId}
                                 >
                                     <option value=''>Choose category</option>
-                                    {categoriesList.map((category) => (
-                                        <option key={category} value={category}>
-                                            {category}
-                                        </option>
-                                    ))}
+                                    {categoriesList.map((category) => {
+                                            const { id, name } = category
+                                            return (
+                                                <option key={id} value={id}>
+                                                    {name}
+                                                </option>)
+                                        }
+                                    )}
                                 </Form.Select>
                                 <Form.Control.Feedback type="invalid">
                                     Please select a category
