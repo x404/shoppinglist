@@ -39,7 +39,7 @@ const Sidebar = () => {
     const categoryCounts = useMemo(() => {
         const counts: { [key: string]: number } = {};
         categories.forEach(category => {
-            console.log(category.id)
+            // console.log(category.id)
             counts[category.id] = getCategoryCountById(category.id);
         });
         

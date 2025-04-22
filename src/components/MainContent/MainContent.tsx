@@ -21,7 +21,7 @@ import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 import styles from "./MainContent.module.css";
 
 // helpers
-import { groupProductsByCategory } from "@helpers/groupProductsByCategory";
+import { groupProductsByCategoryId } from "@helpers/groupProductsByCategoryId";
 
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
@@ -36,11 +36,11 @@ const MainContent = () => {
 
     const productList = useSelector(selectProductItems);
     const activeCategoryId = useSelector(selectActiveCategory);
-    const categoriesList = useSelector(selectCategoriesItems);
+    // const categoriesList = useSelector(selectCategoriesItems);
 
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
 
-    console.log('activeCategoryId', activeCategoryId);
+    // console.log('activeCategoryId', activeCategoryId);
     const filteredProducts = useMemo(() => {
         return activeCategoryId === ALL_CATEGORY_OBJECT.id
             ? productList
@@ -48,7 +48,8 @@ const MainContent = () => {
     }, [activeCategoryId, productList]);
 
     const groupedProducts = useMemo(() => {
-        return groupProductsByCategory(filteredProducts);
+        // console.log(filteredProducts)
+        return groupProductsByCategoryId(filteredProducts);
     }, [filteredProducts]);
 
     useEffect(() => {
@@ -88,6 +89,9 @@ const MainContent = () => {
         setEditingProductId(null);
     };
 
+    const categoriesList = useSelector(selectCategoriesItems);
+    const categoryName = categoriesList.find(category => category.id === activeCategoryId)?.name || 'Others';
+
 
     return (
         <>
@@ -96,7 +100,10 @@ const MainContent = () => {
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
                     <NoFoundProducts
                         products={filteredProducts}
-                        activeCategory={activeCategoryId}
+                        
+                        categoryId={activeCategoryId}
+                        categoryName={categoryName}
+                        activeCategoryId={activeCategoryId}
                     />
 
                     {filteredProducts.length > 0 && (
@@ -114,8 +121,7 @@ const MainContent = () => {
                             <GroupedProductList
                                 groupedProducts={groupedProducts}
                                 editingProductId={editingProductId}
-                                categoriesList={categoriesList}
-                                activeCategory={activeCategoryId}
+                                activeCategoryId={activeCategoryId}
                                 onEditProduct={handleEditProduct}
                                 onDeleteProduct={handleDeleteProduct}
                                 onTogglePurchasedProduct={handleTogglePurchased}

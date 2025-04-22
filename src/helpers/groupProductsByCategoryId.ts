@@ -1,11 +1,11 @@
-import { Product, ProductsByCategory } from "../types/types";
+import { Product, ProductsByCategory } from "@/types/types";
 
-export const groupProductsByCategory = (products: Product[]): ProductsByCategory => {
+export const groupProductsByCategoryId = (products: Product[]): ProductsByCategory => {
     return products.reduce((acc: ProductsByCategory, item: Product) => {
-        if (!acc[item.category]) {
-            acc[item.category] = [];
+        if (!acc[item.categoryId]) {
+            acc[item.categoryId] = [];
         }
-        acc[item.category].push(item);
+        acc[item.categoryId].push(item);
         return acc;
     }, {} as ProductsByCategory)
 }

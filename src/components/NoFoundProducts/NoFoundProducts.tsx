@@ -13,18 +13,20 @@ import { Product } from "@/types/types";
 
 interface NoFoundProductsProps {
     products: Product[];
-    activeCategory: string;
+    categoryId: string;
+    categoryName: string;
+    activeCategoryId: string;
     onCancelEditProduct?: () => void;
 }
 
 
-const NoFoundProducts = ({ products, activeCategory, onCancelEditProduct }: NoFoundProductsProps) => {
+const NoFoundProducts = ({ products, categoryId, categoryName, activeCategoryId, onCancelEditProduct }: NoFoundProductsProps) => {
     if (products.length > 0) return null;
 
     const { openAddProductModal } = useModal();
     
     const handleAddProduct = () => {
-        const category = activeCategory !== ALL_CATEGORY_OBJECT.name ? activeCategory : undefined;
+        const category = activeCategoryId !== ALL_CATEGORY_OBJECT.id ? activeCategoryId : undefined;
         openAddProductModal(category);
     };
     
@@ -32,9 +34,12 @@ const NoFoundProducts = ({ products, activeCategory, onCancelEditProduct }: NoFo
         <>
             <article className="mb-2">
                 <CategoryHeader
-                    category={activeCategory}
+                    
+                    categoryId={categoryId}
+                    categoryName={categoryName}
+                    
                     counter={0}
-                    activeCategory={activeCategory}
+                    activeCategoryId={activeCategoryId}
                     onCancelEditProduct={onCancelEditProduct ?? (() => {})}
                 />
                 <p>No products found</p>

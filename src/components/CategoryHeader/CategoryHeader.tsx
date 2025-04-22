@@ -10,31 +10,38 @@ import { useModal } from "../../context/ModalContext";
 
 // interfaces
 interface CategoryHeaderProp {
-    category: string;
+    categoryId: string;
+    categoryName: string;
+    activeCategoryId: string;
     counter: number;
-    activeCategory: string;
     onCancelEditProduct: () => void;
 }
 
-export const CategoryHeader = memo(({ category, counter, activeCategory, onCancelEditProduct}: CategoryHeaderProp) => {
+export const CategoryHeader = memo(({
+                                        categoryId,
+                                        categoryName,
+                                        activeCategoryId,
+                                        counter,
+                                        onCancelEditProduct
+                                    }: CategoryHeaderProp) => {
     const { openAddProductModal } = useModal();
-    
-    const isAllCategory = activeCategory === ALL_CATEGORY_OBJECT.name;
 
-    const handlerAddProduct = useCallback((category: string) => {
+    const isAllCategory = activeCategoryId === ALL_CATEGORY_OBJECT.id;
+
+    const handlerAddProduct = useCallback((categoryId: string) => {
         onCancelEditProduct();
-        openAddProductModal(category);
+        openAddProductModal(categoryId);
     }, []);
-
 
     return (
         <h4 className={`d-flex align-items-center gap-2 ${isAllCategory ? 'h6 text-uppercase' : 'h5 mb-4 fw-normal'}`}>
-            <div className={`${isAllCategory ? 'fw-bold' : ''}`}>{category}</div>
+            {/*<div className={`${isAllCategory ? 'fw-bold' : ''}`}>{categoryId}  -{categoryName} - {activeCategoryId}</div>*/}
+            <div className={`${isAllCategory ? 'fw-bold' : ''}`}>{categoryName || '!#??'}</div>
             <Badge bg="secondary">{counter}</Badge>
             <Button
                 variant="light"
                 size="sm"
-                onClick={() => handlerAddProduct(category)}
+                onClick={() => handlerAddProduct(categoryId)}
             >
                 <Plus size={16}/>
                 Add product
