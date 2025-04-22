@@ -13,7 +13,6 @@ import { selectActiveCategory, selectCategoriesItems } from "@store/categoriesSl
 
 
 // components
-import AddProductModal from "../AddProductModal/AddProductModal";
 import GroupedProductList from "../GroupedProductList";
 import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 
@@ -22,13 +21,13 @@ import styles from "./MainContent.module.css";
 
 // helpers
 import { groupProductsByCategoryId } from "@helpers/groupProductsByCategoryId";
+import { getCategoryNameById } from "@helpers/getCategoryNameById";
 
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
-import { Product } from "../../types/types";
-import { getCategoryNameById } from "../../helpers/getCategoryNameById";
+import { Product } from "@/types/types";
 
 
 const MainContent = () => {

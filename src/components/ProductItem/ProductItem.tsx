@@ -66,13 +66,13 @@ const ProductItem = memo(({
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [isEditing]);
-    
+
 
     const handleTogglePurchased = useCallback(() => {
         onTogglePurchasedProduct(product.id);
     }, []);
 
-    const handleEditProduct = useCallback( () => {
+    const handleEditProduct = useCallback(() => {
         if (product.id) {
             onEditProduct(product.id);
         }
@@ -82,7 +82,7 @@ const ProductItem = memo(({
         onDeleteProduct(product.id);
         onCancelEditProduct();
     }, []);
-    
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -118,14 +118,14 @@ const ProductItem = memo(({
         }, 100);
     }, []);
 
-    
+
     const saveProduct = () => {
         const updatedProduct = {
             ...product,
             ...formData,
         }
 
-        if (isSameProduct(product, updatedProduct) ){
+        if (isSameProduct(product, updatedProduct)) {
             onCancelEditProduct();
             return;
         }
@@ -134,7 +134,7 @@ const ProductItem = memo(({
     };
 
     const resetForm = useCallback(() => {
-        const {name, quantity, categoryId} = product;
+        const { name, quantity, categoryId } = product;
         setFormData({
             name,
             quantity,
@@ -150,7 +150,7 @@ const ProductItem = memo(({
             [name]: name === 'quantity' ? Math.max(1, parseInt(value as string) || 1) : value
         }));
     }, []);
-    
+
     const handleCancel = () => {
         resetForm();
         onCancelEditProduct();
