@@ -64,3 +64,7 @@ Thoughtful user experience design
 12. Dark mode support
 13. Reduce unnecessary re-renders
 14. Create the store category Redux slice
+15. Product drag and drop
+16. Clear categories
+17. Move category to another category
+18. 
