@@ -9,7 +9,7 @@ import { Category } from "../../types/types";
 
 interface AddProductModalProps {
     categoriesList: Category[];
-    currentCategory?: string;
+    currentCategoryId?: string;
     isShowModal: boolean;
     onCloseModal: () => void;
     onAddProduct: (product: Product) => void;
@@ -18,7 +18,7 @@ interface AddProductModalProps {
 // TODO: remove onAddProduct
 const AddProductModal = ({
                              categoriesList,
-                             currentCategory,
+                             currentCategoryId,
                              isShowModal,
                              onCloseModal,
                              onAddProduct
@@ -26,27 +26,25 @@ const AddProductModal = ({
 
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
-    const [categoryId, setCategoryId] = useState<string>(currentCategory || '');
+    const [categoryId, setCategoryId] = useState<string>(currentCategoryId || '');
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
-    const hasInitialCategory = !!currentCategory;
+    const hasInitialCategory = !!currentCategoryId;
 
     useEffect(() => {
         if (isShowModal) {
             resetFormState();
-            // console.log(isShowModal);
             setCategoryId('');
         }
-
     }, [isShowModal]);
 
 
     useEffect(() => {
-        if (currentCategory && categoriesList.find(category => category.name === currentCategory)) {
-            setCategoryId(currentCategory);
+        if (currentCategoryId && categoriesList.find(category => category.id === currentCategoryId)) {
+            setCategoryId(currentCategoryId);
         }
-    }, [currentCategory, categoriesList]);
+    }, [currentCategoryId, categoriesList]);
 
 
     const handleClose = useCallback(() => {
@@ -132,7 +130,7 @@ const AddProductModal = ({
                 <Modal.Header className="align-items-start">
                     <Modal.Title>Add New Product
                         {hasInitialCategory && (
-                            <div className="h6 mt-1 text-black-50">Category: <strong>{categoryId}</strong></div>
+                            <div className="h6 mt-1 text-black-50">Category: <strong>{currentCategoryId}</strong></div>
                         )}
                     </Modal.Title>
 

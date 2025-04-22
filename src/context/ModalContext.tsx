@@ -17,11 +17,10 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     const [isAddProductModalOpen, setModalOpen] = useState(false);
     const [currentCategoryId, setCurrentCategoryId] = useState<string | undefined>(undefined);
 
-    const openAddProductModal = useCallback((category?: string) => {
-        // console.log('category', category);
+    const openAddProductModal = useCallback((categoryId?: string) => {
         setModalOpen(true);
-        category ? setCurrentCategoryId(category) : setCurrentCategoryId(undefined);
-        setCurrentCategoryId(category || undefined);
+        categoryId ? setCurrentCategoryId(categoryId) : setCurrentCategoryId(undefined);
+        setCurrentCategoryId(categoryId || undefined);
     }, []);
 
     const closeAddProductModal = useCallback(() => {

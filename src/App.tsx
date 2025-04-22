@@ -24,6 +24,7 @@ import { Product } from "./types/types";
 
 // helpers
 import { getNamesCategories } from "./helpers/getNamesCategories";
+import { getCategoryNameById } from "./helpers/getCategoryNameById";
 
 
 function ModalManager() {
@@ -43,10 +44,15 @@ function ModalManager() {
 
     // console.log(categoriesList)
 
+    // let currentCategoryName = '';
+    // if (currentCategoryId){
+    //     currentCategoryName = getCategoryNameById(categoriesList, currentCategoryId);
+    // }
+
     return (
         <AddProductModal
             categoriesList={categoriesList}
-            currentCategory={currentCategoryId}
+            currentCategoryId={currentCategoryId}
             isShowModal={isAddProductModalOpen}
             onCloseModal={closeAddProductModal}
             onAddProduct={handleAddProduct}

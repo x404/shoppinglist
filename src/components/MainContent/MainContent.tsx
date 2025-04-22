@@ -28,6 +28,7 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "../../types/types";
+import { getCategoryNameById } from "../../helpers/getCategoryNameById";
 
 
 const MainContent = () => {
@@ -90,7 +91,7 @@ const MainContent = () => {
     };
 
     const categoriesList = useSelector(selectCategoriesItems);
-    const categoryName = categoriesList.find(category => category.id === activeCategoryId)?.name || 'Others';
+    const categoryName = getCategoryNameById(categoriesList, activeCategoryId);
 
 
     return (
@@ -100,7 +101,7 @@ const MainContent = () => {
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
                     <NoFoundProducts
                         products={filteredProducts}
-                        
+
                         categoryId={activeCategoryId}
                         categoryName={categoryName}
                         activeCategoryId={activeCategoryId}
