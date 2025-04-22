@@ -15,7 +15,6 @@ interface AddProductModalProps {
     onAddProduct: (product: Product) => void;
 }
 
-// TODO: remove onAddProduct
 const AddProductModal = ({
                              categoriesList,
                              currentCategoryId,
