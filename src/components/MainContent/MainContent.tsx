@@ -40,7 +40,6 @@ const MainContent = () => {
 
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
 
-    // console.log('activeCategoryId', activeCategoryId);
     const filteredProducts = useMemo(() => {
         return activeCategoryId === ALL_CATEGORY_OBJECT.id
             ? productList
@@ -48,7 +47,6 @@ const MainContent = () => {
     }, [activeCategoryId, productList]);
 
     const groupedProducts = useMemo(() => {
-        // console.log(filteredProducts)
         return groupProductsByCategoryId(filteredProducts);
     }, [filteredProducts]);
 
@@ -64,8 +62,6 @@ const MainContent = () => {
     }, []);
 
     const handleEditProduct = useCallback((productId: string) => {
-        console.log(productId)
-        
         setEditingProductId(productId);
     }, []);
 
@@ -91,8 +87,6 @@ const MainContent = () => {
         setEditingProductId(null);
     };
 
-    const categoriesList = useSelector(selectCategoriesItems);
-    const categoryName = getCategoryNameById(categoriesList, activeCategoryId);
 
     // TODO:  categoryId={activeCategoryId}  activeCategoryId={activeCategoryId}
     return (
@@ -103,9 +97,6 @@ const MainContent = () => {
                     
                     <NoFoundProducts
                         products={filteredProducts}
-
-                        categoryName={categoryName}
-                        categoryId={activeCategoryId}
                         activeCategoryId={activeCategoryId}
                     />
 

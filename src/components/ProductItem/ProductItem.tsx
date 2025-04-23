@@ -38,7 +38,6 @@ const ProductItem = memo(({
                               onSaveEditProduct
                           }: ProductItemProps) => {
 
-    // console.log(product)
     const [validated, setValidated] = useState(false);
 
     const [formData, setFormData] = useState({

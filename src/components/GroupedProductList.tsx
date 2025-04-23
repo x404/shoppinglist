@@ -8,6 +8,7 @@ import { CategoryHeader } from "./CategoryHeader/CategoryHeader";
 import { Product } from "@/types/types";
 import { useSelector } from "react-redux";
 import { selectCategoriesItems } from "../store/categoriesSlice";
+import { useModal } from "../context/ModalContext";
 
 interface GroupedProductListProps {
     groupedProducts: Record<string, Product[]>;
@@ -32,6 +33,13 @@ const GroupedProductList = memo(({
                                  }: GroupedProductListProps) => {
 
     const categoriesList = useSelector(selectCategoriesItems);
+    const { openAddProductModal } = useModal();
+
+    const handleShowAddProductModal = (categoryId?: string) => {
+        // const categoryId = activeCategoryId !== allCategoryId ? activeCategoryId : undefined;
+        openAddProductModal(categoryId);
+    };
+    
 
     return (
         <>
@@ -41,12 +49,13 @@ const GroupedProductList = memo(({
 
                     <article className="mb-3 mb-sm-2" key={categoryId}>
                         <CategoryHeader
-                            categoryId={categoryId}
-                            categoryName={categoryName}
+                            counter={products.length}
 
                             activeCategoryId={activeCategoryId}
-                            counter={products.length}
+                            categoryName={categoryName}
+
                             onCancelEditProduct={onCancelEditProduct}
+                            onShowAddProductModal={() => handleShowAddProductModal(categoryId)}
                         />
 
                         <ul className="list-group mt-2" aria-label={categoryId}>

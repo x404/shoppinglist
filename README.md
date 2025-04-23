@@ -71,4 +71,5 @@ Thoughtful user experience design
 19. Resize sidebar
 20. Show/hide sidebar
 21. Local/remote storage with option save local to remote
-22. 
+22. Search
+23. 

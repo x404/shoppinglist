@@ -31,7 +31,7 @@ export const categoriesSlice = createSlice({
             console.log(action.payload, state);
         },
         setActiveCategory: (state, action: PayloadAction<string>) => {
-            // console.log('action.payload', action.payload);
+            console.log('action.payload', action.payload);
             state.selectedCategoryId = action.payload;
         }
     }

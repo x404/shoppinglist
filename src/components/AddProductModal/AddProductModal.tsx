@@ -11,7 +11,7 @@ import { Product, Category } from "@/types/types";
 
 interface AddProductModalProps {
     categoriesList: Category[];
-    currentCategoryId?: string;
+    currentCategoryId: string | undefined;
     isShowModal: boolean;
     onCloseModal: () => void;
     onAddProduct: (product: Product) => void;
@@ -24,7 +24,6 @@ const AddProductModal = ({
                              onCloseModal,
                              onAddProduct
                          }: AddProductModalProps) => {
-
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
     const [categoryId, setCategoryId] = useState<string>(currentCategoryId || '');
@@ -32,6 +31,7 @@ const AddProductModal = ({
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const hasInitialCategory = !!currentCategoryId;
+
 
     useEffect(() => {
         if (isShowModal) {
@@ -48,6 +48,11 @@ const AddProductModal = ({
     }, [currentCategoryId, categoriesList]);
 
 
+    const categoryName = currentCategoryId
+        ? getCategoryNameById(categoriesList, currentCategoryId)
+        : '';
+    
+    
     const handleClose = useCallback(() => {
         resetForm();
         onCloseModal();
@@ -92,7 +97,7 @@ const AddProductModal = ({
         return {
             id: uuidv4(),
             name: name.trim(),
-            categoryId: categoryId,
+            categoryId: currentCategoryId || categoryId,
             purchased: false,
             quantity
         };
@@ -123,15 +128,13 @@ const AddProductModal = ({
     const changeCategory = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         setCategoryId(event.target.value);
     }, []);
-    
-    const categoryName = getCategoryNameById(categoriesList, categoryId);
 
 
     return (
         <>
             <Modal show={isShowModal} onHide={handleClose} centered>
                 <Modal.Header className="align-items-start">
-                    <Modal.Title>Add New Product
+                    <Modal.Title>Add New Item
                         {hasInitialCategory && (
                             <div className="h6 mt-1 text-black-50">Category: <strong>{categoryName}</strong></div>
                         )}

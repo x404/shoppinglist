@@ -22,9 +22,6 @@ import AddProductModal from "./components/AddProductModal/AddProductModal";
 // interfaces
 import { Product } from "./types/types";
 
-// helpers
-import { getNamesCategories } from "./helpers/getNamesCategories";
-import { getCategoryNameById } from "./helpers/getCategoryNameById";
 
 
 function ModalManager() {
@@ -42,7 +39,6 @@ function ModalManager() {
         closeAddProductModal();
     }, []);
 
-    // console.log(categoriesList)
 
     // let currentCategoryName = '';
     // if (currentCategoryId){
