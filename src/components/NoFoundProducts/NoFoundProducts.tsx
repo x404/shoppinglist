@@ -27,20 +27,23 @@ const NoFoundProducts = ({ products, categoryId, categoryName, activeCategoryId,
     
     const handleAddProduct = () => {
         const category = activeCategoryId !== ALL_CATEGORY_OBJECT.id ? activeCategoryId : undefined;
+        
+        console.log('NoFoundProducts> activeCategoryId', activeCategoryId)
         openAddProductModal(category);
     };
+    
     
     return (
         <>
             <article className="mb-2">
                 <CategoryHeader
-                    
                     categoryId={categoryId}
-                    categoryName={categoryName}
+                    categoryName={categoryName || ALL_CATEGORY_OBJECT.name}
                     
                     counter={0}
                     activeCategoryId={activeCategoryId}
                     onCancelEditProduct={onCancelEditProduct ?? (() => {})}
+                    onAddProduct={handleAddProduct}
                 />
                 <p>No products found</p>
                 <Button variant="dark" onClick={handleAddProduct}>Add first product</Button>

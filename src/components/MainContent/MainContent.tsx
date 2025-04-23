@@ -104,8 +104,8 @@ const MainContent = () => {
                     <NoFoundProducts
                         products={filteredProducts}
 
-                        categoryId={activeCategoryId}
                         categoryName={categoryName}
+                        categoryId={activeCategoryId}
                         activeCategoryId={activeCategoryId}
                     />
 

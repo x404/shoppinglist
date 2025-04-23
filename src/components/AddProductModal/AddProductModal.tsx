@@ -3,9 +3,11 @@ import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState 
 
 import { v4 as uuidv4 } from 'uuid';
 
+// helpers
+import { getCategoryNameById } from "@helpers/getCategoryNameById";
+
 // interfaces
-import { Product } from "@/types/types";
-import { Category } from "../../types/types";
+import { Product, Category } from "@/types/types";
 
 interface AddProductModalProps {
     categoriesList: Category[];
@@ -121,6 +123,8 @@ const AddProductModal = ({
     const changeCategory = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         setCategoryId(event.target.value);
     }, []);
+    
+    const categoryName = getCategoryNameById(categoriesList, categoryId);
 
 
     return (
@@ -129,7 +133,7 @@ const AddProductModal = ({
                 <Modal.Header className="align-items-start">
                     <Modal.Title>Add New Product
                         {hasInitialCategory && (
-                            <div className="h6 mt-1 text-black-50">Category: <strong>{currentCategoryId}</strong></div>
+                            <div className="h6 mt-1 text-black-50">Category: <strong>{categoryName}</strong></div>
                         )}
                     </Modal.Title>
 
