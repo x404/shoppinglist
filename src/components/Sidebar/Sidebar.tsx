@@ -16,7 +16,7 @@ import styles from "./Sidebar.module.css";
 
 // interfaces
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
-import { useModal } from "../../context/ModalContext";
+import { useModal } from "@context/ModalContext";
 import { getNamesCategories } from "../../helpers/getNamesCategories";
 
 
@@ -53,10 +53,10 @@ const Sidebar = () => {
 
     const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategoryId } = useModal();
 
-    const onAddProduct = () => {
-        openAddProductModal()
+    const handleOpenAddProductModal = (categoryId?: string) => {
+        const id = categoryId ? categoryId : undefined;
+        openAddProductModal(id)
     }
-
 
     return (
         <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 shadow-sm z-1`}>
@@ -88,7 +88,7 @@ const Sidebar = () => {
                                         </div>
                                     </div>
                                 </Dropdown.Item>
-                                <Dropdown.Item as="button" className="" onClick={onAddProduct}>
+                                <Dropdown.Item as="button" className="" onClick={() => handleOpenAddProductModal()}>
                                     <div className="d-flex">
                                         <div className={`${styles.icon} me-2`}>
                                             <FileEarmarkPlus size={16}/>
@@ -130,6 +130,7 @@ const Sidebar = () => {
                             isActive={activeCategoryId === category.id}
                             onSelectCategory={onSelectCategory}
                             allCategory={ALL_CATEGORY_OBJECT.name}
+                            onOpenAddProductModal={handleOpenAddProductModal}
                         />
                     ))}
                 </ul>

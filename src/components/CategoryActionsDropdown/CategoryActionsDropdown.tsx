@@ -17,12 +17,19 @@ import styles from './CategoryActionsDropdown.module.css';
 import sidebarStyles from './../Sidebar/Sidebar.module.css';
 
 interface CategoryActionsDropdownProps {
-    onOpenAddProductModal: () => void;
     isVisible: boolean;
+    onOpenAddProductModal: () => void;
+    onRenameCategory: () => void;
 }
 
 
-const CategoryActionsDropdown = ({ onOpenAddProductModal, isVisible }: CategoryActionsDropdownProps) => {
+const CategoryActionsDropdown = ({
+                                     isVisible,
+                                     onOpenAddProductModal,
+                                     onRenameCategory
+                                 }: CategoryActionsDropdownProps) => {
+
+
     return (
         <div
             className={`${sidebarStyles.actions} ${styles.actions} ${isVisible ? styles.visible : ""} d-flex align-items-center position-absolute me-2 end-0`}>
@@ -40,8 +47,9 @@ const CategoryActionsDropdown = ({ onOpenAddProductModal, isVisible }: CategoryA
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <ActionItem icon={<Pencil size={16} />} label="Rename" disabled onClick={() => {}} />
-                    <ActionItem icon={<XOctagon size={16} />} label="Clear" disabled onClick={() => {}} />
+                    <ActionItem icon={<Pencil size={16}/>} label="Rename" onClick={onRenameCategory}/>
+                    <ActionItem icon={<XOctagon size={16}/>} label="Clear" disabled onClick={() => {
+                    }}/>
                     <Dropdown.Divider/>
 
 
@@ -65,17 +73,22 @@ const CategoryActionsDropdown = ({ onOpenAddProductModal, isVisible }: CategoryA
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <ActionItem icon={<FolderPlus size={16} />} label="Category" disabled onClick={() => {}} />
-                            <ActionItem icon={<FileEarmarkPlus size={16} />} label="Product" onClick={onOpenAddProductModal} />
+                            <ActionItem icon={<FolderPlus size={16}/>} label="Category" disabled onClick={() => {
+                            }}/>
+                            <ActionItem icon={<FileEarmarkPlus size={16}/>} label="Product"
+                                        onClick={onOpenAddProductModal}/>
                         </Dropdown.Menu>
                     </Dropdown>
 
 
-                    <ActionItem icon={<Shuffle size={16} />} label="Move to" disabled onClick={() => {}} />
-                    <ActionItem icon={<Palette size={16} />} label="Color & Icon" disabled onClick={() => {}} />
-                    
+                    <ActionItem icon={<Shuffle size={16}/>} label="Move to" disabled onClick={() => {
+                    }}/>
+                    <ActionItem icon={<Palette size={16}/>} label="Color & Icon" disabled onClick={() => {
+                    }}/>
+
                     <Dropdown.Divider/>
-                    <ActionItem icon={<Trash size={16} />} label="Delete" disabled onClick={() => {}} className={'text-danger'} />
+                    <ActionItem icon={<Trash size={16}/>} label="Delete" disabled onClick={() => {
+                    }} className={'text-danger'}/>
                 </Dropdown.Menu>
             </Dropdown>
 
@@ -94,7 +107,8 @@ const CategoryActionsDropdown = ({ onOpenAddProductModal, isVisible }: CategoryA
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <ActionItem icon={<FileEarmarkPlus size={16} />} label="Product" onClick={() => onOpenAddProductModal()} />
+                    <ActionItem icon={<FileEarmarkPlus size={16}/>} label="Product"
+                                onClick={onOpenAddProductModal}/>
                     {/*<Dropdown.Divider/>*/}
                     {/*<Dropdown.Item as="button">Something else</Dropdown.Item>*/}
                 </Dropdown.Menu>

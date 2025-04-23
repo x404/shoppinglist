@@ -1,12 +1,11 @@
 import { MouseEvent, useState } from "react";
 
 // redux, context
-import { useModal } from "@context/ModalContext";
+// import { useModal } from "@context/ModalContext";
 
 
 // styles
 import styles from './CategoryItem.module.css';
-import sidebarStyles from './../Sidebar/Sidebar.module.css';
 
 // interfaces
 import { Category } from "@/types/types";
@@ -17,13 +16,14 @@ interface CategoryItem {
     isActive: boolean;
     onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
     allCategory: string;
+    onOpenAddProductModal: (categoryId?: string) => void;
 }
 
 
-const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory }: CategoryItem) => {
-    const { id, name } = category;
+const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory, onOpenAddProductModal }: CategoryItem) => {
+    const { id: categoryId, name } = category;
     
-    const { openAddProductModal } = useModal();
+    // const { openAddProductModal } = useModal();
     const activeClass = isActive ? styles.active : '';
     const allCategoryHighlightClass = name === allCategory ? 'fw-bold text-uppercase' : '';
     const allCategoryClass = name === allCategory ? styles.menuAllItem : '';
@@ -31,10 +31,13 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
     const [isHovered, setIsHovered] = useState(false);
 
 
-    const onOpenAddProductModal = () => {
-        openAddProductModal(name);
+    const handleOpenAddProductModal = () => {
+        onOpenAddProductModal(categoryId);
     }
 
+    const onRenameCategory = () => {
+    }
+    
     return (
         <>
             <li 
@@ -42,11 +45,11 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
-                <a href={`#${id}`}
+                <a href={`#${categoryId}`}
                    className={`${styles.sidebarLink} flex-grow-1 ps-2 ${allCategoryHighlightClass}`}
                    {...(isActive ? { 'aria-current': 'page' } : {})}
                    title=""
-                   onClick={(event) => onSelectCategory(event, id)}
+                   onClick={(event) => onSelectCategory(event, categoryId)}
                 >
                     {name}
                 </a>
@@ -58,8 +61,9 @@ const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory
                 </div>
                 {name !== allCategory && (
                     <CategoryActionsDropdown 
-                        onOpenAddProductModal={onOpenAddProductModal}
                         isVisible={isHovered}
+                        onOpenAddProductModal={handleOpenAddProductModal}
+                        onRenameCategory={onRenameCategory}
                     />
                 )}
             </li>
