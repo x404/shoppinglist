@@ -6,7 +6,7 @@ import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductItems } from '@store/productListSlice';
-import { selectActiveCategory, selectCategoriesItems, setActiveCategory } from "@store/categoriesSlice";
+import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory } from "@store/categoriesSlice";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
@@ -25,7 +25,7 @@ const Sidebar = () => {
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
 
-    const activeCategory = useSelector(selectActiveCategory);
+    const activeCategoryId = useSelector(selectActiveCategoryId);
     const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
 
 
@@ -128,7 +128,7 @@ const Sidebar = () => {
                             key={category.id}
                             category={category}
                             count={categoryCounts[category.id]}
-                            isActive={activeCategory === category.id}
+                            isActive={activeCategoryId === category.id}
                             onSelectCategory={onSelectCategory}
                             allCategory={ALL_CATEGORY_OBJECT.name}
                         />

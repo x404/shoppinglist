@@ -1,20 +1,20 @@
 import { Button, Form } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState } from "react";
 
-// interfaces
-import { Category } from "@/types/types";
-
 // styles
 import styles from "./../ProductItem.module.css";
 import { CheckLg, X } from "react-bootstrap-icons";
 
 // interfaces
+import { Category } from "@/types/types";
+interface ProductFormData {
+    name: string;
+    quantity: number;
+    categoryId: string;
+}
+
 interface EditFormProps {
-    formData: {
-        name: string;
-        quantity: number;
-        categoryId: string
-    };
+    formData: ProductFormData;
     validated: boolean;
     categoriesList: Category[];
     nameInputRef: Ref<HTMLInputElement | null>;
@@ -35,13 +35,13 @@ const ProductEditForm = ({
 
     const [name, setName] = useState("");
     const [quantity, setQuantity] = useState(1);
-    const [category, setCategory] = useState("");
+    const [categoryId, setCategoryId] = useState("");
 
     useEffect(() => {
         const { name, quantity, categoryId } = formData;
         setName(name);
         setQuantity(quantity);
-        setCategory(category);
+        setCategoryId(categoryId);
     }, [formData.name, formData.categoryId, formData.quantity]);
 
     const handleCancel = useCallback((event: MouseEvent) => {
@@ -100,13 +100,15 @@ const ProductEditForm = ({
 
                     <Form.Group className={`${styles.category} flex-grow-1 flex-md-grow-0`}>
                         <Form.Label className="visually-hidden">Category</Form.Label>
+
+                        {/* although named 'category' for HTML semantics, this stores categoryId*/}
                         <Form.Select
-                            name="category"
-                            value={category}
+                            name="categoryId"
+                            value={categoryId}
                             onChange={handleCategoryChange}
                         >
                             {categoriesList.map((category) => (
-                                <option key={category.name} value={category.name}>
+                                <option key={category.id} value={category.id}>
                                     {category.name}
                                 </option>
                             ))}

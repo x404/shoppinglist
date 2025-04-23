@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems, editProduct, deleteProduct, togglePurchased
 } from '@store/productListSlice';
-import { selectActiveCategory, selectCategoriesItems } from "@store/categoriesSlice";
+import { selectActiveCategoryId, selectCategoriesItems } from "@store/categoriesSlice";
 
 
 // components
@@ -35,7 +35,7 @@ const MainContent = () => {
     const { openAddProductModal } = useModal();
 
     const productList = useSelector(selectProductItems);
-    const activeCategoryId = useSelector(selectActiveCategory);
+    const activeCategoryId = useSelector(selectActiveCategoryId);
     // const categoriesList = useSelector(selectCategoriesItems);
 
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
@@ -64,6 +64,8 @@ const MainContent = () => {
     }, []);
 
     const handleEditProduct = useCallback((productId: string) => {
+        console.log(productId)
+        
         setEditingProductId(productId);
     }, []);
 
@@ -92,12 +94,13 @@ const MainContent = () => {
     const categoriesList = useSelector(selectCategoriesItems);
     const categoryName = getCategoryNameById(categoriesList, activeCategoryId);
 
-
+    // TODO:  categoryId={activeCategoryId}  activeCategoryId={activeCategoryId}
     return (
         <>
             <main className={`${styles.main} p-3`} id="main">
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
+                    
                     <NoFoundProducts
                         products={filteredProducts}
 

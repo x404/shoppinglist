@@ -39,7 +39,7 @@ export const categoriesSlice = createSlice({
 
 
 export const { setActiveCategory } = categoriesSlice.actions;
-export const selectActiveCategory = (state: { categories: CategoryListState }) => state.categories.selectedCategoryId;
+export const selectActiveCategoryId = (state: { categories: CategoryListState }) => state.categories.selectedCategoryId;
 export const selectCategoriesItems = (state: { categories: CategoryListState }) => state.categories.categories;
 
 export default categoriesSlice.reducer;
