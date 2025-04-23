@@ -61,7 +61,18 @@ const ProductEditForm = ({
     );
 
     const handleCategoryChange = useCallback(
-        (e: ChangeEvent<HTMLSelectElement>) => onInputChange(e),
+        (e: ChangeEvent<HTMLSelectElement>) => {
+            // only for saving semantic name of select element
+            const adaptedEvent = {
+                ...e,
+                target: {
+                    ...e.target,
+                    name: "categoryId",
+                    value: e.target.value
+                }
+            };
+            onInputChange(adaptedEvent);
+        },
         [onInputChange]
     );
 
@@ -103,7 +114,7 @@ const ProductEditForm = ({
 
                         {/* although named 'category' for HTML semantics, this stores categoryId*/}
                         <Form.Select
-                            name="categoryId"
+                            name="category"
                             value={categoryId}
                             onChange={handleCategoryChange}
                         >

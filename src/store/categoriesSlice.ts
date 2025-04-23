@@ -6,10 +6,10 @@ import { CategoryListState, Category } from "@/types/types";
 
 // constants
 import { DEFAULT_CATEGORIES } from "@constants/categories";
-import { ALL_CATEGORY_OBJECT } from "../constants/categories";
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 
-const LOCAL_STORAGE_CATEGORY_KEY = "newCategories";
+const LOCAL_STORAGE_CATEGORY_KEY = "categories";
 const storedCategories = LocalStorageService.get<Category[]>(LOCAL_STORAGE_CATEGORY_KEY);
 
 const initialState: CategoryListState = {
