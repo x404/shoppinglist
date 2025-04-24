@@ -1,12 +1,15 @@
-import { MouseEvent, useCallback, useContext, useMemo, useState } from "react";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
+// constants
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductItems } from '@store/productListSlice';
-import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory } from "@store/categoriesSlice";
+import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editCategory } from "@store/categoriesSlice";
+import { useModal } from "@context/ModalContext";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
@@ -15,10 +18,7 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 import styles from "./Sidebar.module.css";
 
 // interfaces
-import { ALL_CATEGORY_OBJECT } from "@constants/categories";
-import { useModal } from "@context/ModalContext";
-import { Category } from "../../types/types";
-import { editCategory } from "../../store/categoriesSlice";
+import { Category } from "@/types/types";
 
 
 const Sidebar = () => {
@@ -136,7 +136,6 @@ const Sidebar = () => {
                             count={categoryCounts[category.id]}
                             isActive={activeCategoryId === category.id}
                             onSelectCategory={onSelectCategory}
-                            allCategory={ALL_CATEGORY_OBJECT.name}
                             onOpenAddProductModal={handleOpenAddProductModal}
                             onRenameCategory={handleRenameCategory}
                             onSaveEditCategory={handleSaveEditCategory}

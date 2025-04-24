@@ -32,7 +32,7 @@ const CategoryActionsDropdown = ({
 
     return (
         <div
-            className={`${sidebarStyles.actions} ${styles.actions} ${isVisible ? styles.visible : ""} d-flex align-items-center position-absolute me-2 end-0`}>
+            className={`${styles.actions} ${isVisible ? styles.visible : ""} d-flex align-items-center position-absolute me-2 end-0`}>
             <Dropdown drop="end">
                 <Dropdown.Toggle
                     as="button"

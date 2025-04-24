@@ -3,21 +3,25 @@ import { ChangeEvent, FormEvent, MouseEvent, useCallback, useEffect, useRef, use
 // helpers
 import { isSameCategory } from "@helpers/isSameCategory";
 
+// constants
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
+
+// components
+import CategoryEditForm from "./CategoryEditForm/CategoryEditForm";
+import CategoryView from "./CategoryView/CategoryView";
+
 // styles
 import styles from './CategoryItem.module.css';
 
 // interfaces
 import { Category } from "@/types/types";
-import CategoryActionsDropdown from "../CategoryActionsDropdown/CategoryActionsDropdown";
-import CategoryEditForm from "./CategoryEditForm/CategoryEditForm";
 
 interface CategoryItem {
     category: Category;
     count: number;
     isActive: boolean;
-    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
-    allCategory: string;
     isEditingCategory: boolean;
+    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
     onOpenAddProductModal: (categoryId?: string) => void;
     onRenameCategory: (categoryId?: string) => void;
     onSaveEditCategory: (category: Category) => void;
@@ -28,19 +32,20 @@ const CategoryItem = ({
                           category,
                           count,
                           isActive,
+                          isEditingCategory,
                           onSelectCategory,
-                          allCategory,
                           onOpenAddProductModal,
                           onRenameCategory,
-                          isEditingCategory,
                           onSaveEditCategory,
                           onCancelEditCategory,
                       }: CategoryItem) => {
-    const { id: categoryId, name } = category;
+    const { id: categoryId, name: categoryName } = category;
+    const allCategory = ALL_CATEGORY_OBJECT.name;
+
 
     const activeClass = isActive ? styles.active : '';
-    const allCategoryHighlightClass = name === allCategory ? 'fw-bold text-uppercase' : '';
-    const allCategoryClass = name === allCategory ? styles.menuAllItem : '';
+
+    const allCategoryClass = categoryName === allCategory ? styles.menuAllItem : '';
 
     const [validated, setValidated] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
@@ -94,8 +99,8 @@ const CategoryItem = ({
             wrapperRef.current?.removeEventListener('focusout', handleFocusOut);
         };
     }, [isEditingCategory]);
-    
-    
+
+
     const handleRenameCategory = () => {
         setIsHovered(false);
         onRenameCategory(categoryId);
@@ -189,32 +194,19 @@ const CategoryItem = ({
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                     >
-                        {isEditingCategory.toString() === 'true' && ('edit')}
-                        <a href={`#${categoryId}`}
-                           className={`${styles.sidebarLink} flex-grow-1 ps-2 ${allCategoryHighlightClass}`}
-                           {...(isActive ? { 'aria-current': 'page' } : {})}
-                           title=""
-                           onClick={(event) => onSelectCategory(event, categoryId)}
-                        >
-                            {name}
-                        </a>
-                        <div
-                            className={`${styles.counter} d-flex align-items-center justify-content-center p-1`}
-                            aria-label={`${count} items`}
-                        >
-                            {count}
-                        </div>
-                        {name !== allCategory && (
-                            <CategoryActionsDropdown
-                                isVisible={isHovered}
-                                onOpenAddProductModal={handleOpenAddProductModal}
-                                onRenameCategory={handleRenameCategory}
-                            />
-                        )}
+                        <CategoryView
+                            count={count}
+                            isActive={isActive}
+                            categoryId={categoryId}
+                            categoryName={categoryName}
+                            isHovered={isHovered}
+                            handleOpenAddProductModal={handleOpenAddProductModal}
+                            handleRenameCategory={handleRenameCategory}
+                            handleSelectCategory={onSelectCategory}
+                        />
                     </li>
                 </>
             )
-
             }
         </>
     )

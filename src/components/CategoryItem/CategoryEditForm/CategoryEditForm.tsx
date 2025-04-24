@@ -1,9 +1,5 @@
-import { Button, Form } from "react-bootstrap";
-import { CheckLg, X } from "react-bootstrap-icons";
-
-// styles
-import styles from "./../CategoryItem.module.css";
 import { ChangeEvent, FormEvent, MouseEvent, Ref, useCallback, useEffect, useState } from "react";
+import {Form } from "react-bootstrap";
 
 // interfaces
 interface CategoryFormData {
@@ -69,35 +65,6 @@ const CategoryEditForm = ({
                             Please enter category name
                         </Form.Control.Feedback>
                     </Form.Group>
-
-
-                    {/*<div className={`${styles.actions} d-flex justify-content-end gap-1 align-self-start mt-1 d-none`}>*/}
-                    {/*    <Button*/}
-                    {/*        variant="outline-dark"*/}
-                    {/*        size="sm"*/}
-                    {/*        aria-label={`Save ${formData.name}`}*/}
-                    {/*        data-tooltip-id="save-tooltip"*/}
-                    {/*        data-tooltip-content="Save item"*/}
-                    {/*        data-tooltip-place="top"*/}
-                    {/*        className={`${styles.saveButton} ${styles.actionButton} d-flex align-items-center`}*/}
-                    {/*        type="submit"*/}
-                    {/*    >*/}
-                    {/*        <CheckLg size="20"/>*/}
-                    {/*        <span className="px-1 d-sm-none">Save</span>*/}
-                    {/*    </Button>*/}
-                    {/*    <Button variant="outline-dark"*/}
-                    {/*            size="sm"*/}
-                    {/*            className={`${styles.cancelButton} ${styles.actionButton} d-flex align-items-center`}*/}
-                    {/*            aria-label={`Cancel`}*/}
-                    {/*            data-tooltip-id="cancel-tooltip"*/}
-                    {/*            data-tooltip-content="Cancel or press ESC"*/}
-                    {/*            data-tooltip-place="top"*/}
-                    {/*            onClick={handleCancel}*/}
-                    {/*    >*/}
-                    {/*        <X size="24"/>*/}
-                    {/*        <span className="px-1 d-sm-none">Cancel</span>*/}
-                    {/*    </Button>*/}
-                    {/*</div>*/}
                 </div>
             </Form>
         </>
