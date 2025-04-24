@@ -1,4 +1,7 @@
-import { ChangeEvent, FormEvent, MouseEvent, useCallback, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+
+// helpers
+import { isSameCategory } from "@helpers/isSameCategory";
 
 // styles
 import styles from './CategoryItem.module.css';
@@ -14,12 +17,12 @@ interface CategoryItem {
     isActive: boolean;
     onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
     allCategory: string;
+    isEditingCategory: boolean;
     onOpenAddProductModal: (categoryId?: string) => void;
     onRenameCategory: (categoryId?: string) => void;
     onSaveEditCategory: (category: Category) => void;
-    isEditingCategory: boolean
+    onCancelEditCategory: () => void;
 }
-
 
 const CategoryItem = ({
                           category,
@@ -30,7 +33,8 @@ const CategoryItem = ({
                           onOpenAddProductModal,
                           onRenameCategory,
                           isEditingCategory,
-                          onSaveEditCategory
+                          onSaveEditCategory,
+                          onCancelEditCategory,
                       }: CategoryItem) => {
     const { id: categoryId, name } = category;
 
@@ -44,12 +48,45 @@ const CategoryItem = ({
     const [formData, setFormData] = useState({
         name: category.name
     });
-    const nameInputRef = useRef<HTMLInputElement>(null);
 
+    const nameInputRef = useRef<HTMLInputElement>(null);
 
     const handleOpenAddProductModal = () => {
         onOpenAddProductModal(categoryId);
     }
+
+    const wrapperRef = useRef<HTMLLIElement | null>(null);
+
+    // ESC press and exit from edit mode
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && isEditingCategory) {
+                handleCancel();
+                // focusEditInput();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isEditingCategory]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: globalThis.MouseEvent) => {
+            if (isEditingCategory && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+                handleCancel();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isEditingCategory]);
+
 
     const handleRenameCategory = () => {
         setIsHovered(false);
@@ -70,7 +107,7 @@ const CategoryItem = ({
         }
 
         saveCategory();
-        focusEditInput();
+        focusCategory();
     };
 
     const isFormValid = (form: HTMLFormElement): boolean => {
@@ -88,9 +125,10 @@ const CategoryItem = ({
         }, 100);
     };
 
-    const focusEditInput = useCallback(() => {
+    const focusCategory = useCallback(() => {
         setTimeout(() => {
-            // editButtonRef.current?.focus();
+            const focusTarget = document.querySelector(`a[href="#${category.id}"]`) as HTMLElement;
+            focusTarget?.focus();
         }, 100);
     }, []);
 
@@ -101,45 +139,42 @@ const CategoryItem = ({
             ...formData,
         }
 
-        //
-        // if (isSameProduct(product, updatedCategory)) {
-        //     onCancelEditProduct();
-        //     return;
-        // }
+        if (isSameCategory(category, updatedCategory)) {
+            handleCancel();
+            return;
+        }
         onSaveEditCategory(updatedCategory);
     };
-
 
 
     const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
         setFormData(prev => ({
             ...prev,
-            [name] : value
+            [name]: value
         }));
     }, []);
 
     const handleCancel = () => {
-
-        console.log('catalog edit cancel')
-        // resetForm();
-        // onCancelEditProduct();
-        // focusEditInput();
+        onCancelEditCategory();
+        focusCategory();
     };
-    
+
 
     return (
         <>
             {isEditingCategory ? (
                 <>
-                    <CategoryEditForm
-                        formData={formData}
-                        validated={validated}
-                        nameInputRef={nameInputRef}
-                        onInputChange={handleInputChange}
-                        onSubmit={handleSubmit}
-                        onCancel={handleCancel}
-                    />
+                    <li ref={wrapperRef} className={`${styles.menuItem} mt-1 px-2`}>
+                        <CategoryEditForm
+                            formData={formData}
+                            validated={validated}
+                            nameInputRef={nameInputRef}
+                            onInputChange={handleInputChange}
+                            onSubmit={handleSubmit}
+                            onCancel={handleCancel}
+                        />
+                    </li>
                 </>
             ) : (
                 <>

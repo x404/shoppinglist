@@ -70,6 +70,10 @@ const Sidebar = () => {
         dispatch(editCategory(category));
         resetStates();
     }, []);
+    
+    const handleCancelEditCategory = () => {
+        resetStates()
+    }
 
 
     const resetStates = () => {
@@ -137,6 +141,7 @@ const Sidebar = () => {
                             onRenameCategory={handleRenameCategory}
                             onSaveEditCategory={handleSaveEditCategory}
                             isEditingCategory={editingCategoryId === category.id}
+                            onCancelEditCategory={handleCancelEditCategory}
                         />
                     ))}
                 </ul>

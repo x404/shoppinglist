@@ -1,7 +1,8 @@
 .actions{
+    display: none !important;
     z-index: -1;
     opacity: 0;
-    transition: .2s opacity;
+    transition: .3s opacity;
 }
 
 .icon{
@@ -14,6 +15,7 @@
 }
 
 .visible {
+    display: flex !important;
     opacity: 1;
     z-index: 1;
 }
