@@ -12,13 +12,15 @@ import {
 
 import ActionItem from "./ActionItem/ActionItem";
 
-
+// styles
 import styles from './CategoryActionsDropdown.module.css';
 import sidebarStyles from './../Sidebar/Sidebar.module.css';
 
+// interfaces
 interface CategoryActionsDropdownProps {
     isVisible: boolean;
     onOpenAddProductModal: () => void;
+    onOpenAddCategoryModal: () => void;
     onRenameCategory: () => void;
 }
 
@@ -26,9 +28,9 @@ interface CategoryActionsDropdownProps {
 const CategoryActionsDropdown = ({
                                      isVisible,
                                      onOpenAddProductModal,
+                                     onOpenAddCategoryModal,
                                      onRenameCategory
                                  }: CategoryActionsDropdownProps) => {
-
 
     return (
         <div
@@ -73,10 +75,16 @@ const CategoryActionsDropdown = ({
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <ActionItem icon={<FolderPlus size={16}/>} label="Category" disabled onClick={() => {
-                            }}/>
-                            <ActionItem icon={<FileEarmarkPlus size={16}/>} label="Product"
-                                        onClick={onOpenAddProductModal}/>
+                            <ActionItem
+                                icon={<FolderPlus size={16}/>}
+                                label="Category"
+                                onClick={onOpenAddCategoryModal}
+                            />
+                            <ActionItem
+                                icon={<FileEarmarkPlus size={16}/>}
+                                label="Product"
+                                onClick={onOpenAddProductModal}
+                            />
                         </Dropdown.Menu>
                     </Dropdown>
 

@@ -8,7 +8,7 @@ import { CategoryHeader } from "./CategoryHeader/CategoryHeader";
 import { Product } from "@/types/types";
 import { useSelector } from "react-redux";
 import { selectCategoriesItems } from "../store/categoriesSlice";
-import { useModal } from "../context/ModalContext";
+import { useModal } from "../context/AddProductModalContext";
 
 interface GroupedProductListProps {
     groupedProducts: Record<string, Product[]>;

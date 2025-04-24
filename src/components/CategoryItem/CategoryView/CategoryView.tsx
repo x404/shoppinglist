@@ -14,6 +14,7 @@ interface CategoryViewProps {
     categoryName: string;
     isHovered: boolean;
     handleOpenAddProductModal: () => void;
+    handleOpenAddCategoryModal: () => void;
     handleRenameCategory: () => void;
     handleSelectCategory: (event: React.MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
 }
@@ -26,6 +27,7 @@ const CategoryView = ({
                           categoryName,
                           isHovered,
                           handleOpenAddProductModal,
+                          handleOpenAddCategoryModal,
                           handleRenameCategory,
                           handleSelectCategory
                       }: CategoryViewProps) => {
@@ -52,6 +54,7 @@ const CategoryView = ({
                 <CategoryActionsDropdown
                     isVisible={isHovered}
                     onOpenAddProductModal={handleOpenAddProductModal}
+                    onOpenAddCategoryModal={handleOpenAddCategoryModal}
                     onRenameCategory={handleRenameCategory}
                 />
             )}

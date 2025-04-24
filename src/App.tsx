@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 // context
-import { ModalProvider, useModal } from "./context/ModalContext";
+import { AddProductModalProvider, useModal } from "./context/AddProductModalContext";
 
 // redux 
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,7 +58,7 @@ function ModalManager() {
 
 function App() {
     return (
-        <ModalProvider>
+        <AddProductModalProvider>
             <>
                 <SkipLink/>
                 <div className="d-md-grid wrapper min-vh-100">
@@ -70,7 +70,7 @@ function App() {
                 <GlobalTooltips/>
                 <ModalManager/>
             </>
-        </ModalProvider>
+        </AddProductModalProvider>
     )
 }
 

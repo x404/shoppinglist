@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 
-import { useModal } from "@context/ModalContext";
+import { useModal } from "@context/AddProductModalContext";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';

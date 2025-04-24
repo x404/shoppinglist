@@ -11,9 +11,9 @@ type ModalProviderProps = {
     children: ReactNode;
 };
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
+const AddProductModalContext = createContext<ModalContextType | undefined>(undefined);
 
-export const ModalProvider = ({ children }: ModalProviderProps) => {
+export const AddProductModalProvider = ({ children }: ModalProviderProps) => {
     const [isAddProductModalOpen, setModalOpen] = useState(false);
     const [currentCategoryId, setCurrentCategoryId] = useState<string | undefined>(undefined);
 
@@ -28,7 +28,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     }, []);
 
     return (
-        <ModalContext.Provider
+        <AddProductModalContext.Provider
             value={{
                 isAddProductModalOpen,
                 currentCategoryId,
@@ -37,12 +37,12 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
             }}
         >
             {children}
-        </ModalContext.Provider>
+        </AddProductModalContext.Provider>
     );
 };
 
 export const useModal = () => {
-    const context = useContext(ModalContext);
+    const context = useContext(AddProductModalContext);
     if (!context) {
         throw new Error('useModal must be used within a ModalProvider');
     }

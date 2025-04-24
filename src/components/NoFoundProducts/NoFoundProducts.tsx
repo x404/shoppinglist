@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 
-import { useModal } from "@context/ModalContext";
+import { useModal } from "@context/AddProductModalContext";
 
 // components
 import { CategoryHeader } from "../CategoryHeader/CategoryHeader";

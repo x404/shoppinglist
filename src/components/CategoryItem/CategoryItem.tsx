@@ -23,6 +23,7 @@ interface CategoryItem {
     isEditingCategory: boolean;
     onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
     onOpenAddProductModal: (categoryId?: string) => void;
+    onOpenAddCategoryModal: (categoryId?: string) => void;
     onRenameCategory: (categoryId?: string) => void;
     onSaveEditCategory: (category: Category) => void;
     onCancelEditCategory: () => void;
@@ -35,6 +36,7 @@ const CategoryItem = ({
                           isEditingCategory,
                           onSelectCategory,
                           onOpenAddProductModal,
+                          onOpenAddCategoryModal,
                           onRenameCategory,
                           onSaveEditCategory,
                           onCancelEditCategory,
@@ -57,6 +59,10 @@ const CategoryItem = ({
 
     const handleOpenAddProductModal = () => {
         onOpenAddProductModal(categoryId);
+    }
+    
+    const handleOpenAddCategoryModal = () => {
+        onOpenAddCategoryModal(categoryId);
     }
 
     const wrapperRef = useRef<HTMLLIElement | null>(null);
@@ -202,6 +208,7 @@ const CategoryItem = ({
                             categoryName={categoryName}
                             isHovered={isHovered}
                             handleOpenAddProductModal={handleOpenAddProductModal}
+                            handleOpenAddCategoryModal={handleOpenAddCategoryModal}
                             handleRenameCategory={handleRenameCategory}
                             handleSelectCategory={onSelectCategory}
                         />

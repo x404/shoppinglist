@@ -9,7 +9,7 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductItems } from '@store/productListSlice';
 import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editCategory } from "@store/categoriesSlice";
-import { useModal } from "@context/ModalContext";
+import { useModal } from "@context/AddProductModalContext";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
@@ -59,6 +59,13 @@ const Sidebar = () => {
         const id = categoryId ? categoryId : undefined;
         openAddProductModal(id)
     }
+
+    const handleOpenAddCategoryModal = (categoryId?: string) => {
+        const id = categoryId ? categoryId : undefined;
+        console.log('handleOpenAddCategoryModal')
+        // openAddCategoryModal(id)
+    }
+    
     
     const handleRenameCategory = (categoryId?: string) => {
         setEditingCategoryId(categoryId);
@@ -137,6 +144,7 @@ const Sidebar = () => {
                             isActive={activeCategoryId === category.id}
                             onSelectCategory={onSelectCategory}
                             onOpenAddProductModal={handleOpenAddProductModal}
+                            onOpenAddCategoryModal={handleOpenAddCategoryModal}
                             onRenameCategory={handleRenameCategory}
                             onSaveEditCategory={handleSaveEditCategory}
                             isEditingCategory={editingCategoryId === category.id}
