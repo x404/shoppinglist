@@ -102,6 +102,7 @@ const CategoryItem = ({
 
 
     const handleRenameCategory = () => {
+        setFormData({ name: categoryName });
         setIsHovered(false);
         onRenameCategory(categoryId);
     }

@@ -37,6 +37,12 @@ export const categoriesSlice = createSlice({
         deleteCategory: (state, action) => {
             console.log(action.payload, state);
         },
+        clearCategory: (state, action) => {
+            console.log(action.payload, state);
+        },
+        moveCategory: (state, action) => {
+            console.log(action.payload, state);
+        },
         setActiveCategory: (state, action: PayloadAction<string>) => {
             console.log('action.payload', action.payload);
             state.selectedCategoryId = action.payload;

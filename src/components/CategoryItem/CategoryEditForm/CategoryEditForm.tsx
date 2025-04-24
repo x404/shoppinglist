@@ -28,7 +28,7 @@ const CategoryEditForm = ({
     const [name, setName] = useState("");
 
     useEffect(() => {
-        const { name, } = formData;
+        const { name } = formData;
         setName(name);
     }, [formData.name]);
 
