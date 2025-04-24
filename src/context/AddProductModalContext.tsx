@@ -41,10 +41,10 @@ export const AddProductModalProvider = ({ children }: ModalProviderProps) => {
     );
 };
 
-export const useModal = () => {
+export const useAddProductModal = () => {
     const context = useContext(AddProductModalContext);
     if (!context) {
-        throw new Error('useModal must be used within a ModalProvider');
+        throw new Error('useAddProductModal must be used within a ModalProvider');
     }
     return context;
 };

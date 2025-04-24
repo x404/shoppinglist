@@ -23,10 +23,11 @@ export const categoriesSlice = createSlice({
     initialState,
     reducers: {
         addCategory: (state, action) => {
-            console.log(action.payload, state);
+            state.categories.push(action.payload);
+            syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
         },
         editCategory: (state, action) => {
-            const {id, name} = action.payload;
+            const { id, name } = action.payload;
             state.categories = state.categories.map(category =>
                 category.id === id
                     ? { ...category, name }
@@ -51,7 +52,7 @@ export const categoriesSlice = createSlice({
 })
 
 
-export const { setActiveCategory, editCategory } = categoriesSlice.actions;
+export const { setActiveCategory, addCategory, editCategory } = categoriesSlice.actions;
 export const selectActiveCategoryId = (state: { categories: CategoryListState }) => state.categories.selectedCategoryId;
 export const selectCategoriesItems = (state: { categories: CategoryListState }) => state.categories.categories;
 

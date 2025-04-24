@@ -78,6 +78,7 @@ const CategoryActionsDropdown = ({
                             <ActionItem
                                 icon={<FolderPlus size={16}/>}
                                 label="Category"
+                                disabled
                                 onClick={onOpenAddCategoryModal}
                             />
                             <ActionItem

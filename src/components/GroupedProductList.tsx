@@ -8,7 +8,7 @@ import { CategoryHeader } from "./CategoryHeader/CategoryHeader";
 import { Product } from "@/types/types";
 import { useSelector } from "react-redux";
 import { selectCategoriesItems } from "../store/categoriesSlice";
-import { useModal } from "../context/AddProductModalContext";
+import { useAddProductModal } from "../context/AddProductModalContext";
 
 interface GroupedProductListProps {
     groupedProducts: Record<string, Product[]>;
@@ -33,7 +33,7 @@ const GroupedProductList = memo(({
                                  }: GroupedProductListProps) => {
 
     const categoriesList = useSelector(selectCategoriesItems);
-    const { openAddProductModal } = useModal();
+    const { openAddProductModal } = useAddProductModal();
 
     const handleShowAddProductModal = (categoryId?: string) => {
         // const categoryId = activeCategoryId !== allCategoryId ? activeCategoryId : undefined;

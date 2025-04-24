@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 
-import { useModal } from "@context/AddProductModalContext";
+import { useAddProductModal } from "@context/AddProductModalContext";
 
 // components
 import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
@@ -28,7 +28,7 @@ const NoFoundProducts = ({
     if (products.length > 0) return null;
 
     const categoriesList = useSelector(selectCategoriesItems);
-    const { openAddProductModal } = useModal();
+    const { openAddProductModal } = useAddProductModal();
     
     const allCategoryId = ALL_CATEGORY_OBJECT.id;
     const handleShowAddProductModal = () => {

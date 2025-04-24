@@ -9,7 +9,8 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductItems } from '@store/productListSlice';
 import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editCategory } from "@store/categoriesSlice";
-import { useModal } from "@context/AddProductModalContext";
+import { useAddProductModal } from "@context/AddProductModalContext";
+import { useAddCategoryModal} from "@context/AddCategoryModalContext";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
@@ -53,7 +54,8 @@ const Sidebar = () => {
         dispatch(setActiveCategory(categoryId));
     }
 
-    const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategoryId } = useModal();
+    const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategoryId } = useAddProductModal();
+    const { openAddCategoryModal } = useAddCategoryModal();
 
     const handleOpenAddProductModal = (categoryId?: string) => {
         const id = categoryId ? categoryId : undefined;
@@ -62,8 +64,7 @@ const Sidebar = () => {
 
     const handleOpenAddCategoryModal = (categoryId?: string) => {
         const id = categoryId ? categoryId : undefined;
-        console.log('handleOpenAddCategoryModal')
-        // openAddCategoryModal(id)
+        openAddCategoryModal(id)
     }
     
     
@@ -108,7 +109,10 @@ const Sidebar = () => {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item as="button" className="disabled">
+                                <Dropdown.Item 
+                                    as="button"
+                                    onClick={() => handleOpenAddCategoryModal()}
+                                >
                                     <div className="d-flex">
                                         <div className={`${styles.icon} me-2`}>
                                             <FolderPlus size={16}/>

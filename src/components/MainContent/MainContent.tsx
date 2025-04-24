@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 
-import { useModal } from "@context/AddProductModalContext";
+import { useAddProductModal } from "@context/AddProductModalContext";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,7 +32,7 @@ import { Product } from "@/types/types";
 
 const MainContent = () => {
     const dispatch = useDispatch();
-    const { openAddProductModal } = useModal();
+    const { openAddProductModal } = useAddProductModal();
 
     const productList = useSelector(selectProductItems);
     const activeCategoryId = useSelector(selectActiveCategoryId);
