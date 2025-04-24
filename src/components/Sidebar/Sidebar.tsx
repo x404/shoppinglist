@@ -1,4 +1,4 @@
-import { MouseEvent, useContext, useMemo } from "react";
+import { MouseEvent, useCallback, useContext, useMemo, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
@@ -17,7 +17,8 @@ import styles from "./Sidebar.module.css";
 // interfaces
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 import { useModal } from "@context/ModalContext";
-import { getNamesCategories } from "../../helpers/getNamesCategories";
+import { Category } from "../../types/types";
+import { editCategory } from "../../store/categoriesSlice";
 
 
 const Sidebar = () => {
@@ -28,7 +29,8 @@ const Sidebar = () => {
     const activeCategoryId = useSelector(selectActiveCategoryId);
     const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
 
-
+    const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
+    
     const getCategoryCountById = (id: string): number => {
         return id === ALL_CATEGORY_OBJECT.id
             ? productList.length
@@ -57,6 +59,23 @@ const Sidebar = () => {
         const id = categoryId ? categoryId : undefined;
         openAddProductModal(id)
     }
+    
+    const handleRenameCategory = (categoryId?: string) => {
+        setEditingCategoryId(categoryId);
+    }
+    
+
+    const handleSaveEditCategory = useCallback((category: Category) => {
+        // console.log('upd category', category);
+        dispatch(editCategory(category));
+        resetStates();
+    }, []);
+
+
+    const resetStates = () => {
+        setEditingCategoryId(undefined);
+    };
+    
 
     return (
         <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 shadow-sm z-1`}>
@@ -106,22 +125,6 @@ const Sidebar = () => {
                 </div>
 
                 <ul className="list-unstyled menu">
-                    {/*<li className={`${styles.menuItem}  d-flex align-items-center mt-1 px-2 position-relative`}>*/}
-                    {/*    <a href={`#`}*/}
-                    {/*       className={`${styles.sidebarLink} flex-grow-1 ps-2`}*/}
-                    {/*       title=""*/}
-                    {/*       onClick={(event) => onSelectCategory(event, 'all')}*/}
-                    {/*    >*/}
-                    {/*        All*/}
-                    {/*    </a>*/}
-                    {/*    <div*/}
-                    {/*        className={`${styles.counter} d-flex align-items-center justify-content-center p-1`}*/}
-                    {/*        aria-label={`${categoryCounts['all']} items`}*/}
-                    {/*    >*/}
-                    {/*        {categoryCounts['all']}*/}
-                    {/*    </div>*/}
-                    {/*</li>*/}
-                    
                     {categories.map((category) => (
                         <CategoryItem
                             key={category.id}
@@ -131,6 +134,9 @@ const Sidebar = () => {
                             onSelectCategory={onSelectCategory}
                             allCategory={ALL_CATEGORY_OBJECT.name}
                             onOpenAddProductModal={handleOpenAddProductModal}
+                            onRenameCategory={handleRenameCategory}
+                            onSaveEditCategory={handleSaveEditCategory}
+                            isEditingCategory={editingCategoryId === category.id}
                         />
                     ))}
                 </ul>

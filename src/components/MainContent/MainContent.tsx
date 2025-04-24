@@ -38,7 +38,7 @@ const MainContent = () => {
     const activeCategoryId = useSelector(selectActiveCategoryId);
     // const categoriesList = useSelector(selectCategoriesItems);
 
-    const [editingProductId, setEditingProductId] = useState<string | null>(null);
+    const [editingProductId, setEditingProductId] = useState<string | undefined>(undefined);
 
     const filteredProducts = useMemo(() => {
         return activeCategoryId === ALL_CATEGORY_OBJECT.id
@@ -51,7 +51,7 @@ const MainContent = () => {
     }, [filteredProducts]);
 
     useEffect(() => {
-        setEditingProductId(null);
+        setEditingProductId(undefined);
     }, [activeCategoryId]);
 
 
@@ -84,7 +84,7 @@ const MainContent = () => {
     }, []);
 
     const resetStates = () => {
-        setEditingProductId(null);
+        setEditingProductId(undefined);
     };
 
 

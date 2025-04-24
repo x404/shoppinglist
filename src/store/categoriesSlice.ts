@@ -7,6 +7,7 @@ import { CategoryListState, Category } from "@/types/types";
 // constants
 import { DEFAULT_CATEGORIES } from "@constants/categories";
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
+import { syncWithLocalStorage } from "../helpers/syncWithLocalStorage";
 
 
 const LOCAL_STORAGE_CATEGORY_KEY = "categories";
@@ -25,7 +26,13 @@ export const categoriesSlice = createSlice({
             console.log(action.payload, state);
         },
         editCategory: (state, action) => {
-            console.log(action.payload, state);
+            const {id, name} = action.payload;
+            state.categories = state.categories.map(category =>
+                category.id === id
+                    ? { ...category, name }
+                    : category
+            );
+            syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
         },
         deleteCategory: (state, action) => {
             console.log(action.payload, state);
@@ -38,7 +45,7 @@ export const categoriesSlice = createSlice({
 })
 
 
-export const { setActiveCategory } = categoriesSlice.actions;
+export const { setActiveCategory, editCategory } = categoriesSlice.actions;
 export const selectActiveCategoryId = (state: { categories: CategoryListState }) => state.categories.selectedCategoryId;
 export const selectCategoriesItems = (state: { categories: CategoryListState }) => state.categories.categories;
 

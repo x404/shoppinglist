@@ -12,7 +12,7 @@ import { useModal } from "../context/ModalContext";
 
 interface GroupedProductListProps {
     groupedProducts: Record<string, Product[]>;
-    editingProductId: string | null;
+    editingProductId: string | undefined;
     activeCategoryId: string;
     onEditProduct: (id: string) => void;
     onDeleteProduct: (id: string) => void;
@@ -63,7 +63,7 @@ const GroupedProductList = memo(({
                                 <ProductItem
                                     key={product.id}
                                     product={product}
-                                    isEditing={editingProductId === product.id}
+                                    isEditingProduct={editingProductId === product.id}
                                     categoriesList={categoriesList}
                                     onEditProduct={onEditProduct}
                                     onDeleteProduct={onDeleteProduct}

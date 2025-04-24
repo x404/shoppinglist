@@ -1,9 +1,10 @@
 import { Button, Form } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState } from "react";
 
+import { CheckLg, X } from "react-bootstrap-icons";
+
 // styles
 import styles from "./../ProductItem.module.css";
-import { CheckLg, X } from "react-bootstrap-icons";
 
 // interfaces
 import { Category } from "@/types/types";

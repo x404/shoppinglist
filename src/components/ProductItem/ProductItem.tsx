@@ -17,7 +17,7 @@ import { Category } from "../../types/types";
 
 interface ProductItemProps {
     product: Product;
-    isEditing: boolean;
+    isEditingProduct: boolean;
     onEditProduct: (productId: string) => void;
     onDeleteProduct: (productId: string) => void;
     onTogglePurchasedProduct: (productId: string) => void;
@@ -29,7 +29,7 @@ interface ProductItemProps {
 
 const ProductItem = memo(({
                               product,
-                              isEditing,
+                              isEditingProduct,
                               onEditProduct,
                               onDeleteProduct,
                               onTogglePurchasedProduct,
@@ -53,7 +53,7 @@ const ProductItem = memo(({
     // ESC press and exit from edit mode
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape' && isEditing) {
+            if (event.key === 'Escape' && isEditingProduct) {
                 handleCancel();
                 focusEditInput();
             }
@@ -64,7 +64,7 @@ const ProductItem = memo(({
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [isEditing]);
+    }, [isEditingProduct]);
 
 
     const handleTogglePurchased = useCallback(() => {
@@ -159,10 +159,10 @@ const ProductItem = memo(({
     return (
         <>
             <li
-                className={`list-group-item ${styles.productItem} ${isEditing ? styles.active : ''}`}
+                className={`list-group-item ${styles.productItem} ${isEditingProduct ? styles.active : ''}`}
             >
 
-                {isEditing ? (
+                {isEditingProduct ? (
                     <>
                         <ProductEditForm
                             formData={formData}
