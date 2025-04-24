@@ -49,8 +49,10 @@ const ProductItem = memo(({
     const nameInputRef = useRef<HTMLInputElement>(null);
     const editButtonRef = useRef<HTMLButtonElement>(null);
 
+    const wrapperRef = useRef<HTMLLIElement | null>(null);
 
-    // ESC press and exit from edit mode
+
+    // ESC press, or focus out and exit from edit mode
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape' && isEditingProduct) {
@@ -59,13 +61,34 @@ const ProductItem = memo(({
             }
         };
 
+        const handleClickOutside = (event: globalThis.MouseEvent) => {
+            if (isEditingProduct && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+                handleCancel();
+            }
+        };
+
+        const handleFocusOut = (event: FocusEvent) => {
+            if (
+                isEditingProduct &&
+                wrapperRef.current &&
+                event.relatedTarget && 
+                !wrapperRef.current.contains(event.relatedTarget as Node)
+            ) {
+                handleCancel();
+            }
+        };
+
         window.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('mousedown', handleClickOutside);
+        wrapperRef.current?.addEventListener('focusout', handleFocusOut);
 
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('mousedown', handleClickOutside);
+            wrapperRef.current?.removeEventListener('focusout', handleFocusOut);
         };
     }, [isEditingProduct]);
-
+    
 
     const handleTogglePurchased = useCallback(() => {
         onTogglePurchasedProduct(product.id);
@@ -158,12 +181,12 @@ const ProductItem = memo(({
 
     return (
         <>
-            <li
-                className={`list-group-item ${styles.productItem} ${isEditingProduct ? styles.active : ''}`}
-            >
-
-                {isEditingProduct ? (
-                    <>
+            {isEditingProduct ? (
+                <>
+                    <li
+                        className={`list-group-item ${styles.productItem} ${isEditingProduct ? styles.active : ''}`}
+                        ref={wrapperRef}
+                    >
                         <ProductEditForm
                             formData={formData}
                             validated={validated}
@@ -173,9 +196,13 @@ const ProductItem = memo(({
                             onSubmit={handleSubmit}
                             onCancel={handleCancel}
                         />
-                    </>
-                ) : (
-                    <>
+                    </li>
+                </>
+            ) : (
+                <>
+                    <li
+                        className={`list-group-item ${styles.productItem} ${isEditingProduct ? styles.active : ''}`}
+                    >
                         <ProductView
                             product={product}
                             editButtonRef={editButtonRef}
@@ -183,9 +210,10 @@ const ProductItem = memo(({
                             onEditProduct={handleEditProduct}
                             onDeleteProduct={handleDeleteProduct}
                         />
-                    </>
-                )}
-            </li>
+                    </li>
+                </>
+            )}
+
         </>
     )
 })

@@ -38,7 +38,6 @@ const CategoryItem = ({
                       }: CategoryItem) => {
     const { id: categoryId, name } = category;
 
-    // const { openAddProductModal } = useModal();
     const activeClass = isActive ? styles.active : '';
     const allCategoryHighlightClass = name === allCategory ? 'fw-bold text-uppercase' : '';
     const allCategoryClass = name === allCategory ? styles.menuAllItem : '';
@@ -58,36 +57,45 @@ const CategoryItem = ({
     const wrapperRef = useRef<HTMLLIElement | null>(null);
 
     // ESC press and exit from edit mode
+
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape' && isEditingCategory) {
                 handleCancel();
-                // focusEditInput();
+                focusCategory();
             }
         };
 
-        window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [isEditingCategory]);
-
-    useEffect(() => {
         const handleClickOutside = (event: globalThis.MouseEvent) => {
             if (isEditingCategory && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+                handleCancel();
+                focusCategory();
+            }
+        };
+
+        const handleFocusOut = (event: FocusEvent) => {
+            if (
+                isEditingCategory &&
+                wrapperRef.current &&
+                event.relatedTarget &&
+                !wrapperRef.current.contains(event.relatedTarget as Node)
+            ) {
                 handleCancel();
             }
         };
 
+        window.addEventListener('keydown', handleKeyDown);
         document.addEventListener('mousedown', handleClickOutside);
+        wrapperRef.current?.addEventListener('focusout', handleFocusOut);
 
         return () => {
+            window.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('mousedown', handleClickOutside);
+            wrapperRef.current?.removeEventListener('focusout', handleFocusOut);
         };
     }, [isEditingCategory]);
-
-
+    
+    
     const handleRenameCategory = () => {
         setIsHovered(false);
         onRenameCategory(categoryId);
@@ -100,7 +108,6 @@ const CategoryItem = ({
 
         const form = event.currentTarget;
 
-        // console.log(form)
         if (!isFormValid(form)) {
             handleInvalidForm();
             return;
@@ -157,7 +164,6 @@ const CategoryItem = ({
 
     const handleCancel = () => {
         onCancelEditCategory();
-        focusCategory();
     };
 
 
