@@ -14,7 +14,7 @@ const LOCAL_STORAGE_CATEGORY_KEY = "categories";
 const storedCategories = LocalStorageService.get<Category[]>(LOCAL_STORAGE_CATEGORY_KEY);
 
 const initialState: CategoryListState = {
-    categories: Array.isArray(storedCategories) ? storedCategories : DEFAULT_CATEGORIES,
+    categories: Array.isArray(storedCategories) ? storedCategories : [],
     selectedCategoryId: ALL_CATEGORY_OBJECT.id
 }
 
@@ -45,7 +45,6 @@ export const categoriesSlice = createSlice({
             console.log(action.payload, state);
         },
         setActiveCategory: (state, action: PayloadAction<string>) => {
-            console.log('action.payload', action.payload);
             state.selectedCategoryId = action.payload;
         }
     }

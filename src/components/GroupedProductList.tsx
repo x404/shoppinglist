@@ -21,7 +21,7 @@ interface GroupedProductListProps {
     onSaveEditProduct: (product: Product) => void;
 }
 
-const GroupedProductList = memo(({
+const GroupedProductList = ({
                                      groupedProducts,
                                      editingProductId,
                                      activeCategoryId,
@@ -78,6 +78,6 @@ const GroupedProductList = memo(({
             })}
         </>
     );
-});
+};
 
 export default GroupedProductList;

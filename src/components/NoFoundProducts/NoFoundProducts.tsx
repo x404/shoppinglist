@@ -13,6 +13,7 @@ import { Product } from "@/types/types";
 import { useSelector } from "react-redux";
 import { selectCategoriesItems } from "../../store/categoriesSlice";
 import { getCategoryNameById } from "../../helpers/getCategoryNameById";
+import { useMemo } from "react";
 
 interface NoFoundProductsProps {
     products: Product[];
@@ -21,14 +22,13 @@ interface NoFoundProductsProps {
 }
 
 const NoFoundProducts = ({
-                             products,
                              activeCategoryId,
                              onCancelEditProduct
                          }: NoFoundProductsProps) => {
-    if (products.length > 0) return null;
-
     const categoriesList = useSelector(selectCategoriesItems);
     const { openAddProductModal } = useAddProductModal();
+    
+    // if (products.length > 0) return null;
     
     const allCategoryId = ALL_CATEGORY_OBJECT.id;
     const handleShowAddProductModal = () => {
@@ -36,8 +36,11 @@ const NoFoundProducts = ({
         openAddProductModal(categoryId);
     };
 
-    const categoryName = getCategoryNameById(categoriesList, activeCategoryId) || ALL_CATEGORY_OBJECT.name;
+    const categoryName = useMemo(() => (
+        getCategoryNameById(categoriesList, activeCategoryId) || ALL_CATEGORY_OBJECT.name
+    ), [categoriesList, activeCategoryId]);
 
+    
     return (
         <>
             <article className="mb-2">
@@ -47,7 +50,8 @@ const NoFoundProducts = ({
                     activeCategoryId={activeCategoryId}
                     categoryName={categoryName}
 
-                    onCancelEditProduct={onCancelEditProduct ?? (() => {})}
+                    onCancelEditProduct={onCancelEditProduct ?? (() => {
+                    })}
                     onShowAddProductModal={handleShowAddProductModal}
                 />
                 <p>No products found</p>

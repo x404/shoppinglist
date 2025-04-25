@@ -11,7 +11,7 @@ import { Category } from "@/types/types";
 
 interface AddCategoryModalProps {
     categoriesList: Category[];
-    currentCategoryId: string | undefined;
+    parentCategoryId: string | undefined;
     isShowModal: boolean;
     onCloseModal: () => void;
     onAddCategory: (category: Category) => void;
@@ -19,17 +19,17 @@ interface AddCategoryModalProps {
 
 const AddCategoryModal = ({
                              categoriesList,
-                             currentCategoryId,
+                             parentCategoryId,
                              isShowModal,
                              onCloseModal,
                              onAddCategory
                          }: AddCategoryModalProps) => {
     const [name, setName] = useState<string>('');
-    const [categoryId, setCategoryId] = useState<string>(currentCategoryId || '');
+    const [categoryId, setCategoryId] = useState<string>(parentCategoryId || '');
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
-    const hasInitialCategory = !!currentCategoryId;
+    const hasInitialCategory = !!parentCategoryId;
 
 
     useEffect(() => {
@@ -42,14 +42,14 @@ const AddCategoryModal = ({
 
 
     useEffect(() => {
-        if (currentCategoryId && categoriesList.find(category => category.id === currentCategoryId)) {
-            setCategoryId(currentCategoryId);
+        if (parentCategoryId && categoriesList.find(category => category.id === parentCategoryId)) {
+            setCategoryId(parentCategoryId);
         }
-    }, [currentCategoryId, categoriesList]);
+    }, [parentCategoryId, categoriesList]);
 
 
-    const categoryName = currentCategoryId
-        ? getCategoryNameById(categoriesList, currentCategoryId)
+    const categoryName = parentCategoryId
+        ? getCategoryNameById(categoriesList, parentCategoryId)
         : '';
     
     

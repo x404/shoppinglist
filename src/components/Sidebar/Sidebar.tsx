@@ -46,7 +46,7 @@ const Sidebar = () => {
         });
         
         return counts;
-    }, [productList]);
+    }, [productList, categoriesList]);
 
     
     const onSelectCategory = (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => {

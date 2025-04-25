@@ -50,9 +50,9 @@ const MainContent = () => {
         return groupProductsByCategoryId(filteredProducts);
     }, [filteredProducts]);
 
-    useEffect(() => {
-        setEditingProductId(undefined);
-    }, [activeCategoryId]);
+    // useEffect(() => {
+    //     setEditingProductId(undefined);
+    // }, [activeCategoryId]);
 
 
     // CRUD
@@ -86,19 +86,20 @@ const MainContent = () => {
     const resetStates = () => {
         setEditingProductId(undefined);
     };
-
-
-    // TODO:  categoryId={activeCategoryId}  activeCategoryId={activeCategoryId}
+    
     return (
         <>
             <main className={`${styles.main} p-3`} id="main">
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
-                    
-                    <NoFoundProducts
-                        products={filteredProducts}
-                        activeCategoryId={activeCategoryId}
-                    />
+
+                    {filteredProducts.length === 0 && (
+                        <NoFoundProducts
+                            products={filteredProducts}
+                            activeCategoryId={activeCategoryId}
+                        />                        
+                    )} 
+
 
                     {filteredProducts.length > 0 && (
                         <>

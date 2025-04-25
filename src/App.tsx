@@ -4,11 +4,12 @@ import './App.css';
 
 // context
 import { AddProductModalProvider, useAddProductModal } from "./context/AddProductModalContext";
+import { AddCategoryModalProvider, useAddCategoryModal } from "@context/AddCategoryModalContext";
 
 // redux 
 import { useDispatch, useSelector } from 'react-redux';
-import { addCategory, selectCategoriesItems } from "./store/categoriesSlice";
-
+import { addProduct } from "@store/productListSlice";
+import { addCategory, selectCategoriesItems } from "@store/categoriesSlice";
 
 // components
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -17,12 +18,12 @@ import SkipLink from "./components/SkipLink/SkipLink";
 import AppHeader from "./components/AppHeader/AppHeader";
 import GlobalTooltips from "./components/GlobalTooltips/GlobalTooltips";
 import AddProductModal from "./components/AddProductModal/AddProductModal";
+import AddCatalogModal from "./components/AddCategoryModal/AddCategoryModal";
 
 
 // interfaces
 import { Category, Product } from "./types/types";
-import { AddCategoryModalProvider, useAddCategoryModal } from "./context/AddCategoryModalContext";
-import AddCatalogModal from "./components/AddCategoryModal/AddCategoryModal";
+
 
 
 const AddProductModalManager = () => {
@@ -36,7 +37,7 @@ const AddProductModalManager = () => {
 
     // CRUD
     const handleAddProduct = useCallback((product: Product) => {
-        dispatch(addCategory(product));
+        dispatch(addProduct(product));
         closeAddProductModal();
     }, []);
 
@@ -56,7 +57,7 @@ const AddCategoryModalManager = () => {
     const categoriesList = useSelector(selectCategoriesItems);
     const {
         isAddCategoryModalOpen,
-        currentCategoryId,
+        parentCategoryId,
         closeAddCategoryModal
     } = useAddCategoryModal();
 
@@ -69,7 +70,7 @@ const AddCategoryModalManager = () => {
     return (
         <AddCatalogModal
             categoriesList={categoriesList}
-            currentCategoryId={currentCategoryId}
+            parentCategoryId={parentCategoryId}
             isShowModal={isAddCategoryModalOpen}
             onCloseModal={closeAddCategoryModal}
             onAddCategory={handleAddCategory}
