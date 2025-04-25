@@ -8,6 +8,7 @@ import styles from "./../ProductItem.module.css";
 
 // interfaces
 import { Category } from "@/types/types";
+
 interface ProductFormData {
     name: string;
     quantity: number;
@@ -56,10 +57,9 @@ const ProductEditForm = ({
         [onInputChange]
     );
 
-    const handleQuantityChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => onInputChange(e),
-        [onInputChange]
-    );
+    const handleQuantityChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        onInputChange(e)
+    }, [onInputChange]);
 
     const handleCategoryChange = useCallback(
         (e: ChangeEvent<HTMLSelectElement>) => {
@@ -99,7 +99,7 @@ const ProductEditForm = ({
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className={`${styles.counter} flex-shrink-0`} controlId="validationCustom02">
+                    <Form.Group className={`${styles.counter} flex-shrink-0`} controlId="validationQuantity">
                         <Form.Label className="visually-hidden">Quantity</Form.Label>
                         <Form.Control
                             name="quantity"

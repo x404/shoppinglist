@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
 
 // helpers
-import { isSameProduct } from "@helpers/isSameProduct";
+import { isSameProduct } from "@helpers/isSameProductHelpers";
 
 // components
 import ProductEditForm from "./ProductEditForm/ProductEditForm";
@@ -13,6 +13,7 @@ import styles from "./ProductItem.module.css";
 // interfaces
 import { Product } from "@/types/types";
 import { Category } from "../../types/types";
+import { validateQuantity } from "../../helpers/quantityHelpers";
 
 
 interface ProductItemProps {
@@ -167,10 +168,20 @@ const ProductItem = memo(({
 
     const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: name === 'quantity' ? Math.max(1, parseInt(value as string) || 1) : value
-        }));
+
+        const quantity = validateQuantity(event.target.value, {
+            maxLength: 5,
+            min: 1
+        });
+
+        if (quantity !== null) {
+            setFormData(prev => ({
+                ...prev,
+                [name]: name === 'quantity' ? quantity : value
+            }));
+        }
+        
+
     }, []);
 
     const handleCancel = () => {

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // helpers
 import { getCategoryNameById } from "@helpers/getCategoryNameById";
+import { validateQuantity } from "@helpers/quantityHelpers";
 
 // interfaces
 import { Product, Category } from "@/types/types";
@@ -51,8 +52,8 @@ const AddProductModal = ({
     const categoryName = currentCategoryId
         ? getCategoryNameById(categoriesList, currentCategoryId)
         : '';
-    
-    
+
+
     const handleClose = useCallback(() => {
         resetForm();
         onCloseModal();
@@ -121,8 +122,14 @@ const AddProductModal = ({
     }, []);
 
     const handleQuantityChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        const val = Math.max(1, parseInt(event.target.value) || 1);
-        setQuantity(val);
+        const quantity = validateQuantity(event.target.value, {
+            maxLength: 5,
+            min: 1
+        });
+
+        if (quantity !== null) {
+            setQuantity(quantity);
+        }
     }, []);
 
     const changeCategory = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
@@ -171,6 +178,7 @@ const AddProductModal = ({
                                 type="number"
                                 onChange={handleQuantityChange}
                                 min="1"
+                                max="10000"
                                 value={quantity}
                             />
                         </Form.Group>

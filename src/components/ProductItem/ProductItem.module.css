@@ -1,5 +1,5 @@
 .itemTitle {
-    width: calc(100vw - 275px);
+    width: calc(100vw - 283px);
     overflow: hidden;
     text-overflow: ellipsis;
     text-wrap: nowrap;
