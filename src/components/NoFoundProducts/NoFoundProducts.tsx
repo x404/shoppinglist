@@ -1,42 +1,61 @@
 import { Button } from "react-bootstrap";
 
-import { useModal } from "@context/ModalContext";
+import { useAddProductModal } from "@context/AddProductModalContext";
 
 // components
 import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 
 // constants
-import { ALL_CATEGORY_NAME } from "@constants/categories";
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "@/types/types";
+import { useSelector } from "react-redux";
+import { selectCategoriesItems } from "../../store/categoriesSlice";
+import { getCategoryNameById } from "../../helpers/getCategoryNameById";
+import { useMemo } from "react";
 
 interface NoFoundProductsProps {
     products: Product[];
-    activeCategory: string;
+    activeCategoryId: string;
+    onCancelEditProduct?: () => void;
 }
 
-
-const NoFoundProducts = ({ products, activeCategory }: NoFoundProductsProps) => {
-    if (products.length > 0) return;
-
-    const { openAddProductModal } = useModal();
+const NoFoundProducts = ({
+                             activeCategoryId,
+                             onCancelEditProduct
+                         }: NoFoundProductsProps) => {
+    const categoriesList = useSelector(selectCategoriesItems);
+    const { openAddProductModal } = useAddProductModal();
     
-    const handleAddProduct = () => {
-        const category = activeCategory !== ALL_CATEGORY_NAME ? activeCategory : undefined;
-        openAddProductModal(category);
+    // if (products.length > 0) return null;
+    
+    const allCategoryId = ALL_CATEGORY_OBJECT.id;
+    const handleShowAddProductModal = () => {
+        const categoryId = activeCategoryId !== allCategoryId ? activeCategoryId : undefined;
+        openAddProductModal(categoryId);
     };
+
+    const categoryName = useMemo(() => (
+        getCategoryNameById(categoriesList, activeCategoryId) || ALL_CATEGORY_OBJECT.name
+    ), [categoriesList, activeCategoryId]);
+
     
     return (
         <>
             <article className="mb-2">
                 <CategoryHeader
-                    category={activeCategory}
                     counter={0}
-                    activeCategory={activeCategory}
+
+                    activeCategoryId={activeCategoryId}
+                    categoryName={categoryName}
+
+                    onCancelEditProduct={onCancelEditProduct ?? (() => {
+                    })}
+                    onShowAddProductModal={handleShowAddProductModal}
                 />
                 <p>No products found</p>
-                <Button variant="dark" onClick={handleAddProduct}>Add first product</Button>
+                <Button variant="dark" onClick={handleShowAddProductModal}>Add first product</Button>
             </article>
         </>
     );

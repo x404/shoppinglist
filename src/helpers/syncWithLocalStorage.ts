@@ -1,10 +1,10 @@
-import { Product } from "../types/types";
+import { Product, Category } from "../types/types";
 import { LocalStorageService } from "../services/LocalStorageService";
 
-export const syncWithLocalStorage = (key: string, productList: Product[]): void => {
+export const syncWithLocalStorage = (key: string, data: Product[] | Category[]): void => {
     try {
-        if (Array.isArray(productList)) {
-            LocalStorageService.set(key, productList);
+        if (Array.isArray(data)) {
+            LocalStorageService.set(key, data);
         }
     } catch (error) {
         console.error("Error saving to localStorage:", error);

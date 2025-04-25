@@ -12,23 +12,24 @@ import styles from "./ProductItem.module.css";
 
 // interfaces
 import { Product } from "@/types/types";
+import { Category } from "../../types/types";
 
 
 interface ProductItemProps {
     product: Product;
-    isEditing: boolean;
+    isEditingProduct: boolean;
     onEditProduct: (productId: string) => void;
     onDeleteProduct: (productId: string) => void;
     onTogglePurchasedProduct: (productId: string) => void;
     onCancelEditProduct: () => void;
     onSaveEditProduct: (product: Product) => void;
-    categoriesList: string[];
+    categoriesList: Category[];
 }
 
 
 const ProductItem = memo(({
                               product,
-                              isEditing,
+                              isEditingProduct,
                               onEditProduct,
                               onDeleteProduct,
                               onTogglePurchasedProduct,
@@ -42,35 +43,58 @@ const ProductItem = memo(({
     const [formData, setFormData] = useState({
         name: product.name,
         quantity: product.quantity,
-        category: product.category,
+        categoryId: product.categoryId,
     });
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const editButtonRef = useRef<HTMLButtonElement>(null);
 
+    const wrapperRef = useRef<HTMLLIElement | null>(null);
 
-    // ESC press and exit from edit mode
+
+    // ESC press, or focus out and exit from edit mode
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape' && isEditing) {
+            if (event.key === 'Escape' && isEditingProduct) {
                 handleCancel();
                 focusEditInput();
             }
         };
 
+        const handleClickOutside = (event: globalThis.MouseEvent) => {
+            if (isEditingProduct && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+                handleCancel();
+            }
+        };
+
+        const handleFocusOut = (event: FocusEvent) => {
+            if (
+                isEditingProduct &&
+                wrapperRef.current &&
+                event.relatedTarget && 
+                !wrapperRef.current.contains(event.relatedTarget as Node)
+            ) {
+                handleCancel();
+            }
+        };
+
         window.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('mousedown', handleClickOutside);
+        wrapperRef.current?.addEventListener('focusout', handleFocusOut);
 
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('mousedown', handleClickOutside);
+            wrapperRef.current?.removeEventListener('focusout', handleFocusOut);
         };
-    }, [isEditing]);
+    }, [isEditingProduct]);
     
 
     const handleTogglePurchased = useCallback(() => {
         onTogglePurchasedProduct(product.id);
     }, []);
 
-    const handleEditProduct = useCallback( () => {
+    const handleEditProduct = useCallback(() => {
         if (product.id) {
             onEditProduct(product.id);
         }
@@ -80,7 +104,7 @@ const ProductItem = memo(({
         onDeleteProduct(product.id);
         onCancelEditProduct();
     }, []);
-    
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -116,14 +140,14 @@ const ProductItem = memo(({
         }, 100);
     }, []);
 
-    
+
     const saveProduct = () => {
         const updatedProduct = {
             ...product,
             ...formData,
         }
 
-        if (isSameProduct(product, updatedProduct) ){
+        if (isSameProduct(product, updatedProduct)) {
             onCancelEditProduct();
             return;
         }
@@ -132,13 +156,13 @@ const ProductItem = memo(({
     };
 
     const resetForm = useCallback(() => {
-        const {name, quantity, category} = product;
+        const { name, quantity, categoryId } = product;
         setFormData({
             name,
             quantity,
-            category
+            categoryId
         })
-    }, [product.name, product.quantity, product.category]);
+    }, [product.name, product.quantity, product.categoryId]);
 
 
     const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -148,7 +172,7 @@ const ProductItem = memo(({
             [name]: name === 'quantity' ? Math.max(1, parseInt(value as string) || 1) : value
         }));
     }, []);
-    
+
     const handleCancel = () => {
         resetForm();
         onCancelEditProduct();
@@ -157,12 +181,12 @@ const ProductItem = memo(({
 
     return (
         <>
-            <li
-                className={`list-group-item ${styles.productItem} ${isEditing ? styles.active : ''}`}
-            >
-
-                {isEditing ? (
-                    <>
+            {isEditingProduct ? (
+                <>
+                    <li
+                        className={`list-group-item ${styles.productItem} ${isEditingProduct ? styles.active : ''}`}
+                        ref={wrapperRef}
+                    >
                         <ProductEditForm
                             formData={formData}
                             validated={validated}
@@ -172,9 +196,13 @@ const ProductItem = memo(({
                             onSubmit={handleSubmit}
                             onCancel={handleCancel}
                         />
-                    </>
-                ) : (
-                    <>
+                    </li>
+                </>
+            ) : (
+                <>
+                    <li
+                        className={`list-group-item ${styles.productItem} ${isEditingProduct ? styles.active : ''}`}
+                    >
                         <ProductView
                             product={product}
                             editButtonRef={editButtonRef}
@@ -182,9 +210,10 @@ const ProductItem = memo(({
                             onEditProduct={handleEditProduct}
                             onDeleteProduct={handleDeleteProduct}
                         />
-                    </>
-                )}
-            </li>
+                    </li>
+                </>
+            )}
+
         </>
     )
 })

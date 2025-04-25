@@ -1,5 +1,15 @@
+import { useCallback } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
+// context
+import { AddProductModalProvider, useAddProductModal } from "./context/AddProductModalContext";
+import { AddCategoryModalProvider, useAddCategoryModal } from "@context/AddCategoryModalContext";
+
+// redux 
+import { useDispatch, useSelector } from 'react-redux';
+import { addProduct } from "@store/productListSlice";
+import { addCategory, selectCategoriesItems } from "@store/categoriesSlice";
 
 // components
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -8,26 +18,22 @@ import SkipLink from "./components/SkipLink/SkipLink";
 import AppHeader from "./components/AppHeader/AppHeader";
 import GlobalTooltips from "./components/GlobalTooltips/GlobalTooltips";
 import AddProductModal from "./components/AddProductModal/AddProductModal";
-
-// context
-import { ModalProvider, useModal } from "./context/ModalContext";
-
-// redux 
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCategoriesItems } from "./store/categoriesSlice";
-import { addProduct } from "./store/productListSlice";
-import { useCallback } from "react";
-import { Product } from "./types/types";
+import AddCatalogModal from "./components/AddCategoryModal/AddCategoryModal";
 
 
-function ModalManager() {
+// interfaces
+import { Category, Product } from "./types/types";
+
+
+
+const AddProductModalManager = () => {
     const dispatch = useDispatch();
     const categoriesList = useSelector(selectCategoriesItems);
     const {
         isAddProductModalOpen,
-        currentCategory,
+        currentCategoryId,
         closeAddProductModal
-    } = useModal();
+    } = useAddProductModal();
 
     // CRUD
     const handleAddProduct = useCallback((product: Product) => {
@@ -38,7 +44,7 @@ function ModalManager() {
     return (
         <AddProductModal
             categoriesList={categoriesList}
-            currentCategory={currentCategory}
+            currentCategoryId={currentCategoryId}
             isShowModal={isAddProductModalOpen}
             onCloseModal={closeAddProductModal}
             onAddProduct={handleAddProduct}
@@ -46,21 +52,50 @@ function ModalManager() {
     );
 }
 
+const AddCategoryModalManager = () => {
+    const dispatch = useDispatch();
+    const categoriesList = useSelector(selectCategoriesItems);
+    const {
+        isAddCategoryModalOpen,
+        parentCategoryId,
+        closeAddCategoryModal
+    } = useAddCategoryModal();
+
+    // CRUD
+    const handleAddCategory = useCallback((catalog: Category) => {
+        dispatch(addCategory(catalog));
+        closeAddCategoryModal();
+    }, []);
+
+    return (
+        <AddCatalogModal
+            categoriesList={categoriesList}
+            parentCategoryId={parentCategoryId}
+            isShowModal={isAddCategoryModalOpen}
+            onCloseModal={closeAddCategoryModal}
+            onAddCategory={handleAddCategory}
+        />
+    );
+}
+
 function App() {
     return (
-        <ModalProvider>
-            <>
-                <SkipLink/>
-                <div className="d-md-grid wrapper min-vh-100">
-                    <AppHeader/>
-                    <Sidebar/>
-                    <MainContent/>
-                </div>
+        <AddProductModalProvider>
+            <AddCategoryModalProvider>
+                <>
+                    <SkipLink/>
+                    <div className="d-md-grid wrapper min-vh-100">
+                        <AppHeader/>
+                        <Sidebar/>
+                        <MainContent/>
+                    </div>
 
-                <GlobalTooltips/>
-                <ModalManager/>
-            </>
-        </ModalProvider>
+                    <GlobalTooltips/>
+                    <AddProductModalManager/>
+                    <AddCategoryModalManager/>
+                </>
+            </AddCategoryModalProvider>
+        </AddProductModalProvider>
     )
 }
 

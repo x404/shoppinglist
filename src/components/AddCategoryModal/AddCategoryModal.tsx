@@ -7,49 +7,49 @@ import { v4 as uuidv4 } from 'uuid';
 import { getCategoryNameById } from "@helpers/getCategoryNameById";
 
 // interfaces
-import { Product, Category } from "@/types/types";
+import { Category } from "@/types/types";
 
-interface AddProductModalProps {
+interface AddCategoryModalProps {
     categoriesList: Category[];
-    currentCategoryId: string | undefined;
+    parentCategoryId: string | undefined;
     isShowModal: boolean;
     onCloseModal: () => void;
-    onAddProduct: (product: Product) => void;
+    onAddCategory: (category: Category) => void;
 }
 
-const AddProductModal = ({
+const AddCategoryModal = ({
                              categoriesList,
-                             currentCategoryId,
+                             parentCategoryId,
                              isShowModal,
                              onCloseModal,
-                             onAddProduct
-                         }: AddProductModalProps) => {
+                             onAddCategory
+                         }: AddCategoryModalProps) => {
     const [name, setName] = useState<string>('');
-    const [quantity, setQuantity] = useState<number>(1);
-    const [categoryId, setCategoryId] = useState<string>(currentCategoryId || '');
+    const [categoryId, setCategoryId] = useState<string>(parentCategoryId || '');
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
-    const hasInitialCategory = !!currentCategoryId;
+    const hasInitialCategory = !!parentCategoryId;
 
 
     useEffect(() => {
         if (isShowModal) {
             resetFormState();
             setCategoryId('');
+            focusNameInput();
         }
     }, [isShowModal]);
 
 
     useEffect(() => {
-        if (currentCategoryId && categoriesList.find(category => category.id === currentCategoryId)) {
-            setCategoryId(currentCategoryId);
+        if (parentCategoryId && categoriesList.find(category => category.id === parentCategoryId)) {
+            setCategoryId(parentCategoryId);
         }
-    }, [currentCategoryId, categoriesList]);
+    }, [parentCategoryId, categoriesList]);
 
 
-    const categoryName = currentCategoryId
-        ? getCategoryNameById(categoriesList, currentCategoryId)
+    const categoryName = parentCategoryId
+        ? getCategoryNameById(categoriesList, parentCategoryId)
         : '';
     
     
@@ -68,8 +68,8 @@ const AddProductModal = ({
             handleInvalidForm();
             return;
         }
-
-        addNewProduct();
+        
+        addNewCategory();
         // resetFormState();
     };
 
@@ -84,22 +84,21 @@ const AddProductModal = ({
 
     const focusNameInput = () => {
         setTimeout(() => {
+            console.log('focusNameInput')
             nameInputRef.current?.focus();
         }, 100);
     };
 
-    const addNewProduct = () => {
-        const productData = createProductData();
-        onAddProduct(productData);
+    const addNewCategory = () => {
+        const categoryData = createCategoryData();
+        onAddCategory(categoryData);
     };
 
-    const createProductData = (): Product => {
+    const createCategoryData = (): Category => {
         return {
-            id: uuidv4(),
+            id: `cat-${uuidv4()}`,
             name: name.trim(),
-            categoryId: currentCategoryId || categoryId,
-            purchased: false,
-            quantity
+            parentId: null
         };
     };
 
@@ -110,7 +109,6 @@ const AddProductModal = ({
 
     const resetForm = () => {
         setName('');
-        setQuantity(1);
         if (!hasInitialCategory) {
             setCategoryId('');
         }
@@ -120,10 +118,6 @@ const AddProductModal = ({
         setName(event.target.value)
     }, []);
 
-    const handleQuantityChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        const val = Math.max(1, parseInt(event.target.value) || 1);
-        setQuantity(val);
-    }, []);
 
     const changeCategory = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         setCategoryId(event.target.value);
@@ -134,7 +128,7 @@ const AddProductModal = ({
         <>
             <Modal show={isShowModal} onHide={handleClose} centered>
                 <Modal.Header className="align-items-start">
-                    <Modal.Title>Add New Item
+                    <Modal.Title>Create Category
                         {hasInitialCategory && (
                             <div className="h6 mt-1 text-black-50">Category: <strong>{categoryName}</strong></div>
                         )}
@@ -150,40 +144,28 @@ const AddProductModal = ({
                 <Modal.Body>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="validationCustom01">
-                            <Form.Label>Product Name</Form.Label>
+                            <Form.Label>Name</Form.Label>
                             <Form.Control
                                 required
                                 type="text"
-                                placeholder="Enter product name"
+                                placeholder="e.g. Project, Food, Clothes, etc."
                                 onChange={handleNameChange}
                                 ref={nameInputRef}
                                 value={name}
                                 autoFocus
                             />
                             <Form.Control.Feedback type="invalid">
-                                Please enter product name
+                                Please enter category name
                             </Form.Control.Feedback>
                         </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="validationCustom02">
-                            <Form.Label>Quantity</Form.Label>
-                            <Form.Control
-                                type="number"
-                                onChange={handleQuantityChange}
-                                min="1"
-                                value={quantity}
-                            />
-                        </Form.Group>
-
+                        
 
                         {!hasInitialCategory && (
-                            <Form.Group className="mb-3" controlId="validationCustom03">
+                            <Form.Group className="mb-3 d-none" >
                                 <Form.Label>Category</Form.Label>
                                 <Form.Select
-                                    required
                                     value={categoryId}
                                     onChange={changeCategory}
-                                    isInvalid={validated && !categoryId}
                                 >
                                     <option value=''>Choose category</option>
                                     {categoriesList.map((category) => {
@@ -195,9 +177,6 @@ const AddProductModal = ({
                                         }
                                     )}
                                 </Form.Select>
-                                <Form.Control.Feedback type="invalid">
-                                    Please select a category
-                                </Form.Control.Feedback>
                             </Form.Group>
                         )}
 
@@ -206,7 +185,7 @@ const AddProductModal = ({
                                 Close
                             </Button>
                             <Button variant="dark" type="submit">
-                                Add Product
+                                Add
                             </Button>
                         </div>
                     </Form>
@@ -216,4 +195,4 @@ const AddProductModal = ({
     )
 };
 
-export default memo(AddProductModal);
+export default memo(AddCategoryModal);

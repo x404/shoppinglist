@@ -2,18 +2,17 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 
-import { useModal } from "@context/ModalContext";
+import { useAddProductModal } from "@context/AddProductModalContext";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems, editProduct, deleteProduct, togglePurchased
 } from '@store/productListSlice';
-import { selectActiveCategory, selectCategoriesItems } from "@store/categoriesSlice";
+import { selectActiveCategoryId, selectCategoriesItems } from "@store/categoriesSlice";
 
 
 // components
-import AddProductModal from "../AddProductModal/AddProductModal";
 import GroupedProductList from "../GroupedProductList";
 import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 
@@ -21,38 +20,39 @@ import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 import styles from "./MainContent.module.css";
 
 // helpers
-import { groupProductsByCategory } from "@helpers/groupProductsByCategory";
+import { groupProductsByCategoryId } from "@helpers/groupProductsByCategoryId";
+import { getCategoryNameById } from "@helpers/getCategoryNameById";
 
 // constants
-import { ALL_CATEGORY_NAME } from "@constants/categories";
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
-import { Product } from "../../types/types";
+import { Product } from "@/types/types";
 
 
 const MainContent = () => {
     const dispatch = useDispatch();
-    const { openAddProductModal } = useModal();
+    const { openAddProductModal } = useAddProductModal();
 
     const productList = useSelector(selectProductItems);
-    const activeCategory = useSelector(selectActiveCategory);
-    const categoriesList = useSelector(selectCategoriesItems);
+    const activeCategoryId = useSelector(selectActiveCategoryId);
+    // const categoriesList = useSelector(selectCategoriesItems);
 
-    const [editingProductId, setEditingProductId] = useState<string | null>(null);
+    const [editingProductId, setEditingProductId] = useState<string | undefined>(undefined);
 
     const filteredProducts = useMemo(() => {
-        return activeCategory === ALL_CATEGORY_NAME
+        return activeCategoryId === ALL_CATEGORY_OBJECT.id
             ? productList
-            : productList.filter((product: Product) => product.category === activeCategory);
-    }, [activeCategory, productList]);
+            : productList.filter((product: Product) => product.categoryId === activeCategoryId);
+    }, [activeCategoryId, productList]);
 
     const groupedProducts = useMemo(() => {
-        return groupProductsByCategory(filteredProducts);
+        return groupProductsByCategoryId(filteredProducts);
     }, [filteredProducts]);
 
-    useEffect(() => {
-        setEditingProductId(null);
-    }, [activeCategory]);
+    // useEffect(() => {
+    //     setEditingProductId(undefined);
+    // }, [activeCategoryId]);
 
 
     // CRUD
@@ -84,23 +84,26 @@ const MainContent = () => {
     }, []);
 
     const resetStates = () => {
-        setEditingProductId(null);
+        setEditingProductId(undefined);
     };
-
-
+    
     return (
         <>
             <main className={`${styles.main} p-3`} id="main">
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
-                    <NoFoundProducts
-                        products={filteredProducts}
-                        activeCategory={activeCategory}
-                    />
+
+                    {filteredProducts.length === 0 && (
+                        <NoFoundProducts
+                            products={filteredProducts}
+                            activeCategoryId={activeCategoryId}
+                        />                        
+                    )} 
+
 
                     {filteredProducts.length > 0 && (
                         <>
-                            {activeCategory === ALL_CATEGORY_NAME && (
+                            {activeCategoryId === ALL_CATEGORY_OBJECT.id && (
                                 <header className="d-flex gap-3 align-items-center mb-4">
                                     <h3 className="h5 mb-0" id="my-list-title">My List</h3>
                                     <Button variant="light" size="sm" onClick={() => handleAddProduct()}>
@@ -113,8 +116,7 @@ const MainContent = () => {
                             <GroupedProductList
                                 groupedProducts={groupedProducts}
                                 editingProductId={editingProductId}
-                                categoriesList={categoriesList}
-                                activeCategory={activeCategory}
+                                activeCategoryId={activeCategoryId}
                                 onEditProduct={handleEditProduct}
                                 onDeleteProduct={handleDeleteProduct}
                                 onTogglePurchasedProduct={handleTogglePurchased}

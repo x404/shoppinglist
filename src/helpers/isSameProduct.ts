@@ -4,6 +4,6 @@ export const isSameProduct = (a: Product, b: Product): boolean => {
     return (
         a.name === b.name &&
         a.quantity === b.quantity &&
-        a.category === b.category
+        a.categoryId === b.categoryId
     );
 };

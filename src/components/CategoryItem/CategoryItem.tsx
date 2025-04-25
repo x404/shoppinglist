@@ -1,229 +1,223 @@
-import { MouseEvent } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+
+// helpers
+import { isSameCategory } from "@helpers/isSameCategory";
+
+// constants
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // components
-import { Dropdown } from "react-bootstrap";
-import {
-    ChevronRight, FileEarmarkPlus, FolderPlus,
-    Palette,
-    Pencil,
-    Plus,
-    Shuffle,
-    ThreeDots,
-    Trash, XOctagon
-} from "react-bootstrap-icons";
+import CategoryEditForm from "./CategoryEditForm/CategoryEditForm";
+import CategoryView from "./CategoryView/CategoryView";
 
 // styles
 import styles from './CategoryItem.module.css';
-import sidebarStyles from './../Sidebar/Sidebar.module.css';
-import { useModal } from "../../context/ModalContext";
-
 
 // interfaces
+import { Category } from "@/types/types";
+
 interface CategoryItem {
-    category: string;
+    category: Category;
     count: number;
     isActive: boolean;
-    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, category: string) => void;
-    allCategory: string;
+    isEditingCategory: boolean;
+    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
+    onOpenAddProductModal: (categoryId?: string) => void;
+    onOpenAddCategoryModal: (categoryId?: string) => void;
+    onRenameCategory: (categoryId?: string) => void;
+    onSaveEditCategory: (category: Category) => void;
+    onCancelEditCategory: () => void;
 }
 
+const CategoryItem = ({
+                          category,
+                          count,
+                          isActive,
+                          isEditingCategory,
+                          onSelectCategory,
+                          onOpenAddProductModal,
+                          onOpenAddCategoryModal,
+                          onRenameCategory,
+                          onSaveEditCategory,
+                          onCancelEditCategory,
+                      }: CategoryItem) => {
+    const { id: categoryId, name: categoryName } = category;
+    const allCategory = ALL_CATEGORY_OBJECT.name;
 
-const CategoryItem = ({ category, count, isActive, onSelectCategory, allCategory }: CategoryItem) => {
-    const { openAddProductModal } = useModal();
+
     const activeClass = isActive ? styles.active : '';
-    const allCategoryHighlightClass = category === allCategory ? 'fw-bold text-uppercase' : '';
-    const allCategoryClass = category === allCategory ? styles.menuAllItem : '';
 
+    const allCategoryClass = categoryName === allCategory ? styles.menuAllItem : '';
 
-    const onAddProduct = () => {
-        openAddProductModal(category);
+    const [validated, setValidated] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    const [formData, setFormData] = useState({
+        name: category.name
+    });
+
+    const nameInputRef = useRef<HTMLInputElement>(null);
+
+    const handleOpenAddProductModal = () => {
+        onOpenAddProductModal(categoryId);
     }
+    
+    const handleOpenAddCategoryModal = () => {
+        onOpenAddCategoryModal(categoryId);
+    }
+
+    const wrapperRef = useRef<HTMLLIElement | null>(null);
+
+    // ESC press and exit from edit mode
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && isEditingCategory) {
+                handleCancel();
+                focusCategory();
+            }
+        };
+
+        const handleClickOutside = (event: globalThis.MouseEvent) => {
+            if (isEditingCategory && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+                handleCancel();
+                focusCategory();
+            }
+        };
+
+        const handleFocusOut = (event: FocusEvent) => {
+            if (
+                isEditingCategory &&
+                wrapperRef.current &&
+                event.relatedTarget &&
+                !wrapperRef.current.contains(event.relatedTarget as Node)
+            ) {
+                handleCancel();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('mousedown', handleClickOutside);
+        wrapperRef.current?.addEventListener('focusout', handleFocusOut);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('mousedown', handleClickOutside);
+            wrapperRef.current?.removeEventListener('focusout', handleFocusOut);
+        };
+    }, [isEditingCategory]);
+
+
+    const handleRenameCategory = () => {
+        setFormData({ name: categoryName });
+        setIsHovered(false);
+        onRenameCategory(categoryId);
+    }
+
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const form = event.currentTarget;
+
+        if (!isFormValid(form)) {
+            handleInvalidForm();
+            return;
+        }
+
+        saveCategory();
+        focusCategory();
+    };
+
+    const isFormValid = (form: HTMLFormElement): boolean => {
+        return form.checkValidity();
+    };
+
+    const handleInvalidForm = () => {
+        setValidated(true);
+        focusNameInput();
+    };
+
+    const focusNameInput = () => {
+        setTimeout(() => {
+            nameInputRef.current?.focus();
+        }, 100);
+    };
+
+    const focusCategory = useCallback(() => {
+        setTimeout(() => {
+            const focusTarget = document.querySelector(`a[href="#${category.id}"]`) as HTMLElement;
+            focusTarget?.focus();
+        }, 100);
+    }, []);
+
+
+    const saveCategory = () => {
+        const updatedCategory = {
+            ...category,
+            ...formData,
+        }
+
+        if (isSameCategory(category, updatedCategory)) {
+            handleCancel();
+            return;
+        }
+        onSaveEditCategory(updatedCategory);
+    };
+
+
+    const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    }, []);
+
+    const handleCancel = () => {
+        onCancelEditCategory();
+    };
+
 
     return (
         <>
-            <li className={`${styles.menuItem} ${allCategoryClass} d-flex align-items-center mt-1 px-2 position-relative ${activeClass}`}>
-                <a href={`#${category}`}
-                   className={`${styles.sidebarLink} flex-grow-1 ps-2 ${allCategoryHighlightClass}`}
-                   {...(isActive ? { 'aria-current': 'page' } : {})}
-                   title=""
-                   onClick={(event) => onSelectCategory(event, category)}
-                >
-                    {category}
-                </a>
-                <div
-                    className={`${styles.counter} d-flex align-items-center justify-content-center p-1`}
-                    aria-label={`${count} items`}
-                >
-                    {count}
-                </div>
-                {category !== allCategory && (
-                    <div className={`${sidebarStyles.actions} ${styles.actions} d-flex align-items-center position-absolute me-2 end-0`}>
-                        <Dropdown drop="end">
-                            <Dropdown.Toggle
-                                as="button"
-                                className={`${sidebarStyles.settingsCategoryBtn} ${sidebarStyles.noRightArrow} btn d-flex align-items-center justify-content-center px-1`}
-                                size="sm"
-                                variant="light"
-                                data-tooltip-id="sidebar-tooltip"
-                                data-tooltip-content="Create category, add product, etc."
-                                data-tooltip-place="top"
-                            >
-                                <ThreeDots size={12}/>
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item as="button" className="ps-2 disabled">
-                                    <div className="d-flex">
-                                        <div className={`${styles.icon} me-2`}>
-                                            <Pencil size={16}/>
-                                        </div>
-                                        <div className={`${styles.title}`}>
-                                            Rename
-                                        </div>
-                                    </div>
-                                </Dropdown.Item>
-
-                                <Dropdown.Item
-                                    as="button"
-                                    className="ps-2  disabled"
-                                >
-                                    <div className="d-flex">
-                                        <div className={`${styles.icon} me-2`}>
-                                            <XOctagon size={16}/>
-                                        </div>
-                                        <div className={`${styles.title} flex-grow-1`}>
-                                            Clear
-                                        </div>
-                                    </div>
-                                </Dropdown.Item>
-
-
-                                <Dropdown.Divider/>
-
-
-                                <Dropdown drop="end">
-                                    <Dropdown.Toggle
-                                        as="button"
-                                        className={`${sidebarStyles.noRightArrow} dropdown-item btn d-flex align-items-center justify-content-center px-1`}
-                                        size="sm"
-                                        variant="light"
-                                    >
-                                        <div className={`${styles.icon} mx-1`}>
-                                            <Plus size={22}/>
-                                        </div>
-
-
-                                        <div className={`${styles.title} flex-grow-1`}>
-                                            Create new
-                                        </div>
-
-                                        <ChevronRight size={12} className="ms-2 me-2"/>
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item as="button" className="ps-2 disabled">
-                                            <div className="d-flex">
-                                                <div className={`${styles.icon} me-2`}>
-                                                    <FolderPlus size={16}/>
-                                                </div>
-                                                <div className="title flex-grow-1">
-                                                    Category
-                                                </div>
-                                            </div>
-                                        </Dropdown.Item>
-                                        <Dropdown.Item as="button" className="ps-2" onClick={onAddProduct}>
-                                            <div className="d-flex">
-                                                <div className={`${styles.icon} me-2`}>
-                                                    <FileEarmarkPlus size={16}/>
-                                                </div>
-                                                <div className="title flex-grow-1">
-                                                    Product
-                                                </div>
-                                            </div>
-                                        </Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-
-
-                                <Dropdown.Item
-                                    as="button"
-                                    className="px-1 disabled w-100"
-                                >
-                                    <div className="d-flex">
-                                        <div className={`${styles.icon} mx-1`}>
-                                            <Shuffle size={16}/>
-                                        </div>
-                                        <div className={`${styles.title} flex-grow-1`}>
-                                            Move to
-                                        </div>
-                                    </div>
-                                </Dropdown.Item>
-
-                                <Dropdown.Item
-                                    as="button"
-                                    className="px-1 disabled"
-                                >
-                                    <div className="d-flex">
-                                        <div className={`${styles.icon} mx-1`}>
-                                            <Palette size={16}/>
-                                        </div>
-                                        <div className={`${styles.title} flex-grow-1`}>
-                                            Color & Icon
-                                        </div>
-                                    </div>
-                                </Dropdown.Item>
-                                <Dropdown.Divider/>
-                                <Dropdown.Item
-                                    as="button"
-                                    className="ps-2 text-danger disabled"
-                                >
-                                    <div className="d-flex">
-                                        <div className={`${styles.icon} me-2`}>
-                                            <Trash size={16}/>
-                                        </div>
-                                        <div className={`${styles.title} flex-grow-1`}>
-                                            Delete
-                                        </div>
-                                    </div>
-                                </Dropdown.Item>
-
-                            </Dropdown.Menu>
-                        </Dropdown>
-
-
-                        <Dropdown drop="end">
-                            <Dropdown.Toggle
-                                as="button"
-                                className={` ${sidebarStyles.noRightArrow} btn d-flex align-items-center p-0 border-0`}
-                                size="sm"
-                                variant=""
-                                data-tooltip-id="sidebar-tooltip"
-                                data-tooltip-content="Add product"
-                                data-tooltip-place="top"
-                            >
-                                <Plus size={20}/>
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item as="button" className="" onClick={onAddProduct}>
-                                    <div className="d-flex">
-                                        <div className={`${sidebarStyles.noRightArrow} me-2`}>
-                                            <FileEarmarkPlus size={16}/>
-                                        </div>
-                                        <div className="title flex-grow-1">
-                                            Product
-                                        </div>
-                                    </div>
-                                </Dropdown.Item>
-                                {/*<Dropdown.Divider/>*/}
-                                {/*<Dropdown.Item as="button">Something else</Dropdown.Item>*/}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-                )}
-            </li>
+            {isEditingCategory ? (
+                <>
+                    <li ref={wrapperRef} className={`${styles.menuItem} mt-1 px-2`}>
+                        <CategoryEditForm
+                            formData={formData}
+                            validated={validated}
+                            nameInputRef={nameInputRef}
+                            onInputChange={handleInputChange}
+                            onSubmit={handleSubmit}
+                            onCancel={handleCancel}
+                        />
+                    </li>
+                </>
+            ) : (
+                <>
+                    <li
+                        className={`${styles.menuItem} ${allCategoryClass} d-flex align-items-center mt-1 px-2 position-relative ${activeClass}`}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
+                    >
+                        <CategoryView
+                            count={count}
+                            isActive={isActive}
+                            categoryId={categoryId}
+                            categoryName={categoryName}
+                            isHovered={isHovered}
+                            handleOpenAddProductModal={handleOpenAddProductModal}
+                            handleOpenAddCategoryModal={handleOpenAddCategoryModal}
+                            handleRenameCategory={handleRenameCategory}
+                            handleSelectCategory={onSelectCategory}
+                        />
+                    </li>
+                </>
+            )
+            }
         </>
     )
-};
+}
 
 export default CategoryItem;

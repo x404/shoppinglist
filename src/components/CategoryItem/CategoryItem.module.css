@@ -1,12 +1,6 @@
 .menuItem{
     border-radius: 8px;
-
-    .actions{
-        z-index: -1;
-        opacity: 0;
-        transition: .2s opacity;
-    }
-
+    min-height: 32px;
     &.active{
         background-color: var(--bs-gray-200);
     }
@@ -20,39 +14,9 @@
     }
 
     &:hover:not(.menuAllItem){
-        .actions{
-            z-index: 1;
-            opacity: 1;
-        }
-
         .counter{
             display: none !important;
         }
     }
 }
 
-a{
-    color: var(--bs-gray-800);
-    text-decoration: none;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.sidebarLink{
-    line-height: 32px;
-}
-
-.counter{
-    font-size: 11px;
-    width: 20px;
-    height: 24px;
-}
-
-.icon{
-    width: 24px;
-    text-align: center;
-}
-
-.title{
-    text-align: left;
-}

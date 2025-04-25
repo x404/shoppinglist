@@ -1,20 +1,23 @@
 import { Button, Form } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState } from "react";
 
+import { CheckLg, X } from "react-bootstrap-icons";
 
 // styles
 import styles from "./../ProductItem.module.css";
-import { CheckLg, X } from "react-bootstrap-icons";
 
 // interfaces
+import { Category } from "@/types/types";
+interface ProductFormData {
+    name: string;
+    quantity: number;
+    categoryId: string;
+}
+
 interface EditFormProps {
-    formData: {
-        name: string;
-        quantity: number;
-        category: string
-    };
+    formData: ProductFormData;
     validated: boolean;
-    categoriesList: string[];
+    categoriesList: Category[];
     nameInputRef: Ref<HTMLInputElement | null>;
     onInputChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
     onSubmit: (event: FormEvent<HTMLFormElement>) => void,
@@ -33,14 +36,14 @@ const ProductEditForm = ({
 
     const [name, setName] = useState("");
     const [quantity, setQuantity] = useState(1);
-    const [category, setCategory] = useState("");
+    const [categoryId, setCategoryId] = useState("");
 
     useEffect(() => {
-        const { name, quantity, category } = formData;
+        const { name, quantity, categoryId } = formData;
         setName(name);
         setQuantity(quantity);
-        setCategory(category);
-    }, [formData.name, formData.category, formData.quantity]);
+        setCategoryId(categoryId);
+    }, [formData.name, formData.categoryId, formData.quantity]);
 
     const handleCancel = useCallback((event: MouseEvent) => {
         event.preventDefault();
@@ -59,7 +62,18 @@ const ProductEditForm = ({
     );
 
     const handleCategoryChange = useCallback(
-        (e: ChangeEvent<HTMLSelectElement>) => onInputChange(e),
+        (e: ChangeEvent<HTMLSelectElement>) => {
+            // only for saving semantic name of select element
+            const adaptedEvent = {
+                ...e,
+                target: {
+                    ...e.target,
+                    name: "categoryId",
+                    value: e.target.value
+                }
+            };
+            onInputChange(adaptedEvent);
+        },
         [onInputChange]
     );
 
@@ -98,14 +112,16 @@ const ProductEditForm = ({
 
                     <Form.Group className={`${styles.category} flex-grow-1 flex-md-grow-0`}>
                         <Form.Label className="visually-hidden">Category</Form.Label>
+
+                        {/* although named 'category' for HTML semantics, this stores categoryId*/}
                         <Form.Select
                             name="category"
-                            value={category}
+                            value={categoryId}
                             onChange={handleCategoryChange}
                         >
                             {categoriesList.map((category) => (
-                                <option key={category} value={category}>
-                                    {category}
+                                <option key={category.id} value={category.id}>
+                                    {category.name}
                                 </option>
                             ))}
                         </Form.Select>

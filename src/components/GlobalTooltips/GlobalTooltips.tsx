@@ -7,13 +7,13 @@ const GlobalTooltips = () => {
                 id="save-tooltip"
                 place="top"
                 className="saveTooltip"
-                delayShow={200}
+                delayShow={400}
                 delayHide={200}
             />
             <Tooltip
                 id="edit-tooltip"
                 place="top"
-                delayShow={200}
+                delayShow={400}
                 delayHide={200}
             />
             <Tooltip
@@ -21,7 +21,7 @@ const GlobalTooltips = () => {
                 place="top"
                 arrowColor="var(--bs-red)"
                 className="deleteTooltip"
-                delayShow={200}
+                delayShow={400}
                 delayHide={200}
             />
             <Tooltip
@@ -29,13 +29,13 @@ const GlobalTooltips = () => {
                 place="top"
                 arrowColor="var(--bs-red)"
                 className="deleteTooltip"
-                delayShow={200}
+                delayShow={400}
                 delayHide={200}
             />
             <Tooltip
                 id="sidebar-tooltip"
                 place="top"
-                delayShow={200}
+                delayShow={1000}
                 delayHide={200}
                 className="sidebarTooltip"
             />

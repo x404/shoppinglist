@@ -1,0 +1,23 @@
+.actions{
+    z-index: -1;
+    opacity: 0;
+    transition: .2s opacity;
+
+    @media (width > 575px) {
+        width: auto;
+    }
+}
+
+.visible {
+    opacity: 1;
+    z-index: 1;
+}
+
+.icon{
+    width: 24px;
+    text-align: center;
+}
+
+.title{
+    text-align: left;
+}

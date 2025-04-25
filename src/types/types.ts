@@ -1,23 +1,32 @@
 export interface Product {
-    id: string;
+    id: string;  // UUID
     name: string;
-    category: string;
     purchased: boolean;
     quantity: number;
+    categoryId: string;
+    subCategoryId?: string;
 }
 
 export interface ProductListState {
     products: Product[];
 }
 
+interface CategoryProperties {
+    icon?: string;
+    color?: string;
+}
 
 export interface Category{
-    [key: string]: string;
+    id: string; // UUID
+    name: string;
+    categoryProperties?: CategoryProperties;
+    parentId: string | null;
+    children?: Category[];
 }
 
 export interface CategoryListState {
-    categories: string[];
-    selectedCategory: string;
+    categories: Category[];
+    selectedCategoryId: string;
 }
 
 export interface ProductsByCategory {

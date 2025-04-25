@@ -1,12 +1,16 @@
-import { MouseEvent, useContext, useMemo } from "react";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
+// constants
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductItems } from '@store/productListSlice';
-import { selectActiveCategory, selectCategoriesItems, setActiveCategory } from "@store/categoriesSlice";
+import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editCategory } from "@store/categoriesSlice";
+import { useAddProductModal } from "@context/AddProductModalContext";
+import { useAddCategoryModal} from "@context/AddCategoryModalContext";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
@@ -15,45 +19,75 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 import styles from "./Sidebar.module.css";
 
 // interfaces
-import { ALL_CATEGORY_NAME } from "@constants/categories";
-import { useModal } from "../../context/ModalContext";
+import { Category } from "@/types/types";
 
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
-    const activeCategory = useSelector(selectActiveCategory);
 
-    const categories = [ALL_CATEGORY_NAME, ...categoriesList];
+    const activeCategoryId = useSelector(selectActiveCategoryId);
+    const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
 
-    const getCategoryCount = (categoryName: string): number => {
-        return categoryName === ALL_CATEGORY_NAME
+    const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
+    
+    const getCategoryCountById = (id: string): number => {
+        return id === ALL_CATEGORY_OBJECT.id
             ? productList.length
-            : productList.filter(item => item.category === categoryName).length;
+            : productList.filter(product => product.categoryId === id).length;
     };
+
 
     const categoryCounts = useMemo(() => {
         const counts: { [key: string]: number } = {};
         categories.forEach(category => {
-            counts[category] = getCategoryCount(category);
+            counts[category.id] = getCategoryCountById(category.id);
         });
-
+        
         return counts;
-    }, [productList]);
+    }, [productList, categoriesList]);
 
-
-    const onSelectCategory = (event: MouseEvent<HTMLAnchorElement>, category: string) => {
+    
+    const onSelectCategory = (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => {
         event.preventDefault();
-        dispatch(setActiveCategory(category));
+        dispatch(setActiveCategory(categoryId));
     }
 
-    const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategory } = useModal();
+    const { openAddProductModal, isAddProductModalOpen, closeAddProductModal, currentCategoryId } = useAddProductModal();
+    const { openAddCategoryModal } = useAddCategoryModal();
 
-    const onAddProduct = () => {
-        openAddProductModal()
+    const handleOpenAddProductModal = (categoryId?: string) => {
+        const id = categoryId ? categoryId : undefined;
+        openAddProductModal(id)
     }
 
+    const handleOpenAddCategoryModal = (categoryId?: string) => {
+        const id = categoryId ? categoryId : undefined;
+        openAddCategoryModal(id)
+    }
+    
+    
+    const handleRenameCategory = (categoryId?: string) => {
+        setEditingCategoryId(categoryId);
+    }
+    
+
+    const handleSaveEditCategory = useCallback((category: Category) => {
+        // console.log('upd category', category);
+        dispatch(editCategory(category));
+        resetStates();
+    }, []);
+    
+    const handleCancelEditCategory = () => {
+        resetStates()
+    }
+
+
+    const resetStates = () => {
+        setEditingCategoryId(undefined);
+    };
+    
 
     return (
         <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 shadow-sm z-1`}>
@@ -75,7 +109,10 @@ const Sidebar = () => {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item as="button" className="disabled">
+                                <Dropdown.Item 
+                                    as="button"
+                                    onClick={() => handleOpenAddCategoryModal()}
+                                >
                                     <div className="d-flex">
                                         <div className={`${styles.icon} me-2`}>
                                             <FolderPlus size={16}/>
@@ -85,7 +122,7 @@ const Sidebar = () => {
                                         </div>
                                     </div>
                                 </Dropdown.Item>
-                                <Dropdown.Item as="button" className="" onClick={onAddProduct}>
+                                <Dropdown.Item as="button" className="" onClick={() => handleOpenAddProductModal()}>
                                     <div className="d-flex">
                                         <div className={`${styles.icon} me-2`}>
                                             <FileEarmarkPlus size={16}/>
@@ -105,12 +142,17 @@ const Sidebar = () => {
                 <ul className="list-unstyled menu">
                     {categories.map((category) => (
                         <CategoryItem
-                            key={category}
+                            key={category.id}
                             category={category}
-                            count={categoryCounts[category]}
-                            isActive={activeCategory === category}
+                            count={categoryCounts[category.id]}
+                            isActive={activeCategoryId === category.id}
                             onSelectCategory={onSelectCategory}
-                            allCategory={ALL_CATEGORY_NAME}
+                            onOpenAddProductModal={handleOpenAddProductModal}
+                            onOpenAddCategoryModal={handleOpenAddCategoryModal}
+                            onRenameCategory={handleRenameCategory}
+                            onSaveEditCategory={handleSaveEditCategory}
+                            isEditingCategory={editingCategoryId === category.id}
+                            onCancelEditCategory={handleCancelEditCategory}
                         />
                     ))}
                 </ul>
