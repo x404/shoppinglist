@@ -7,7 +7,7 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { selectProductItems } from '@store/productListSlice';
+import { selectProductItems, clearProductsInCategory } from '@store/productListSlice';
 import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editCategory } from "@store/categoriesSlice";
 import { useAddProductModal } from "@context/AddProductModalContext";
 import { useAddCategoryModal} from "@context/AddCategoryModalContext";
@@ -49,7 +49,7 @@ const Sidebar = () => {
     }, [productList, categoriesList]);
 
     
-    const onSelectCategory = (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => {
+    const onSelectCategory = (event: MouseEvent<HTMLElement>, categoryId: string) => {
         event.preventDefault();
         dispatch(setActiveCategory(categoryId));
     }
@@ -71,7 +71,10 @@ const Sidebar = () => {
     const handleRenameCategory = (categoryId?: string) => {
         setEditingCategoryId(categoryId);
     }
-    
+
+    const handleClearCategory = (categoryId: string) => {
+        dispatch(clearProductsInCategory(categoryId));
+    }
 
     const handleSaveEditCategory = useCallback((category: Category) => {
         // console.log('upd category', category);
@@ -150,6 +153,7 @@ const Sidebar = () => {
                             onOpenAddProductModal={handleOpenAddProductModal}
                             onOpenAddCategoryModal={handleOpenAddCategoryModal}
                             onRenameCategory={handleRenameCategory}
+                            onClearCategory={handleClearCategory}
                             onSaveEditCategory={handleSaveEditCategory}
                             isEditingCategory={editingCategoryId === category.id}
                             onCancelEditCategory={handleCancelEditCategory}

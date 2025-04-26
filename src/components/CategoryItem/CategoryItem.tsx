@@ -21,10 +21,11 @@ interface CategoryItem {
     count: number;
     isActive: boolean;
     isEditingCategory: boolean;
-    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
+    onSelectCategory: (event: MouseEvent<HTMLElement>, categoryId: string) => void;
     onOpenAddProductModal: (categoryId?: string) => void;
     onOpenAddCategoryModal: (categoryId?: string) => void;
     onRenameCategory: (categoryId?: string) => void;
+    onClearCategory: (categoryId: string) => void;
     onSaveEditCategory: (category: Category) => void;
     onCancelEditCategory: () => void;
 }
@@ -38,6 +39,7 @@ const CategoryItem = ({
                           onOpenAddProductModal,
                           onOpenAddCategoryModal,
                           onRenameCategory,
+                          onClearCategory,
                           onSaveEditCategory,
                           onCancelEditCategory,
                       }: CategoryItem) => {
@@ -60,7 +62,7 @@ const CategoryItem = ({
     const handleOpenAddProductModal = () => {
         onOpenAddProductModal(categoryId);
     }
-    
+
     const handleOpenAddCategoryModal = () => {
         onOpenAddCategoryModal(categoryId);
     }
@@ -111,6 +113,10 @@ const CategoryItem = ({
         setFormData({ name: categoryName });
         setIsHovered(false);
         onRenameCategory(categoryId);
+    }
+
+    const handleClearCategory = () => {
+        onClearCategory(categoryId);
     }
 
 
@@ -210,6 +216,7 @@ const CategoryItem = ({
                             handleOpenAddProductModal={handleOpenAddProductModal}
                             handleOpenAddCategoryModal={handleOpenAddCategoryModal}
                             handleRenameCategory={handleRenameCategory}
+                            handleClearCategory={handleClearCategory}
                             handleSelectCategory={onSelectCategory}
                         />
                     </li>
