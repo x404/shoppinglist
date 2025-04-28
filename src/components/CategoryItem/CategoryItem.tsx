@@ -13,6 +13,9 @@ import CategoryView from "./CategoryView/CategoryView";
 // styles
 import styles from './CategoryItem.module.css';
 
+// helpers
+import { focusElementByHref } from "@helpers/focusElementByHref";
+
 // interfaces
 import { Category } from "@/types/types";
 
@@ -75,14 +78,14 @@ const CategoryItem = ({
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape' && isEditingCategory) {
                 handleCancel();
-                focusCategory();
+                focusElementByHref(category.id);
             }
         };
 
         const handleClickOutside = (event: globalThis.MouseEvent) => {
             if (isEditingCategory && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
                 handleCancel();
-                focusCategory();
+                focusElementByHref(category.id);
             }
         };
 
@@ -119,7 +122,6 @@ const CategoryItem = ({
         onClearCategory(categoryId);
     }
 
-
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -132,7 +134,7 @@ const CategoryItem = ({
         }
 
         saveCategory();
-        focusCategory();
+        focusElementByHref(category.id);
     };
 
     const isFormValid = (form: HTMLFormElement): boolean => {
@@ -150,12 +152,6 @@ const CategoryItem = ({
         }, 100);
     };
 
-    const focusCategory = useCallback(() => {
-        setTimeout(() => {
-            const focusTarget = document.querySelector(`a[href="#${category.id}"]`) as HTMLElement;
-            focusTarget?.focus();
-        }, 100);
-    }, []);
 
 
     const saveCategory = () => {

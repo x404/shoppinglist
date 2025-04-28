@@ -56,6 +56,7 @@ const CategoryView = ({
             {categoryName !== allCategory && (
                 <CategoryActionsDropdown
                     isVisible={isHovered}
+                    count={count}
                     onOpenAddProductModal={handleOpenAddProductModal}
                     onOpenAddCategoryModal={handleOpenAddCategoryModal}
                     onRenameCategory={handleRenameCategory}
