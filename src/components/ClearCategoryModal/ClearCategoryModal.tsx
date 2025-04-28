@@ -1,18 +1,20 @@
 import { Button, Modal } from "react-bootstrap";
 
-interface ClearCatgoryModalProps {
-    category: {clearCategoryId: string, categoryName: string};
+interface ClearCategoryModalProps {
+    count: number;
+    category: { clearCategoryId: string, categoryName: string, count: number };
     isShowModal: boolean;
     onConfirmClearCategoryModal: (categoryId: string) => void;
     onCloseModal: () => void;
 }
 
 export const ClearCategoryModal = ({
+                                       count,
                                        category,
                                        isShowModal,
                                        onCloseModal,
                                        onConfirmClearCategoryModal
-                                   }: ClearCatgoryModalProps) => {
+                                   }: ClearCategoryModalProps) => {
 
     const confirmClearCategory = () => {
         onConfirmClearCategoryModal(category.clearCategoryId);
@@ -25,7 +27,7 @@ export const ClearCategoryModal = ({
     return (<>
         <Modal show={isShowModal} onHide={onCloseModal} centered>
             <Modal.Header closeButton>
-                <Modal.Title>Confirm clearing "{category.categoryName}"</Modal.Title>
+                <Modal.Title>Confirm clearing "{category.categoryName}" ({count})</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 Are you sure you want to clear this category?

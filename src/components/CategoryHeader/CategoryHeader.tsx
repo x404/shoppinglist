@@ -39,10 +39,10 @@ export const CategoryHeader = memo(({
     }, [activeCategoryId])
 
     return (
-        <h4 className={`d-flex align-items-center gap-2 ${isAllCategory ? 'h6 text-uppercase' : 'h5 mb-4 fw-normal'}`}>
-            <div className={`${isAllCategory ? 'fw-bold' : ''}`}>
+        <div className={`d-flex align-items-center gap-2 `}>
+            <h4 className={`${isAllCategory ? 'h6 text-uppercase fw-bold mb-0' : 'h5 mb-4 fw-normal'}`}>
                 {categoryName || '!#??'}
-            </div>
+            </h4>
             <Badge bg="secondary">{counter}</Badge>
             <Button
                 variant="light"
@@ -54,16 +54,16 @@ export const CategoryHeader = memo(({
             </Button>
 
 
-            { isAllCategory && counter > 0 && (
-                <Button
-                    variant="light"
-                    size="sm"
-                    onClick={() => openClearModalProduct()}
-
-                >
-                    Clear catalog
-                </Button>
-            )}
-        </h4>
+            {/*{ isAllCategory && counter > 0 && (*/}
+            {/*    <Button*/}
+            {/*        variant="light"*/}
+            {/*        size="sm"*/}
+            {/*        onClick={() => openClearModalProduct()}*/}
+            
+            {/*    >*/}
+            {/*        Clear catalog*/}
+            {/*    </Button>*/}
+            {/*)}*/}
+        </div>
     )
 });

@@ -26,8 +26,9 @@ import AddCatalogModal from "./components/AddCategoryModal/AddCategoryModal";
 import { Category, Product } from "./types/types";
 import { ClearCategoryModal } from "./components/ClearCategoryModal/ClearCategoryModal";
 import { getCategoryNameById } from "./helpers/getCategoryNameById";
-import { clearProductsInCategory } from "./store/productListSlice";
+import { clearProductsInCategory, selectProductItems } from "./store/productListSlice";
 import { focusElementByHref } from "./helpers/focusElementByHref";
+import { getProductCountByCategoryId } from "./helpers/categoryCountsHelpers";
 
 
 const AddProductModalManager = () => {
@@ -84,8 +85,9 @@ const AddCategoryModalManager = () => {
 
 const ClearCategoryModalManager = () => {
     const dispatch = useDispatch();
+    const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
-    
+
     const {
         isClearCategoryModalOpen,
         clearCategoryId,
@@ -97,14 +99,16 @@ const ClearCategoryModalManager = () => {
         focusElementByHref(categoryId);
         closeClearCategoryModal();
     }, []);
-    
+
     const categoryName = getCategoryNameById(categoriesList, clearCategoryId);
-    const category = {clearCategoryId, categoryName};
-    
+    const count = getProductCountByCategoryId(productList, clearCategoryId)
+    const category = { clearCategoryId, categoryName, count };
+
     return (
         <ClearCategoryModal
+            count={count}
             category={category}
-            isShowModal={isClearCategoryModalOpen} 
+            isShowModal={isClearCategoryModalOpen}
             onConfirmClearCategoryModal={handleConfirmClearCategory}
             onCloseModal={closeClearCategoryModal}
         />
