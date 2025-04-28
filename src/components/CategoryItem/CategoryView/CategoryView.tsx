@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import CategoryActionsDropdown from "../../CategoryActionsDropdown/CategoryActionsDropdown";
 
 // constants
@@ -15,8 +16,9 @@ interface CategoryViewProps {
     isHovered: boolean;
     handleOpenAddProductModal: () => void;
     handleOpenAddCategoryModal: () => void;
+    handleSelectCategory: (event: MouseEvent<HTMLElement>, categoryId: string) => void;
     handleRenameCategory: () => void;
-    handleSelectCategory: (event: React.MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
+    handleClearCategory: () => void;
 }
 
 
@@ -29,6 +31,7 @@ const CategoryView = ({
                           handleOpenAddProductModal,
                           handleOpenAddCategoryModal,
                           handleRenameCategory,
+                          handleClearCategory,
                           handleSelectCategory
                       }: CategoryViewProps) => {
     const allCategory = ALL_CATEGORY_OBJECT.name;
@@ -53,9 +56,11 @@ const CategoryView = ({
             {categoryName !== allCategory && (
                 <CategoryActionsDropdown
                     isVisible={isHovered}
+                    count={count}
                     onOpenAddProductModal={handleOpenAddProductModal}
                     onOpenAddCategoryModal={handleOpenAddCategoryModal}
                     onRenameCategory={handleRenameCategory}
+                    onClearCategory={handleClearCategory}
                 />
             )}
         </>

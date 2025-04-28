@@ -45,11 +45,15 @@ export const productListSlice = createSlice({
         deleteProduct: (state, action: PayloadAction<string>) => {
             state.products = state.products.filter(product => product.id !== action.payload);
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
+        },
+        clearProductsInCategory: (state, action: PayloadAction<string>) => {
+            state.products = state.products.filter(product => product.categoryId !== action.payload);
+            syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         }
     }
 });
 
-export const { togglePurchased, addProduct, editProduct, deleteProduct } = productListSlice.actions;
+export const { togglePurchased, addProduct, editProduct, deleteProduct, clearProductsInCategory } = productListSlice.actions;
 export const selectProductItems = (state: { productList: ProductListState }) => state.productList.products;
 
 export default productListSlice.reducer;

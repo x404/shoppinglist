@@ -38,9 +38,6 @@ export const categoriesSlice = createSlice({
         deleteCategory: (state, action) => {
             console.log(action.payload, state);
         },
-        clearCategory: (state, action) => {
-            console.log(action.payload, state);
-        },
         moveCategory: (state, action) => {
             console.log(action.payload, state);
         },

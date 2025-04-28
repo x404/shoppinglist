@@ -14,6 +14,7 @@ interface CategoryHeaderProp {
 
     onCancelEditProduct: () => void;
     onShowAddProductModal: () => void;
+    onShowClearCategoryModal: () => void;
 }
 
 export const CategoryHeader = memo(({
@@ -23,7 +24,8 @@ export const CategoryHeader = memo(({
                                         categoryName,
 
                                         onCancelEditProduct,
-                                        onShowAddProductModal
+                                        onShowAddProductModal,
+                                        onShowClearCategoryModal
                                     }: CategoryHeaderProp) => {
     const isAllCategory = activeCategoryId === ALL_CATEGORY_OBJECT.id;
 
@@ -32,11 +34,15 @@ export const CategoryHeader = memo(({
         onShowAddProductModal()
     }, [activeCategoryId]);
 
+    const openClearModalProduct = useCallback(() => {
+        onShowClearCategoryModal();
+    }, [activeCategoryId])
+
     return (
-        <h4 className={`d-flex align-items-center gap-2 ${isAllCategory ? 'h6 text-uppercase' : 'h5 mb-4 fw-normal'}`}>
-            <div className={`${isAllCategory ? 'fw-bold' : ''}`}>
+        <div className={`d-flex align-items-center gap-2 ${isAllCategory ? '' : 'mb-4'}`}>
+            <h4 className={`mb-0 ${isAllCategory ? 'h6 text-uppercase fw-bold' : 'h5 fw-normal'}`}>
                 {categoryName || '!#??'}
-            </div>
+            </h4>
             <Badge bg="secondary">{counter}</Badge>
             <Button
                 variant="light"
@@ -46,6 +52,18 @@ export const CategoryHeader = memo(({
                 <Plus size={16}/>
                 Add product
             </Button>
-        </h4>
+
+
+            {/*{ isAllCategory && counter > 0 && (*/}
+            {/*    <Button*/}
+            {/*        variant="light"*/}
+            {/*        size="sm"*/}
+            {/*        onClick={() => openClearModalProduct()}*/}
+            
+            {/*    >*/}
+            {/*        Clear catalog*/}
+            {/*    </Button>*/}
+            {/*)}*/}
+        </div>
     )
 });

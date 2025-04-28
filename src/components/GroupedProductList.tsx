@@ -1,4 +1,3 @@
-import { act, memo } from "react";
 
 // components
 import ProductItem from "./ProductItem/ProductItem";
@@ -7,8 +6,11 @@ import { CategoryHeader } from "./CategoryHeader/CategoryHeader";
 // interfaces
 import { Product } from "@/types/types";
 import { useSelector } from "react-redux";
-import { selectCategoriesItems } from "../store/categoriesSlice";
-import { useAddProductModal } from "../context/AddProductModalContext";
+
+// redux
+import { selectCategoriesItems } from "@store/categoriesSlice";
+import { useAddProductModal } from "@context/AddProductModalContext";
+import { useClearCategoryModal } from "@context/ClearCategoryModalContext";
 
 interface GroupedProductListProps {
     groupedProducts: Record<string, Product[]>;
@@ -34,12 +36,16 @@ const GroupedProductList = ({
 
     const categoriesList = useSelector(selectCategoriesItems);
     const { openAddProductModal } = useAddProductModal();
+    const { openClearCategoryModal } = useClearCategoryModal();
 
     const handleShowAddProductModal = (categoryId?: string) => {
         // const categoryId = activeCategoryId !== allCategoryId ? activeCategoryId : undefined;
         openAddProductModal(categoryId);
     };
     
+    const handleShowClearCategoryModal = (categoryId: string) => {
+        openClearCategoryModal(categoryId)
+    }
 
     return (
         <>
@@ -56,6 +62,7 @@ const GroupedProductList = ({
 
                             onCancelEditProduct={onCancelEditProduct}
                             onShowAddProductModal={() => handleShowAddProductModal(categoryId)}
+                            onShowClearCategoryModal={() => handleShowClearCategoryModal(categoryId)}
                         />
 
                         <ul className="list-group mt-2" aria-label={categoryId}>

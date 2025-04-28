@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 import { useAddProductModal } from "@context/AddProductModalContext";
 
@@ -8,12 +10,15 @@ import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
+// helpers
+import { getCategoryNameById } from "@helpers/getCategoryNameById";
+
+// redux
+import { selectCategoriesItems } from "@store/categoriesSlice";
+
 // interfaces
 import { Product } from "@/types/types";
-import { useSelector } from "react-redux";
-import { selectCategoriesItems } from "../../store/categoriesSlice";
-import { getCategoryNameById } from "../../helpers/getCategoryNameById";
-import { useMemo } from "react";
+
 
 interface NoFoundProductsProps {
     products: Product[];
@@ -40,6 +45,9 @@ const NoFoundProducts = ({
         getCategoryNameById(categoriesList, activeCategoryId) || ALL_CATEGORY_OBJECT.name
     ), [categoriesList, activeCategoryId]);
 
+    const handleShowClearCategoryModal = () => {
+        
+    }
     
     return (
         <>
@@ -53,6 +61,7 @@ const NoFoundProducts = ({
                     onCancelEditProduct={onCancelEditProduct ?? (() => {
                     })}
                     onShowAddProductModal={handleShowAddProductModal}
+                    onShowClearCategoryModal={handleShowClearCategoryModal}
                 />
                 <p>No products found</p>
                 <Button variant="dark" onClick={handleShowAddProductModal}>Add first product</Button>

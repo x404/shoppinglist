@@ -13,6 +13,9 @@ import CategoryView from "./CategoryView/CategoryView";
 // styles
 import styles from './CategoryItem.module.css';
 
+// helpers
+import { focusElementByHref } from "@helpers/focusElementByHref";
+
 // interfaces
 import { Category } from "@/types/types";
 
@@ -21,10 +24,11 @@ interface CategoryItem {
     count: number;
     isActive: boolean;
     isEditingCategory: boolean;
-    onSelectCategory: (event: MouseEvent<HTMLAnchorElement>, categoryId: string) => void;
+    onSelectCategory: (event: MouseEvent<HTMLElement>, categoryId: string) => void;
     onOpenAddProductModal: (categoryId?: string) => void;
     onOpenAddCategoryModal: (categoryId?: string) => void;
     onRenameCategory: (categoryId?: string) => void;
+    onClearCategory: (categoryId: string) => void;
     onSaveEditCategory: (category: Category) => void;
     onCancelEditCategory: () => void;
 }
@@ -38,6 +42,7 @@ const CategoryItem = ({
                           onOpenAddProductModal,
                           onOpenAddCategoryModal,
                           onRenameCategory,
+                          onClearCategory,
                           onSaveEditCategory,
                           onCancelEditCategory,
                       }: CategoryItem) => {
@@ -60,7 +65,7 @@ const CategoryItem = ({
     const handleOpenAddProductModal = () => {
         onOpenAddProductModal(categoryId);
     }
-    
+
     const handleOpenAddCategoryModal = () => {
         onOpenAddCategoryModal(categoryId);
     }
@@ -73,14 +78,14 @@ const CategoryItem = ({
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape' && isEditingCategory) {
                 handleCancel();
-                focusCategory();
+                focusElementByHref(category.id);
             }
         };
 
         const handleClickOutside = (event: globalThis.MouseEvent) => {
             if (isEditingCategory && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
                 handleCancel();
-                focusCategory();
+                focusElementByHref(category.id);
             }
         };
 
@@ -113,6 +118,9 @@ const CategoryItem = ({
         onRenameCategory(categoryId);
     }
 
+    const handleClearCategory = () => {
+        onClearCategory(categoryId);
+    }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -126,7 +134,7 @@ const CategoryItem = ({
         }
 
         saveCategory();
-        focusCategory();
+        focusElementByHref(category.id);
     };
 
     const isFormValid = (form: HTMLFormElement): boolean => {
@@ -144,12 +152,6 @@ const CategoryItem = ({
         }, 100);
     };
 
-    const focusCategory = useCallback(() => {
-        setTimeout(() => {
-            const focusTarget = document.querySelector(`a[href="#${category.id}"]`) as HTMLElement;
-            focusTarget?.focus();
-        }, 100);
-    }, []);
 
 
     const saveCategory = () => {
@@ -210,6 +212,7 @@ const CategoryItem = ({
                             handleOpenAddProductModal={handleOpenAddProductModal}
                             handleOpenAddCategoryModal={handleOpenAddCategoryModal}
                             handleRenameCategory={handleRenameCategory}
+                            handleClearCategory={handleClearCategory}
                             handleSelectCategory={onSelectCategory}
                         />
                     </li>

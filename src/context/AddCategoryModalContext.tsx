@@ -3,7 +3,7 @@ import React, { createContext, useCallback, useContext, useState, ReactNode } fr
 type ModalContextType = {
     isAddCategoryModalOpen: boolean;
     parentCategoryId: string | undefined;
-    openAddCategoryModal: (category?: string | undefined) => void;
+    openAddCategoryModal: (category?: string) => void;
     closeAddCategoryModal: () => void;
 };
 

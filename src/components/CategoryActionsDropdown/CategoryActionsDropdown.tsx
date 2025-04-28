@@ -19,17 +19,21 @@ import sidebarStyles from './../Sidebar/Sidebar.module.css';
 // interfaces
 interface CategoryActionsDropdownProps {
     isVisible: boolean;
+    count: number;
     onOpenAddProductModal: () => void;
     onOpenAddCategoryModal: () => void;
     onRenameCategory: () => void;
+    onClearCategory: () => void;
 }
 
 
 const CategoryActionsDropdown = ({
                                      isVisible,
+                                     count,
                                      onOpenAddProductModal,
                                      onOpenAddCategoryModal,
-                                     onRenameCategory
+                                     onRenameCategory,
+                                     onClearCategory
                                  }: CategoryActionsDropdownProps) => {
 
     return (
@@ -50,8 +54,12 @@ const CategoryActionsDropdown = ({
 
                 <Dropdown.Menu>
                     <ActionItem icon={<Pencil size={16}/>} label="Rename" onClick={onRenameCategory}/>
-                    <ActionItem icon={<XOctagon size={16}/>} label="Clear" disabled onClick={() => {
-                    }}/>
+                    <ActionItem 
+                        icon={<XOctagon size={16}/>} 
+                        label="Clear" 
+                        onClick={onClearCategory} 
+                        disabled={count === 0}
+                    />
                     <Dropdown.Divider/>
 
 
