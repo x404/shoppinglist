@@ -39,8 +39,8 @@ export const CategoryHeader = memo(({
     }, [activeCategoryId])
 
     return (
-        <div className={`d-flex align-items-center gap-2 `}>
-            <h4 className={`${isAllCategory ? 'h6 text-uppercase fw-bold mb-0' : 'h5 mb-4 fw-normal'}`}>
+        <div className={`d-flex align-items-center gap-2 ${isAllCategory ? '' : 'mb-4'}`}>
+            <h4 className={`mb-0 ${isAllCategory ? 'h6 text-uppercase fw-bold' : 'h5 fw-normal'}`}>
                 {categoryName || '!#??'}
             </h4>
             <Badge bg="secondary">{counter}</Badge>
