@@ -171,19 +171,24 @@ const ProductItem = memo(({
     const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
 
-        const quantity = validateQuantity(event.target.value, {
-            maxLength: 5,
-            min: 1
-        });
+        if (name === 'quantity') {
+            const quantity = validateQuantity(value, {
+                maxLength: 5,
+                min: 1
+            });
 
-        if (quantity !== null) {
+            if (quantity !== null) {
+                setFormData(prev => ({
+                    ...prev,
+                    quantity: quantity  // строго number
+                }));
+            }
+        } else {
             setFormData(prev => ({
                 ...prev,
-                [name]: name === 'quantity' ? quantity : value
+                [name]: value 
             }));
         }
-        
-
     }, []);
 
     const handleCancel = () => {
