@@ -3,8 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 // context
-import { AddProductModalProvider, useAddProductModal } from "./context/AddProductModalContext";
+import { AddProductModalProvider, useAddProductModal } from "@context/AddProductModalContext";
 import { AddCategoryModalProvider, useAddCategoryModal } from "@context/AddCategoryModalContext";
+import { ClearCategoryModalProvider, useClearCategoryModal } from "@context/ClearCategoryModalContext";
 
 // redux 
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +24,10 @@ import AddCatalogModal from "./components/AddCategoryModal/AddCategoryModal";
 
 // interfaces
 import { Category, Product } from "./types/types";
-
+import { ClearCategoryModal } from "./components/ClearCategoryModal/ClearCategoryModal";
+import { getCategoryNameById } from "./helpers/getCategoryNameById";
+import { clearProductsInCategory } from "./store/productListSlice";
+import { focusElementByHref } from "./helpers/focusElementByHref";
 
 
 const AddProductModalManager = () => {
@@ -78,22 +82,55 @@ const AddCategoryModalManager = () => {
     );
 }
 
+const ClearCategoryModalManager = () => {
+    const dispatch = useDispatch();
+    const categoriesList = useSelector(selectCategoriesItems);
+    
+    const {
+        isClearCategoryModalOpen,
+        clearCategoryId,
+        closeClearCategoryModal
+    } = useClearCategoryModal();
+
+    const handleConfirmClearCategory = useCallback((categoryId: string) => {
+        dispatch(clearProductsInCategory(categoryId));
+        focusElementByHref(categoryId);
+        closeClearCategoryModal();
+    }, []);
+    
+    const categoryName = getCategoryNameById(categoriesList, clearCategoryId);
+    const category = {clearCategoryId, categoryName};
+    
+    return (
+        <ClearCategoryModal
+            category={category}
+            isShowModal={isClearCategoryModalOpen} 
+            onConfirmClearCategoryModal={handleConfirmClearCategory}
+            onCloseModal={closeClearCategoryModal}
+        />
+    );
+}
+
+
 function App() {
     return (
         <AddProductModalProvider>
             <AddCategoryModalProvider>
-                <>
-                    <SkipLink/>
-                    <div className="d-md-grid wrapper min-vh-100">
-                        <AppHeader/>
-                        <Sidebar/>
-                        <MainContent/>
-                    </div>
+                <ClearCategoryModalProvider>
+                    <>
+                        <SkipLink/>
+                        <div className="d-md-grid wrapper min-vh-100">
+                            <AppHeader/>
+                            <Sidebar/>
+                            <MainContent/>
+                        </div>
 
-                    <GlobalTooltips/>
-                    <AddProductModalManager/>
-                    <AddCategoryModalManager/>
-                </>
+                        <GlobalTooltips/>
+                        <AddProductModalManager/>
+                        <AddCategoryModalManager/>
+                        <ClearCategoryModalManager/>
+                    </>
+                </ClearCategoryModalProvider>
             </AddCategoryModalProvider>
         </AddProductModalProvider>
     )

@@ -19,7 +19,6 @@ export const AddProductModalProvider = ({ children }: ModalProviderProps) => {
 
     const openAddProductModal = useCallback((categoryId?: string) => {
         setModalOpen(true);
-        // categoryId ? setCurrentCategoryId(categoryId) : setCurrentCategoryId(undefined);
         setCurrentCategoryId(categoryId || undefined);
     }, []);
 

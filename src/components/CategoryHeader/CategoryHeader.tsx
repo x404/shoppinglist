@@ -14,6 +14,7 @@ interface CategoryHeaderProp {
 
     onCancelEditProduct: () => void;
     onShowAddProductModal: () => void;
+    onShowClearCategoryModal: () => void;
 }
 
 export const CategoryHeader = memo(({
@@ -23,7 +24,8 @@ export const CategoryHeader = memo(({
                                         categoryName,
 
                                         onCancelEditProduct,
-                                        onShowAddProductModal
+                                        onShowAddProductModal,
+                                        onShowClearCategoryModal
                                     }: CategoryHeaderProp) => {
     const isAllCategory = activeCategoryId === ALL_CATEGORY_OBJECT.id;
 
@@ -31,6 +33,10 @@ export const CategoryHeader = memo(({
         onCancelEditProduct();
         onShowAddProductModal()
     }, [activeCategoryId]);
+
+    const openClearModalProduct = useCallback(() => {
+        onShowClearCategoryModal();
+    }, [activeCategoryId])
 
     return (
         <h4 className={`d-flex align-items-center gap-2 ${isAllCategory ? 'h6 text-uppercase' : 'h5 mb-4 fw-normal'}`}>
@@ -46,6 +52,18 @@ export const CategoryHeader = memo(({
                 <Plus size={16}/>
                 Add product
             </Button>
+
+
+            { isAllCategory && counter > 0 && (
+                <Button
+                    variant="light"
+                    size="sm"
+                    onClick={() => openClearModalProduct()}
+
+                >
+                    Clear catalog
+                </Button>
+            )}
         </h4>
     )
 });

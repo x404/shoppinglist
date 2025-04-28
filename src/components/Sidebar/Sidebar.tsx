@@ -1,5 +1,5 @@
 import { MouseEvent, useCallback, useMemo, useState } from "react";
-import { Button, Dropdown, Modal } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
 // constants
@@ -7,21 +7,18 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { selectProductItems, clearProductsInCategory } from '@store/productListSlice';
+import { selectProductItems } from '@store/productListSlice';
 import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editCategory } from "@store/categoriesSlice";
+
 import { useAddProductModal } from "@context/AddProductModalContext";
 import { useAddCategoryModal } from "@context/AddCategoryModalContext";
+import { useClearCategoryModal } from "@context/ClearCategoryModalContext";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
 
 // styles
 import styles from "./Sidebar.module.css";
-
-
-// helpers
-import { getCategoryNameById } from "@helpers/getCategoryNameById";
-import { focusElementByHref } from "@helpers/focusElementByHref";
 
 // interfaces
 import { Category } from "@/types/types";
@@ -34,12 +31,10 @@ const Sidebar = () => {
 
     const activeCategoryId = useSelector(selectActiveCategoryId);
     const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
-
-    const [pendingClearCategory, setPendingClearCategory] = useState<{
-        id: string,
-        categoryName: string
-    } | null>(null);
+    
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
+
+    const { openClearCategoryModal } = useClearCategoryModal();
 
     const getCategoryCountById = (id: string): number => {
         return id === ALL_CATEGORY_OBJECT.id
@@ -81,21 +76,8 @@ const Sidebar = () => {
     }
 
     const requestClearCategory = (categoryId: string) => {
-        const categoryName = getCategoryNameById(categoriesList, categoryId);
-        setPendingClearCategory({ id: categoryId, categoryName });
+        openClearCategoryModal(categoryId);
     }
-
-    const confirmClearCategory = () => {
-        if (pendingClearCategory) {
-            dispatch(clearProductsInCategory(pendingClearCategory.id));
-            setPendingClearCategory(null);
-            focusElementByHref(pendingClearCategory.id);
-        }
-    };
-
-    const cancelClearCategory = () => {
-        setPendingClearCategory(null);
-    };
     
     const handleSaveEditCategory = useCallback((category: Category) => {
         dispatch(editCategory(category));
@@ -182,26 +164,6 @@ const Sidebar = () => {
                     </ul>
                 </nav>
             </aside>
-
-
-            {pendingClearCategory && (
-                <Modal show={true} onHide={cancelClearCategory} centered>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Confirm clearing "{pendingClearCategory.categoryName}"</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Are you sure you want to clear this category?
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={cancelClearCategory}>
-                            No
-                        </Button>
-                        <Button variant="danger" onClick={confirmClearCategory}>
-                            Yes
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            )}
         </>
     )
 }

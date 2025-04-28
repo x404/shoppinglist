@@ -10,10 +10,12 @@ import ProductView from "./ProductView/ProductView";
 // styles
 import styles from "./ProductItem.module.css";
 
+// helpers
+import { validateQuantity } from "@helpers/quantityHelpers";
+
 // interfaces
 import { Product } from "@/types/types";
 import { Category } from "../../types/types";
-import { validateQuantity } from "../../helpers/quantityHelpers";
 
 
 interface ProductItemProps {
