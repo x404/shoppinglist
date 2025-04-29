@@ -41,6 +41,5 @@ export const ClearCategoryModal = ({
                 </Button>
             </Modal.Footer>
         </Modal>
-        )
     </>)
 }

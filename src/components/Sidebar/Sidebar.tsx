@@ -1,6 +1,6 @@
 import { MouseEvent, useCallback, useMemo, useState } from "react";
-import { Dropdown } from "react-bootstrap";
-import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
+import { Button, Dropdown } from "react-bootstrap";
+import { FileEarmarkPlus, FolderPlus, LayoutSidebar, Plus } from "react-bootstrap-icons";
 
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
@@ -95,7 +95,7 @@ const Sidebar = () => {
 
     return (
         <>
-            <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 shadow-sm z-1`}>
+            <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 z-1`}>
                 <nav>
                     <div className={`${styles.sidebarRow} d-flex justify-content-between align-items-center px-2`}>
                         <h2 className="h6 mb-0 py-2">Categories space</h2>
@@ -144,7 +144,7 @@ const Sidebar = () => {
                         </div>
                     </div>
 
-                    <ul className="list-unstyled menu">
+                    <ul className="list-unstyled menu mb-0">
                         {categories.map((category) => (
                             <CategoryItem
                                 key={category.id}

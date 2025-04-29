@@ -89,7 +89,7 @@ const MainContent = () => {
     
     return (
         <>
-            <main className={`${styles.main} p-3`} id="main">
+            <main className={`${styles.main} py-3 px-3 px-md-0`} id="main">
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
 

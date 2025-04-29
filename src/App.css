@@ -1,10 +1,10 @@
-.wrapper {
-    grid-template-areas: 
-            "header header" 
-            "aside main";
-    grid-template-columns: 15% 1fr;
-    grid-template-rows: auto 1fr;
-}
+/*.wrapper {*/
+/*    grid-template-areas: */
+/*            "header header" */
+/*            "aside main";*/
+/*    grid-template-columns: 15% 1fr;*/
+/*    grid-template-rows: auto 1fr;*/
+/*}*/
 
 .deleteTooltip{
     background-color: var(--bs-red) !important;

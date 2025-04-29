@@ -1,5 +1,3 @@
 .main {
-    background: url("../../assets/wood-texture.jpg") no-repeat top left lightgray;
-    background-size: cover;
     grid-area: main;
 }

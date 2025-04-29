@@ -18,7 +18,7 @@ const AppHeader = () => {
     }, []);
     
     return (
-        <header className={`${styles.header} py-3 shadow-sm`}>
+        <header className={`${styles.header} py-3  `}>
             <h1 className="h3 me-0 ps-4">TODO List</h1>
             {(isDebug || productList.length === 0 ) && <MockupProductData/>}
         </header>
