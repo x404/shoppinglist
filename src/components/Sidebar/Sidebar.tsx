@@ -31,7 +31,7 @@ const Sidebar = () => {
 
     const activeCategoryId = useSelector(selectActiveCategoryId);
     const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
-    
+
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
 
     const { openClearCategoryModal } = useClearCategoryModal();
@@ -78,7 +78,7 @@ const Sidebar = () => {
     const requestClearCategory = (categoryId: string) => {
         openClearCategoryModal(categoryId);
     }
-    
+
     const handleSaveEditCategory = useCallback((category: Category) => {
         dispatch(editCategory(category));
         resetStates();
@@ -92,10 +92,9 @@ const Sidebar = () => {
         setEditingCategoryId(undefined);
     };
 
-
     return (
         <>
-            <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 z-1`}>
+            <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 pt-1 z-1`}>
                 <nav>
                     <div className={`${styles.sidebarRow} d-flex justify-content-between align-items-center px-2`}>
                         <h2 className="h6 mb-0 py-2">Categories space</h2>
@@ -127,7 +126,8 @@ const Sidebar = () => {
                                             </div>
                                         </div>
                                     </Dropdown.Item>
-                                    <Dropdown.Item as="button" className="" onClick={() => requestOpenAddProductModal()}>
+                                    <Dropdown.Item as="button" className=""
+                                                   onClick={() => requestOpenAddProductModal()}>
                                         <div className="d-flex">
                                             <div className={`${styles.icon} me-2`}>
                                                 <FileEarmarkPlus size={16}/>

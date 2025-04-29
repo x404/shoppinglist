@@ -3,7 +3,6 @@
 }
 
 .actions {
-    /*width: 100%;*/
     @media (width > 575px) {
         width: auto;
     }
