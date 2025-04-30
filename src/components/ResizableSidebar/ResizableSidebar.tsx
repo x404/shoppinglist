@@ -17,7 +17,7 @@ const ResizableSidebar = ({
                               sidebar,
                               mainContent,
                               storageKey = "sidebarWidth",
-                              minSidebarWidth = 230,
+                              minSidebarWidth = 285,
                               defaultSidebarWidth = 300,
                           }: ResizableSidebarProps) => {
     const [sidebarSize, setSidebarSize] = useState<number | null>(null);
@@ -27,15 +27,27 @@ const ResizableSidebar = ({
 
     useEffect(() => {
         const savedSize = LocalStorageService.get(storageKey);
-        if (savedSize) {
-            setSidebarSize(Number(savedSize));
+        const saved = Number(savedSize);
+
+        if (!Number.isNaN(saved)) {
+            setSidebarSize(saved);
+            setIsSidebarVisible(saved > 0);
         } else {
-            setSidebarSize((defaultSidebarWidth / window.innerWidth) * 100);
+            const defaultSize = (defaultSidebarWidth / window.innerWidth) * 100;
+            setSidebarSize(defaultSize);
+            setIsSidebarVisible(true);
         }
     }, [storageKey, defaultSidebarWidth]);
 
     const handleSidebarResize = (size: number) => {
-        const newSize =  size === 0 ? 3 : size; 
+        if (size === 0) {
+            setIsSidebarVisible(false);
+        } else if (size > 3) {
+            setIsSidebarVisible(true)
+            expandPanel()
+        }
+
+        const newSize = size === 0 ? 0 : size;
         LocalStorageService.set(storageKey, String(newSize));
         setSidebarSize(newSize);
     };
@@ -43,10 +55,15 @@ const ResizableSidebar = ({
     if (sidebarSize === null) {
         return null;
     }
-    
-    const toggleSidebar = () => {
-        // setIsSidebarVisible(!isSidebarVisible);
+
+    const hideSidebar = () => {
+        setIsSidebarVisible(false);
         collapsePanel();
+    }
+
+    const showSidebar = () => {
+        setIsSidebarVisible(true);
+        expandPanel();
     }
 
     const collapsePanel = () => {
@@ -56,25 +73,46 @@ const ResizableSidebar = ({
         }
     };
 
+    const expandPanel = () => {
+        const panel = ref.current;
+        if (panel) {
+            panel.expand(defaultSidebarWidth / window.innerWidth * 100);
+        }
+    };
+
     return (
         <div className={styles.wrapper}>
             <PanelGroup direction="horizontal" className={styles.panelGroup}>
+                <div
+                    className={`${styles.collapsePanel} ${isSidebarVisible ? 'd-none' : 'd-flex'} justify-content-center flex-grow-1`}>
+                    <Button
+                        variant=""
+                        className={`${styles.closeSidebarBtn} p-1 mt-2 d-flex flex-shrink-0`}
+                        onClick={showSidebar}
+                        data-tooltip-id="sidebar-tooltip"
+                        data-tooltip-content="Open sidebar"
+                        data-tooltip-place="top"
+
+                    >
+                        <LayoutSidebar width={16} height={16}/>
+                    </Button>
+                </div>
                 <Panel
                     collapsible ref={ref}
                     defaultSize={sidebarSize}
-                    minSize={isSidebarVisible ? (minSidebarWidth / window.innerWidth) * 100 : 3}
+                    minSize={isSidebarVisible ? (minSidebarWidth / window.innerWidth) * 100 : 0}
                     maxSize={50}
-                    className={`${styles.sidebar} bg-white shadow-sm`}
+                    className={`${styles.sidebar} ${isSidebarVisible ? styles.sidebarContent : styles.sidebarCollapsed} bg-white shadow-sm`}
                     onResize={(size) => handleSidebarResize(size)}
                 >
-                    <div className={isSidebarVisible ? styles.sidebarContent : styles.sidebarCollapsed}>
+                    <div className={styles.fixHeight}>
                         <div className="me-3 d-flex justify-content-end">
                             <Button
                                 variant=""
                                 className={`${styles.closeSidebarBtn} align-self-end p-1 me-1 mt-2 d-flex flex-shrink-0`}
-                                onClick={toggleSidebar}
+                                onClick={hideSidebar}
                                 data-tooltip-id="sidebar-tooltip"
-                                data-tooltip-content={isSidebarVisible ? 'Close sidebar' : 'Open sidebar'}
+                                data-tooltip-content="Close sidebar"
                                 data-tooltip-place="top"
 
                             >
@@ -86,7 +124,7 @@ const ResizableSidebar = ({
                 </Panel>
 
                 <PanelResizeHandle
-                    className={`${styles.resizeHandle} d-flex align-items-center justify-content-center`}>
+                    className={`${styles.resizeHandle} d-flex align-items-center justify-content-center ${!isSidebarVisible ? 'd-none-' : ''}`}>
                     <svg className={styles.ResizeHandleThumb} viewBox="0 0 24 24">
                         <path fill="currentColor"
                               d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2m-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2">
@@ -94,7 +132,7 @@ const ResizableSidebar = ({
                     </svg>
                 </PanelResizeHandle>
 
-                <Panel className={styles.mainContent}>
+                <Panel className={`${styles.mainContent} `}>
                     {mainContent}
                 </Panel>
             </PanelGroup>

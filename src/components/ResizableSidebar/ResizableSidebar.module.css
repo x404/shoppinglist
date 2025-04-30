@@ -7,10 +7,21 @@
     background-size: cover;
 }
 
+.collapsePanel{
+    background-color: #fff;
+    width: 50px;
+}
+
 .sidebar{
     overflow-y: auto;
     min-height: 100%;
+    
     /*min-width: 300px;*/
+}
+
+.fixHeight{
+    height: 100vh;
+    overflow: auto;
 }
 
 .mainContent{
@@ -63,10 +74,13 @@
 
 .sidebarCollapsed {
     /*height: 100%;*/
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    justify-content: center;
+    /*display: flex;*/
+    /*justify-content: flex-end;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    display: none !important;
+    flex: 0 0 0 !important;
+    flex-shrink: 0;
 }
 
 
