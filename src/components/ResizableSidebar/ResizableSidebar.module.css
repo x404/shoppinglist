@@ -15,7 +15,7 @@
 .sidebar{
     overflow-y: auto;
     min-height: 100%;
-    
+
     /*min-width: 300px;*/
 }
 
@@ -25,19 +25,20 @@
 }
 
 .mainContent{
-    overflow-y: auto;
+    overflow-y: auto !important;
     min-height: 100%;
 }
 
 .resizeHandle{
-    background-color: rgba(255,255,255,.2);
+    background-color: rgba(255, 255, 255, .2);
     transition: background-color .2s ease;
     cursor: col-resize;
 
     outline: none;
     flex: 0 0 .5rem;
+
     &:hover{
-        background-color: rgba(0,0,0,.1);
+        background-color: rgba(0, 0, 0, .1);
     }
 
 }
@@ -55,16 +56,18 @@
     width: 24px;
     height: 24px;
     border: none;
+
     &:hover{
-        background-color:  var(--bs-gray-300);
+        background-color: var(--bs-gray-300);
     }
+
     &:focus,
     &:active{
-        background-color:  var(--bs-gray-300);
+        background-color: var(--bs-gray-300);
     }
 }
 
-.sidebarContent {
+.sidebarContent{
     /*min-width: 300px;*/
     /*height: 100%;*/
     display: flex;
@@ -72,7 +75,7 @@
     position: relative;
 }
 
-.sidebarCollapsed {
+.sidebarCollapsed{
     /*height: 100%;*/
     /*display: flex;*/
     /*justify-content: flex-end;*/
@@ -84,21 +87,28 @@
 }
 
 
-@media (max-width: 768px) {
+@media (min-width: 768px){
+    .panelGroup{
+        height: calc(100vh - 75px) !important;
+    }
+}
+
+@media (max-width: 768px){
     .panelGroup{
         display: block !important;
         height: auto !important;
     }
-    .sidebar {
+
+    .sidebar{
         /*display: none;*/
     }
 
-    .mainContent {
+    .mainContent{
         width: 100% !important;
         flex: 1;
     }
 
-    .resizeHandle {
+    .resizeHandle{
         display: none;
     }
 }
