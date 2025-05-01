@@ -27,6 +27,7 @@ interface CategoryItem {
     onSelectCategory: (event: MouseEvent<HTMLElement>, categoryId: string) => void;
     onOpenAddProductModal: (categoryId?: string) => void;
     onOpenAddCategoryModal: (categoryId?: string) => void;
+    onOpenDeleteCategoryModal: (categoryId: string) => void;
     onRenameCategory: (categoryId?: string) => void;
     onClearCategory: (categoryId: string) => void;
     onSaveEditCategory: (category: Category) => void;
@@ -41,6 +42,7 @@ const CategoryItem = ({
                           onSelectCategory,
                           onOpenAddProductModal,
                           onOpenAddCategoryModal,
+                          onOpenDeleteCategoryModal,
                           onRenameCategory,
                           onClearCategory,
                           onSaveEditCategory,
@@ -68,6 +70,11 @@ const CategoryItem = ({
 
     const handleOpenAddCategoryModal = () => {
         onOpenAddCategoryModal(categoryId);
+    }
+
+    const handleOpenDeleteCategoryModal = () => {
+        console.log('handleOpenDeleteCategoryModal');
+        onOpenDeleteCategoryModal(categoryId);
     }
 
     const wrapperRef = useRef<HTMLLIElement | null>(null);
@@ -153,7 +160,6 @@ const CategoryItem = ({
     };
 
 
-
     const saveCategory = () => {
         const updatedCategory = {
             ...category,
@@ -211,6 +217,7 @@ const CategoryItem = ({
                             isHovered={isHovered}
                             handleOpenAddProductModal={handleOpenAddProductModal}
                             handleOpenAddCategoryModal={handleOpenAddCategoryModal}
+                            handleOpenDeleteCategoryModal={handleOpenDeleteCategoryModal}
                             handleRenameCategory={handleRenameCategory}
                             handleClearCategory={handleClearCategory}
                             handleSelectCategory={onSelectCategory}

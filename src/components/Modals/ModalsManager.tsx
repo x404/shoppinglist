@@ -1,6 +1,7 @@
 import AddProductModalManager from "./AddProductModalManager";
 import AddCategoryModalManager from "./AddCategoryModalManager";
 import ClearCategoryModalManager from "./ClearCategoryModalManager";
+import DeleteCategoryModalManager from "./DeleteCategoryModalManager";
 
 const ModalsManager = () => {
     return (
@@ -8,6 +9,7 @@ const ModalsManager = () => {
             <AddProductModalManager/>
             <AddCategoryModalManager/>
             <ClearCategoryModalManager/>
+            <DeleteCategoryModalManager/>
         </>
     );
 };

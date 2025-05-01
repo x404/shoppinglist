@@ -13,6 +13,7 @@ import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editC
 import { useAddProductModal } from "@context/AddProductModalContext";
 import { useAddCategoryModal } from "@context/AddCategoryModalContext";
 import { useClearCategoryModal } from "@context/ClearCategoryModalContext";
+import { useDeleteCategoryModal } from "@context/DeleteCategoryModalContext";
 
 // components
 import CategoryItem from "../CategoryItem/CategoryItem";
@@ -35,6 +36,7 @@ const Sidebar = () => {
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
 
     const { openClearCategoryModal } = useClearCategoryModal();
+    const { openDeleteCategoryModal } = useDeleteCategoryModal();
 
     const getCategoryCountById = (id: string): number => {
         return id === ALL_CATEGORY_OBJECT.id
@@ -77,6 +79,12 @@ const Sidebar = () => {
 
     const requestClearCategory = (categoryId: string) => {
         openClearCategoryModal(categoryId);
+    }
+
+
+    const requestOpenDeleteCategoryModal = (categoryId: string) => {
+        console.log('categoryId delete', categoryId);
+        openDeleteCategoryModal(categoryId);
     }
 
     const handleSaveEditCategory = useCallback((category: Category) => {
@@ -154,6 +162,7 @@ const Sidebar = () => {
                                 onSelectCategory={requestSelectCategory}
                                 onOpenAddProductModal={requestOpenAddProductModal}
                                 onOpenAddCategoryModal={requestOpenAddCategoryModal}
+                                onOpenDeleteCategoryModal={requestOpenDeleteCategoryModal}
                                 onRenameCategory={requestRenameCategory}
                                 onClearCategory={requestClearCategory}
                                 onSaveEditCategory={handleSaveEditCategory}

@@ -16,6 +16,7 @@ interface CategoryViewProps {
     isHovered: boolean;
     handleOpenAddProductModal: () => void;
     handleOpenAddCategoryModal: () => void;
+    handleOpenDeleteCategoryModal: () => void;
     handleSelectCategory: (event: MouseEvent<HTMLElement>, categoryId: string) => void;
     handleRenameCategory: () => void;
     handleClearCategory: () => void;
@@ -30,6 +31,7 @@ const CategoryView = ({
                           isHovered,
                           handleOpenAddProductModal,
                           handleOpenAddCategoryModal,
+                          handleOpenDeleteCategoryModal,
                           handleRenameCategory,
                           handleClearCategory,
                           handleSelectCategory
@@ -59,6 +61,7 @@ const CategoryView = ({
                     count={count}
                     onOpenAddProductModal={handleOpenAddProductModal}
                     onOpenAddCategoryModal={handleOpenAddCategoryModal}
+                    onOpenDeleteCategoryModal={handleOpenDeleteCategoryModal}
                     onRenameCategory={handleRenameCategory}
                     onClearCategory={handleClearCategory}
                 />

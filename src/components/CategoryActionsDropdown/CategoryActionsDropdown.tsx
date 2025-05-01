@@ -22,6 +22,7 @@ interface CategoryActionsDropdownProps {
     count: number;
     onOpenAddProductModal: () => void;
     onOpenAddCategoryModal: () => void;
+    onOpenDeleteCategoryModal: () => void;
     onRenameCategory: () => void;
     onClearCategory: () => void;
 }
@@ -32,6 +33,7 @@ const CategoryActionsDropdown = ({
                                      count,
                                      onOpenAddProductModal,
                                      onOpenAddCategoryModal,
+                                     onOpenDeleteCategoryModal,
                                      onRenameCategory,
                                      onClearCategory
                                  }: CategoryActionsDropdownProps) => {
@@ -54,10 +56,10 @@ const CategoryActionsDropdown = ({
 
                 <Dropdown.Menu>
                     <ActionItem icon={<Pencil size={16}/>} label="Rename" onClick={onRenameCategory}/>
-                    <ActionItem 
-                        icon={<XOctagon size={16}/>} 
-                        label="Clear" 
-                        onClick={onClearCategory} 
+                    <ActionItem
+                        icon={<XOctagon size={16}/>}
+                        label="Clear"
+                        onClick={onClearCategory}
                         disabled={count === 0}
                     />
                     <Dropdown.Divider/>
@@ -104,8 +106,12 @@ const CategoryActionsDropdown = ({
                     }}/>
 
                     <Dropdown.Divider/>
-                    <ActionItem icon={<Trash size={16}/>} label="Delete" disabled onClick={() => {
-                    }} className={'text-danger'}/>
+                    <ActionItem
+                        icon={<Trash size={16}/>}
+                        label="Delete"
+                        onClick={onOpenDeleteCategoryModal}
+                        className={'text-danger'}
+                    />
                 </Dropdown.Menu>
             </Dropdown>
 
