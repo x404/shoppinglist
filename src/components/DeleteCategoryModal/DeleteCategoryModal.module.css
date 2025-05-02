@@ -1,0 +1,13 @@
+.infoText{
+    border-left: 1px solid var(--bs-gray-500);
+}
+
+
+.verificationField{
+    border-color: var(--bs-danger);
+}
+
+button.disabled:disabled{
+    cursor: not-allowed;
+    pointer-events: auto;
+} 
