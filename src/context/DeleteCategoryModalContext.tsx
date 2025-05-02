@@ -18,8 +18,6 @@ export const DeleteCategoryModalProvider = ({ children }: ModalProviderProps) =>
     const [deleteCategoryId, setDeleteCategoryId] = useState<string>('');
 
     const openDeleteCategoryModal = useCallback((categoryId: string) => {
-        console.log('openDeleteCategoryModal', categoryId);
-
         setIsDeleteCategoryModalOpen(true);
         setDeleteCategoryId(categoryId);
     }, [])
