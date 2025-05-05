@@ -12,8 +12,9 @@ const LOCAL_STORAGE_PRODUCT_KEY = "productList";
 const storedProductList = LocalStorageService.get<Product[]>(LOCAL_STORAGE_PRODUCT_KEY);
 
 
-const initialState: ProductListState = {
-    products: Array.isArray(storedProductList) ? storedProductList : []
+const initialState: ProductListState & { filterQuery: string } = {
+    products: Array.isArray(storedProductList) ? storedProductList : [],
+    filterQuery: ''
 };
 
 
@@ -34,11 +35,11 @@ export const productListSlice = createSlice({
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },
         editProduct: (state, action: PayloadAction<Product>) => {
-            const {id, name, categoryId, quantity} = action.payload;
-            state.products = state.products.map(product => 
+            const { id, name, categoryId, quantity } = action.payload;
+            state.products = state.products.map(product =>
                 product.id === id
-                ? { ...product, name, quantity, categoryId }
-                : product
+                    ? { ...product, name, quantity, categoryId }
+                    : product
             );
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },
@@ -49,11 +50,32 @@ export const productListSlice = createSlice({
         clearProductsInCategory: (state, action: PayloadAction<string>) => {
             state.products = state.products.filter(product => product.categoryId !== action.payload);
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
+        },
+        setFilterQuery: (state, action: PayloadAction<string>) => {
+            state.filterQuery = action.payload;
         }
     }
 });
 
-export const { togglePurchased, addProduct, editProduct, deleteProduct, clearProductsInCategory } = productListSlice.actions;
-export const selectProductItems = (state: { productList: ProductListState }) => state.productList.products;
+export const {
+    togglePurchased,
+    addProduct,
+    editProduct,
+    deleteProduct,
+    clearProductsInCategory,
+    setFilterQuery
+} = productListSlice.actions;
+
+export const selectProductItems = (state: { productList: ProductListState })  => {
+    return state.productList.products;
+}
+
+export const selectFilteredProducts = (state: { productList: ProductListState & { filterQuery: string } }) => {
+    const query = state.productList.filterQuery.toLowerCase();
+    return state.productList.products.filter(product =>
+        product.name.toLowerCase().includes(query)
+    );
+};
+
 
 export default productListSlice.reducer;
