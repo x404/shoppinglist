@@ -28,6 +28,7 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "@/types/types";
+import { useDebounce } from "use-debounce";
 
 
 const MainContent = () => {
@@ -40,6 +41,8 @@ const MainContent = () => {
 
     const [editingProductId, setEditingProductId] = useState<string | undefined>(undefined);
     const [searchText, setSearchText] = useState<string>('Banana');
+    const [debouncedSearchText] = useDebounce(searchText, 300); // Задержка 300 мс
+
 
     // const filteredProducts = useMemo(() => {
     //     return activeCategoryId === ALL_CATEGORY_OBJECT.id
@@ -53,13 +56,13 @@ const MainContent = () => {
             ? productList
             : productList.filter((product: Product) => product.categoryId === activeCategoryId);
 
-        const normalizedSearch = searchText.trim().toLowerCase();
+        const normalizedSearch = debouncedSearchText.trim().toLowerCase();
         return normalizedSearch.length === 0
             ? byCategory
             : byCategory.filter((product: Product) =>
                 product.name.toLowerCase().includes(normalizedSearch)
             );
-    }, [activeCategoryId, productList, searchText]);
+    }, [activeCategoryId, productList, debouncedSearchText]);
     
 
     const groupedProducts = useMemo(() => {

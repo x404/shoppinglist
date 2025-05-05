@@ -22,6 +22,7 @@
     "react-redux": "^9.2.0",
     "react-resizable-panels": "^2.1.9",
     "react-tooltip": "^5.28.0",
+    "use-debounce": "^10.0.4",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
