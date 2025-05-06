@@ -103,7 +103,7 @@ const ResizableSidebar = ({
                         variant=""
                         className={`${styles.closeSidebarBtn} p-1 mt-2 d-flex flex-shrink-0`}
                         onClick={showSidebar}
-                        data-tooltip-id="sidebar-tooltip"
+                        data-tooltip-id="custom-tooltip"
                         data-tooltip-content="Open sidebar"
                         data-tooltip-place="top"
                         aria-label="Show sidebar"
@@ -125,11 +125,10 @@ const ResizableSidebar = ({
                                 variant=""
                                 className={`${styles.closeSidebarBtn} align-self-end p-1 me-1 mt-2 d-flex flex-shrink-0`}
                                 onClick={hideSidebar}
-                                data-tooltip-id="sidebar-tooltip"
+                                data-tooltip-id="custom-tooltip"
                                 data-tooltip-content="Close sidebar"
                                 data-tooltip-place="top"
                                 aria-label="Hide sidebar"
-
                             >
                                 <LayoutSidebar width={16} height={16}/>
                             </Button>

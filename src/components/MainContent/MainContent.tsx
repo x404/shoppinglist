@@ -128,7 +128,7 @@ const MainContent = () => {
                     {(filteredProducts.length > 0 || searchText.length > 0) && (
                         <>
                             {activeCategoryId === ALL_CATEGORY_OBJECT.id && (
-                                <header className="d-flex gap-3 align-items-center justify-content-between mb-4">
+                                <header className="d-sm-flex gap-3 align-items-center justify-content-between mb-4">
                                     <div className="d-flex align-items-center flex-grow-1">
                                         <h3 className="h5 mb-0 me-2" id="my-list-title">My List</h3>
                                         <Button variant="light" size="sm" onClick={() => handleAddProduct()}>
@@ -136,7 +136,7 @@ const MainContent = () => {
                                             Add product
                                         </Button>
                                     </div>
-                                    <div>
+                                    <div className='mt-2 mt-sm-0'>
                                         <SearchBar onSearch={setSearchText} initialValue={searchText}/>
                                     </div>
                                 </header>

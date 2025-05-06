@@ -33,11 +33,11 @@ const GlobalTooltips = () => {
                 delayHide={200}
             />
             <Tooltip
-                id="sidebar-tooltip"
+                id="custom-tooltip"
                 place="top"
                 delayShow={1000}
                 delayHide={200}
-                className="sidebarTooltip"
+                className="customTooltip"
             />
         </>
     )

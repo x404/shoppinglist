@@ -47,7 +47,7 @@ const CategoryActionsDropdown = ({
                     className={`${sidebarStyles.settingsCategoryBtn} ${sidebarStyles.noRightArrow} btn d-flex align-items-center justify-content-center px-1`}
                     size="sm"
                     variant="light"
-                    data-tooltip-id="sidebar-tooltip"
+                    data-tooltip-id="custom-tooltip"
                     data-tooltip-content="Create category, add product, etc."
                     data-tooltip-place="top"
                 >
@@ -122,7 +122,7 @@ const CategoryActionsDropdown = ({
                     className={` ${sidebarStyles.noRightArrow} btn d-flex align-items-center p-0 border-0`}
                     size="sm"
                     variant=""
-                    data-tooltip-id="sidebar-tooltip"
+                    data-tooltip-id="custom-tooltip"
                     data-tooltip-content="Add product"
                     data-tooltip-place="top"
                 >

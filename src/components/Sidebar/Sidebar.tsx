@@ -113,7 +113,7 @@ const Sidebar = () => {
                                     className={`${styles.addBtn} ${styles.noRightArrow} btn d-flex align-items-center p-0`}
                                     size="sm"
                                     variant=""
-                                    data-tooltip-id="sidebar-tooltip"
+                                    data-tooltip-id="custom-tooltip"
                                     data-tooltip-content="Create category, add product, etc."
                                     data-tooltip-place="top"
                                 >

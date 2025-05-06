@@ -43,6 +43,9 @@ const SearchBar = ({ onSearch, initialValue = '' }: SearchInputProps) => {
                     size="sm"
                     className={`${styles.clearSearchButton} d-flex align-items-center position-absolute end-0 top-0 rounded-circle p-0`}
                     onClick={clearSearch}
+                    data-tooltip-id="custom-tooltip"
+                    data-tooltip-content="Clear search"
+                    data-tooltip-place="top"
                 >
                     <X size={24}/>
                 </Button>)}
