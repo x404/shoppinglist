@@ -7,11 +7,11 @@ import MainContent from "./components/MainContent/MainContent";
 import SkipLink from "./components/SkipLink/SkipLink";
 import AppHeader from "./components/AppHeader/AppHeader";
 import GlobalTooltips from "./components/GlobalTooltips/GlobalTooltips";
+import ResizableSidebar from "./components/ResizableSidebar/ResizableSidebar";
 
-// interfaces
+// context
 import ModalsManager from "./components/Modals/ModalsManager";
 import { ModalProviders } from "./context/ModalProviders";
-import ResizableSidebar from "./components/ResizableSidebar/ResizableSidebar";
 
 
 const AppContent = () =>  {
@@ -20,7 +20,7 @@ const AppContent = () =>  {
             <SkipLink />
             <div className="wrapper min-vh-100 d-flex flex-column">
                 <AppHeader />
-                <div className="flex-grow-1 d-flex overflow-hidden">
+                <div className="flex-grow-1 d-flex overflow-hidden-">
                     <ResizableSidebar
                         storageKey="leftSidebarWidth"
                         sidebar={<Sidebar />}

@@ -20,8 +20,9 @@
 }
 
 .fixHeight{
-    height: 100vh;
-    /*overflow: auto;*/
+    @media (width > 992px) {
+        height: 100vh;
+    }
 }
 
 .mainContent{

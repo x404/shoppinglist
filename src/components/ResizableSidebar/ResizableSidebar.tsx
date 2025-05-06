@@ -1,10 +1,18 @@
-import { PanelGroup, Panel, PanelResizeHandle, ImperativePanelHandle } from "react-resizable-panels";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { LocalStorageService } from "@services/LocalStorageService";
-import styles from "./ResizableSidebar.module.css";
 import { Button } from "react-bootstrap";
+import { PanelGroup, Panel, PanelResizeHandle, ImperativePanelHandle } from "react-resizable-panels";
 import { LayoutSidebar } from "react-bootstrap-icons";
 
+// services
+import { LocalStorageService } from "@services/LocalStorageService";
+
+// hooks
+import { useMediaQuery } from "@hook/useMediaQuery";
+
+// styles
+import styles from "./ResizableSidebar.module.css";
+
+// interfaces
 interface ResizableSidebarProps {
     sidebar: ReactNode;
     mainContent: ReactNode;
@@ -23,6 +31,8 @@ const ResizableSidebar = ({
     const [sidebarSize, setSidebarSize] = useState<number | null>(null);
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
     const ref = useRef<ImperativePanelHandle>(null);
+    const defaultSize = (defaultSidebarWidth / window.innerWidth) * 100
+    const isDesktop = useMediaQuery("(min-width: 768px)");
 
 
     useEffect(() => {
@@ -33,7 +43,6 @@ const ResizableSidebar = ({
             setSidebarSize(saved);
             setIsSidebarVisible(saved > 0);
         } else {
-            const defaultSize = (defaultSidebarWidth / window.innerWidth) * 100;
             setSidebarSize(defaultSize);
             setIsSidebarVisible(true);
         }
@@ -41,10 +50,15 @@ const ResizableSidebar = ({
 
     const handleSidebarResize = (size: number) => {
         if (size === 0) {
-            setIsSidebarVisible(false);
+            if (isDesktop) {
+                setIsSidebarVisible(false);
+            } else {
+                setIsSidebarVisible(true);
+                expandSidebar();
+            }
         } else if (size > 3) {
-            setIsSidebarVisible(true)
-            expandPanel()
+            setIsSidebarVisible(true);
+            expandSidebar();
         }
 
         const newSize = size === 0 ? 0 : size;
@@ -58,25 +72,25 @@ const ResizableSidebar = ({
 
     const hideSidebar = () => {
         setIsSidebarVisible(false);
-        collapsePanel();
+        collapseSidebar();
     }
 
     const showSidebar = () => {
         setIsSidebarVisible(true);
-        expandPanel();
+        expandSidebar();
     }
 
-    const collapsePanel = () => {
+    const collapseSidebar = () => {
         const panel = ref.current;
         if (panel) {
             panel.collapse();
         }
     };
 
-    const expandPanel = () => {
+    const expandSidebar = () => {
         const panel = ref.current;
         if (panel) {
-            panel.expand(defaultSidebarWidth / window.innerWidth * 100);
+            panel.expand(defaultSize);
         }
     };
 
@@ -92,7 +106,7 @@ const ResizableSidebar = ({
                         data-tooltip-id="sidebar-tooltip"
                         data-tooltip-content="Open sidebar"
                         data-tooltip-place="top"
-
+                        aria-label="Show sidebar"
                     >
                         <LayoutSidebar width={16} height={16}/>
                     </Button>
@@ -106,7 +120,7 @@ const ResizableSidebar = ({
                     onResize={(size) => handleSidebarResize(size)}
                 >
                     <div className={styles.fixHeight}>
-                        <div className="me-3 d-flex justify-content-end">
+                        <div className="me-3 d-none d-md-flex justify-content-end">
                             <Button
                                 variant=""
                                 className={`${styles.closeSidebarBtn} align-self-end p-1 me-1 mt-2 d-flex flex-shrink-0`}
@@ -114,6 +128,7 @@ const ResizableSidebar = ({
                                 data-tooltip-id="sidebar-tooltip"
                                 data-tooltip-content="Close sidebar"
                                 data-tooltip-place="top"
+                                aria-label="Hide sidebar"
 
                             >
                                 <LayoutSidebar width={16} height={16}/>
@@ -124,7 +139,7 @@ const ResizableSidebar = ({
                 </Panel>
 
                 <PanelResizeHandle
-                    className={`${styles.resizeHandle} d-flex align-items-center justify-content-center ${!isSidebarVisible ? 'd-none-' : ''}`}>
+                    className={`${styles.resizeHandle} d-none d-md-flex align-items-center justify-content-center ${!isSidebarVisible ? 'd-none-' : ''}`}>
                     <svg className={styles.ResizeHandleThumb} viewBox="0 0 24 24">
                         <path fill="currentColor"
                               d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2m-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2">
