@@ -38,14 +38,14 @@ const SearchBar = ({ onSearch, initialValue = '' }: SearchInputProps) => {
                         value={inputValue}
                     />
                 </Form.Group>
-                <Button
+                {inputValue && (<Button
                     variant=""
                     size="sm"
                     className={`${styles.clearSearchButton} d-flex align-items-center position-absolute end-0 top-0 rounded-circle p-0`}
                     onClick={clearSearch}
                 >
                     <X size={24}/>
-                </Button>
+                </Button>)}
             </Form>
         </>
     )
