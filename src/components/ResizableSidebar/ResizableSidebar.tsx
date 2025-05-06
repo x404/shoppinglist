@@ -18,7 +18,7 @@ const ResizableSidebar = ({
                               mainContent,
                               storageKey = "sidebarWidth",
                               minSidebarWidth = 285,
-                              defaultSidebarWidth = 300,
+                              defaultSidebarWidth = 18,
                           }: ResizableSidebarProps) => {
     const [sidebarSize, setSidebarSize] = useState<number | null>(null);
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
@@ -26,7 +26,7 @@ const ResizableSidebar = ({
 
 
     useEffect(() => {
-        const savedSize = LocalStorageService.get(storageKey);
+        const savedSize = LocalStorageService.get(storageKey) || defaultSidebarWidth;
         const saved = Number(savedSize);
 
         if (!Number.isNaN(saved)) {
