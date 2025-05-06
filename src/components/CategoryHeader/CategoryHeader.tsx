@@ -4,6 +4,7 @@ import { Plus } from "react-bootstrap-icons";
 
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
+import SearchBar from "../SearchBar/SearchBar";
 
 // interfaces
 interface CategoryHeaderProp {
@@ -39,19 +40,22 @@ export const CategoryHeader = memo(({
     }, [activeCategoryId])
 
     return (
-        <div className={`d-flex align-items-center gap-2 ${isAllCategory ? '' : 'mb-4'}`}>
-            <h4 className={`mb-0 ${isAllCategory ? 'h6 text-uppercase fw-bold' : 'h5 fw-normal'}`}>
-                {categoryName || '!#??'}
-            </h4>
-            <Badge bg="secondary">{counter}</Badge>
-            <Button
-                variant="light"
-                size="sm"
-                onClick={() => openModalAddProduct()}
-            >
-                <Plus size={16}/>
-                Add product
-            </Button>
+        <div className={`d-flex align-items-center justify-content-between gap-2 ${isAllCategory ? '' : 'mb-4'}`}>
+            <div className="d-flex align-items-center flex-grow-1">
+                <h4 className={`mb-0 ${isAllCategory ? 'h6 text-uppercase fw-bold me-1' : 'h5 fw-normal me-1'}`}>
+                    {categoryName || '!#??'}
+                </h4>
+                <Badge bg="secondary">{counter}</Badge>
+                <Button
+                    variant="light"
+                    size="sm"
+                    onClick={() => openModalAddProduct()}
+                    className="ms-2"
+                >
+                    <Plus size={16}/>
+                    Add product
+                </Button>
+            </div>
 
 
             {/*{ isAllCategory && counter > 0 && (*/}
@@ -59,7 +63,7 @@ export const CategoryHeader = memo(({
             {/*        variant="light"*/}
             {/*        size="sm"*/}
             {/*        onClick={() => openClearModalProduct()}*/}
-            
+
             {/*    >*/}
             {/*        Clear catalog*/}
             {/*    </Button>*/}

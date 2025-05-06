@@ -1,6 +1,9 @@
-import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { Button, CloseButton, Form } from "react-bootstrap";
-import { Plus, Trash, X } from "react-bootstrap-icons";
+import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from "react";
+import { useDebounce } from "use-debounce";
+
+import { Button } from "react-bootstrap";
+import { Plus } from "react-bootstrap-icons";
+
 
 import { useAddProductModal } from "@context/AddProductModalContext";
 
@@ -9,26 +12,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectProductItems, editProduct, deleteProduct, togglePurchased
 } from '@store/productListSlice';
-import { selectActiveCategoryId, selectCategoriesItems } from "@store/categoriesSlice";
+import { selectActiveCategoryId } from "@store/categoriesSlice";
 
 
 // components
 import GroupedProductList from "../GroupedProductList";
 import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
+import SearchBar from "../SearchBar/SearchBar";
 
 // styles
 import styles from "./MainContent.module.css";
 
 // helpers
 import { groupProductsByCategoryId } from "@helpers/groupProductsByCategoryId";
-import { getCategoryNameById } from "@helpers/getCategoryNameById";
 
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "@/types/types";
-import { useDebounce } from "use-debounce";
 
 
 const MainContent = () => {
@@ -40,8 +42,8 @@ const MainContent = () => {
     // const categoriesList = useSelector(selectCategoriesItems);
 
     const [editingProductId, setEditingProductId] = useState<string | undefined>(undefined);
-    const [searchText, setSearchText] = useState<string>('Banana');
-    const [debouncedSearchText] = useDebounce(searchText, 300); // Задержка 300 мс
+    const [searchText, setSearchText] = useState<string>('');
+    const [debouncedSearchText] = useDebounce(searchText, 300);
 
 
     // const filteredProducts = useMemo(() => {
@@ -63,7 +65,7 @@ const MainContent = () => {
                 product.name.toLowerCase().includes(normalizedSearch)
             );
     }, [activeCategoryId, productList, debouncedSearchText]);
-    
+
 
     const groupedProducts = useMemo(() => {
         return groupProductsByCategoryId(filteredProducts);
@@ -106,22 +108,6 @@ const MainContent = () => {
         setEditingProductId(undefined);
     };
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        console.log(event)
-    }
-
-    const handleSearchChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        setSearchText(event.target.value);
-    }, []);
-
-
-    const onClearSearch = () => {
-        setSearchText('');
-    }
-
 
     return (
         <>
@@ -129,15 +115,17 @@ const MainContent = () => {
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
 
-                    {filteredProducts.length === 0 && (
-                        <NoFoundProducts
-                            products={filteredProducts}
-                            activeCategoryId={activeCategoryId}
-                        />
+                    {filteredProducts.length === 0 && searchText.length === 0 && (
+                        <>
+                            <NoFoundProducts
+                                products={filteredProducts}
+                                activeCategoryId={activeCategoryId}
+                            />
+                        </>
                     )}
 
 
-                    {filteredProducts.length > 0 && (
+                    {(filteredProducts.length > 0 || searchText.length > 0) && (
                         <>
                             {activeCategoryId === ALL_CATEGORY_OBJECT.id && (
                                 <header className="d-flex gap-3 align-items-center justify-content-between mb-4">
@@ -149,29 +137,13 @@ const MainContent = () => {
                                         </Button>
                                     </div>
                                     <div>
-
-                                        <Form onSubmit={handleSubmit} className="position-relative">
-                                            <Form.Group className="">
-                                                <Form.Label className="visually-hidden">Name</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    placeholder="Search..."
-                                                    onChange={handleSearchChange}
-                                                    value={searchText}
-                                                />
-                                            </Form.Group>
-                                            <Button
-                                                variant=""
-                                                size="sm"
-                                                className={`${styles.clearSearchButton} d-flex align-items-center position-absolute end-0 top-0 rounded-circle p-0`}
-                                                onClick={onClearSearch}
-                                            >
-                                                <X size={24}/>
-                                            </Button>
-                                        </Form>
-
+                                        <SearchBar onSearch={setSearchText} initialValue={searchText}/>
                                     </div>
                                 </header>
+                            )}
+
+                            {searchText.length > 0 && filteredProducts.length === 0 && (
+                                <p className="text-muted mt-3">No products found for "<strong>{searchText}</strong>"</p>
                             )}
 
                             <GroupedProductList

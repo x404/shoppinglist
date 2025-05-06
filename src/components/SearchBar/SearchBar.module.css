@@ -1,0 +1,9 @@
+.clearSearchButton{
+    border: none;
+    margin-right: 8px;
+    margin-top: 7px;
+
+    &:hover{
+        background-color: var(--bs-gray-200);
+    }
+}
