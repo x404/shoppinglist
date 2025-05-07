@@ -176,8 +176,8 @@ const CategoryItem = ({
 
     const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
-        setFormData(prev => ({
-            ...prev,
+        setFormData(prevState => ({
+            ...prevState,
             [name]: value
         }));
     }, []);

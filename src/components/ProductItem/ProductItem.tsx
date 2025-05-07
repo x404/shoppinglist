@@ -178,14 +178,14 @@ const ProductItem = memo(({
             });
 
             if (quantity !== null) {
-                setFormData(prev => ({
-                    ...prev,
-                    quantity: quantity  // строго number
+                setFormData(prevState => ({
+                    ...prevState,
+                    quantity: quantity
                 }));
             }
         } else {
-            setFormData(prev => ({
-                ...prev,
+            setFormData(prevState => ({
+                ...prevState,
                 [name]: value 
             }));
         }
