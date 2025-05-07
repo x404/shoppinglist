@@ -1,7 +1,7 @@
 
 // components
-import ProductItem from "./ProductItem/ProductItem";
-import { CategoryHeader } from "./CategoryHeader/CategoryHeader";
+import ProductItem from "../ProductItem/ProductItem";
+import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
 
 // interfaces
 import { Product } from "@/types/types";
@@ -64,7 +64,7 @@ const GroupedProductList = ({
                             onShowAddProductModal={() => handleShowAddProductModal(categoryId)}
                             onShowClearCategoryModal={() => handleShowClearCategoryModal(categoryId)}
                         />
-
+                        
                         <ul className="list-group mt-2" aria-label={categoryId}>
                             {products.map((product) => (
                                 <ProductItem

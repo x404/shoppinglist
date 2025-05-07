@@ -1,3 +1,39 @@
 .main {
     grid-area: main;
 }
+
+.sortingSelect{
+    width: 165px
+}
+
+.customPopover{
+    width: auto !important;
+    max-width: max-content !important;
+}
+
+.viewBtn{
+    border-color: var(--bs-border-color);
+    
+    &.active,
+    &:active,
+    &:hover{
+        border-color: var(--bs-gray);
+        background-color: var(--bs-gray) !important;
+        color: white !important;
+        svg{
+            fill: currentColor;
+        }
+    }
+
+    &:focus{
+        border-color: var(--bs-gray);
+    }
+    
+    svg{
+        transition: .3s fill;
+    }
+    
+    &.enabled{
+        border-color: var(--bs-body-color);
+    }
+}
