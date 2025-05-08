@@ -33,7 +33,7 @@ const popoverViewOption = ({
                         onChange={onFieldChange}
                         value={sortField || 'none'}
                     >
-                        <option>Open select menu</option>
+                        <option value="">Open select menu</option>
                         <option value="purchased">Status</option>
                         <option value="name">Name</option>
                     </Form.Select>
@@ -45,7 +45,7 @@ const popoverViewOption = ({
                         onChange={onDirectionChange}
                         value={sortDirection}
                     >
-                        <option>Open select menu</option>
+                        <option value="">Open select menu</option>
                         <option value="asc">Ascending</option>
                         <option value="desc">Descending</option>
                     </Form.Select>

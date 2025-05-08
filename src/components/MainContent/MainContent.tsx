@@ -1,8 +1,11 @@
-import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 
 import { Button } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
+
+// services
+import { LocalStorageService } from "@services/LocalStorageService";
 
 // context
 import { useAddProductModal } from "@context/AddProductModalContext";
@@ -21,6 +24,7 @@ import { selectActiveCategoryId } from "@store/categoriesSlice";
 import GroupedProductList from "../GroupedProductList/GroupedProductList";
 import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 import SearchBar from "../SearchBar/SearchBar";
+import SortViewToolbar from "../SortViewToolbar/SortViewToolbar";
 
 // styles
 import styles from "./MainContent.module.css";
@@ -33,7 +37,7 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "@/types/types";
-import SortViewToolbar from "../SortViewToolbar/SortViewToolbar";
+
 
 
 const MainContent = () => {
@@ -47,9 +51,14 @@ const MainContent = () => {
     const [editingProductId, setEditingProductId] = useState<string | undefined>(undefined);
     const [searchText, setSearchText] = useState<string>('');
     const [debouncedSearchText] = useDebounce(searchText, 300);
-    const [sortField, setSortField] = useState<string>('');
-    const [sortDirection, setSortDirection] = useState<string>('');
     const [showPopover, setShowPopover] = useState<boolean>(false);
+
+    const storedSort = LocalStorageService.get<{ sortField: string; sortDirection: string }>('sort') || {
+        sortField: '',
+        sortDirection: ''
+    };
+    const [sortField, setSortField] = useState<string>(storedSort.sortField);
+    const [sortDirection, setSortDirection] = useState<string>(storedSort.sortDirection);
 
 
     const filteredProducts = useMemo(() => {
@@ -130,7 +139,7 @@ const MainContent = () => {
 
     const handleSortFieldChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
-        setSortField(value === 'none' ? '' : value);
+        setSortField(value !== '' ? value : '')
     };
 
     const handleSortDirectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -144,6 +153,9 @@ const MainContent = () => {
         }
     };
 
+    useEffect(() => {
+        LocalStorageService.set('sort', { sortField, sortDirection });
+    }, [sortField, sortDirection]);
 
     return (
         <>
@@ -159,7 +171,6 @@ const MainContent = () => {
                             />
                         </>
                     )}
-
 
                     {(filteredProducts.length > 0 || searchText.length > 0) && (
                         <>

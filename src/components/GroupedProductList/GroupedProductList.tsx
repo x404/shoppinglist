@@ -53,7 +53,7 @@ const GroupedProductList = ({
                 const categoryName = categoriesList.find(category => category.id === categoryId)?.name || 'Others';
                 return (
 
-                    <article className="mb-3 mb-sm-2" key={categoryId}>
+                    <article className="mb-3 mb-sm-2 mb-lg-3" key={categoryId}>
                         <CategoryHeader
                             counter={products.length}
 
