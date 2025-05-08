@@ -1,19 +1,21 @@
-import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 
-import { Button, ButtonToolbar, Form, OverlayTrigger, Popover } from "react-bootstrap";
-import { Plus, Sliders, Trash } from "react-bootstrap-icons";
+import { Button } from "react-bootstrap";
+import { Plus } from "react-bootstrap-icons";
 
-
+// context
 import { useAddProductModal } from "@context/AddProductModalContext";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    selectProductItems, editProduct, deleteProduct, togglePurchased
+    selectProductItems,
+    editProduct,
+    deleteProduct,
+    togglePurchased
 } from '@store/productListSlice';
 import { selectActiveCategoryId } from "@store/categoriesSlice";
-
 
 // components
 import GroupedProductList from "../GroupedProductList/GroupedProductList";
@@ -31,6 +33,7 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "@/types/types";
+import SortViewToolbar from "../SortViewToolbar/SortViewToolbar";
 
 
 const MainContent = () => {
@@ -141,50 +144,6 @@ const MainContent = () => {
         }
     };
 
-    const popoverViewOption = (
-        <Popover id="popover-trigger-click-root-close" className={styles.customPopover}>
-            <section className="p-2">
-                <header>Sorting by</header>
-
-                <div className="d-flex gap-2 mt-2">
-                    <Form.Select
-                        aria-label="sort by"
-                        size="sm"
-                        className={styles.sortingSelect}
-                        onChange={handleSortFieldChange}
-                        value={sortField || 'none'}
-                    >
-                        <option>Open select menu</option>
-                        <option value="purchased">Status</option>
-                        <option value="name">Name</option>
-                    </Form.Select>
-
-                    <Form.Select
-                        aria-label="sorting direction"
-                        size="sm"
-                        className={styles.sortingSelect}
-                        onChange={handleSortDirectionChange}
-                        value={sortDirection}
-                    >
-                        <option>Open select menu</option>
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
-                    </Form.Select>
-
-                    <Button
-                        size="sm"
-                        variant=""
-                        className={styles.viewBtn}
-                        onClick={handleClearSorting}
-                        title="Clear sorting"
-                    >
-                        <Trash size={16}/>
-                    </Button>
-                </div>
-            </section>
-        </Popover>
-    );
-
 
     return (
         <>
@@ -215,23 +174,15 @@ const MainContent = () => {
                                     </div>
                                     <div className='mt-2 mt-sm-0 d-flex gap-2'>
                                         <SearchBar onSearch={setSearchText} initialValue={searchText}/>
-                                        <ButtonToolbar>
-                                            <OverlayTrigger
-                                                trigger="click"
-                                                rootClose
-                                                placement="bottom"
-                                                overlay={popoverViewOption}
-                                                onToggle={(next) => setShowPopover(next)}
-                                            >
-                                                <Button
-                                                    variant=""
-                                                    className={`${styles.viewBtn} ${(sortField !== '' && sortDirection !== '') ? styles.enabled : ''} ${showPopover ? styles.active : ''}`}
-                                                >
-                                                    <Sliders width={16} height={16} color="#000" className="me-2"/>
-                                                    View
-                                                </Button>
-                                            </OverlayTrigger>
-                                        </ButtonToolbar>
+                                        <SortViewToolbar
+                                            sortField={sortField}
+                                            sortDirection={sortDirection}
+                                            handleSortFieldChange={handleSortFieldChange}
+                                            handleSortDirectionChange={handleSortDirectionChange}
+                                            handleClearSorting={handleClearSorting}
+                                            showPopover={showPopover}
+                                            setShowPopover={setShowPopover}
+                                        />
                                     </div>
                                 </header>
                             )}
