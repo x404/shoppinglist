@@ -56,7 +56,7 @@ const popoverViewOption = ({
                         className={`d-none d-md-flex align-items-center mt-2 mt-md-0 ${styles.clearSortingButton}`}
                         onClick={onClearSorting}
                         title="Clear sorting"
-                        disabled={sortField === '' || sortDirection === ''}
+                        disabled={sortField === '' && sortDirection === ''}
                     >
                         <Trash size={16}/>
                     </Button>
@@ -67,7 +67,7 @@ const popoverViewOption = ({
                         className={`d-flex d-md-none align-items-center mt-2 mt-md-0 d-flex justify-content-center w-100`}
                         onClick={onClearSorting}
                         title="Clear sorting"
-                        disabled={sortField === '' || sortDirection === ''}
+                        disabled={sortField === '' && sortDirection === ''}
                     >
                         <Trash size={16}/>
                         <span className="ms-2 d-md-none">Clear</span>
