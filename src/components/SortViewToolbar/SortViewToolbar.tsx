@@ -44,10 +44,10 @@ const SortViewToolbar = ({
             >
                 <Button
                     variant=""
-                    className={`${styles.viewBtn} ${(sortField !== '' && sortDirection !== '') ? styles.enabled : ''} ${showPopover ? styles.active : ''}`}
+                    className={`d-flex align-items-center ${styles.viewBtn} ${(sortField !== '' && sortDirection !== '') ? styles.enabled : ''} ${showPopover ? styles.active : ''}`}
                 >
-                    <Sliders width={16} height={16} color="#000" className="me-2"/>
-                    View
+                    <Sliders width={16} height={16} color="#000" className="me-xl-2"/>
+                    <span className="d-none d-xl-block">View</span>
                 </Button>
             </OverlayTrigger>
         </ButtonToolbar>

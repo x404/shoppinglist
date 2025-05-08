@@ -28,7 +28,7 @@ const SearchBar = ({ onSearch, initialValue = '' }: SearchInputProps) => {
 
     return (
         <>
-            <Form className="position-relative">
+            <Form className="position-relative flex-grow-1">
                 <Form.Group className="">
                     <Form.Label className="visually-hidden">Name</Form.Label>
                     <Form.Control
