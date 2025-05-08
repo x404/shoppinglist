@@ -26,6 +26,7 @@
       "@icons/*":  ["src/components/Icons/*"],
       "@context/*":  ["src/context/*"],
       "@hook/*":  ["src/hook/*"],
+      "@mockup/*":  ["src/mockup/*"],
     }
   },
   "include": ["src", "global.d.ts"]

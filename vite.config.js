@@ -21,6 +21,7 @@ export default defineConfig({
       '@icons': resolve(__dirname, 'src/components/Icons'),
       '@context': resolve(__dirname, 'src/context'),
       '@hook': resolve(__dirname, 'src/hook'),
+      '@mockup': resolve(__dirname, 'src/mockup'),
     }
   }
 })
