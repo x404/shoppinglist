@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 
-import { Button } from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 
 // services
@@ -37,7 +37,9 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 // interfaces
 import { Product } from "@/types/types";
-
+import { getCategoryNameById } from "@helpers/getCategoryNameById";
+import { selectCategoriesItems } from "@store/categoriesSlice";
+import { getProductCountByCategoryId } from "../../helpers/categoryCountsHelpers";
 
 
 const MainContent = () => {
@@ -46,7 +48,7 @@ const MainContent = () => {
 
     const productList = useSelector(selectProductItems);
     const activeCategoryId = useSelector(selectActiveCategoryId);
-    // const categoriesList = useSelector(selectCategoriesItems);
+    const categoriesList = useSelector(selectCategoriesItems);
 
     const [editingProductId, setEditingProductId] = useState<string | undefined>(undefined);
     const [searchText, setSearchText] = useState<string>('');
@@ -174,29 +176,55 @@ const MainContent = () => {
 
                     {(filteredProducts.length > 0 || searchText.length > 0) && (
                         <>
-                            {activeCategoryId === ALL_CATEGORY_OBJECT.id && (
-                                <header className="d-sm-flex flex-sm-wrap gap-3 align-items-center justify-content-between mb-4">
+                            <header
+                                className="d-sm-flex flex-sm-wrap gap-3 align-items-center justify-content-between mb-4">
+                                {activeCategoryId === ALL_CATEGORY_OBJECT.id && (
                                     <div className="d-flex align-items-center flex-grow-1">
                                         <h3 className="h5 mb-0 me-2" id="my-list-title">My List</h3>
-                                        <Button variant="light" size="sm" onClick={() => handleAddProduct()}>
+                                        <Button variant="light" size="sm" onClick={() => openAddProductModal()}>
                                             <Plus size={16}/>
                                             <span className="text-nowrap">Add product</span>
                                         </Button>
                                     </div>
-                                    <div className='mt-2 mt-sm-0 d-flex gap-2'>
-                                        <SearchBar onSearch={setSearchText} initialValue={searchText}/>
-                                        <SortViewToolbar
-                                            sortField={sortField}
-                                            sortDirection={sortDirection}
-                                            handleSortFieldChange={handleSortFieldChange}
-                                            handleSortDirectionChange={handleSortDirectionChange}
-                                            handleClearSorting={handleClearSorting}
-                                            showPopover={showPopover}
-                                            setShowPopover={setShowPopover}
-                                        />
-                                    </div>
-                                </header>
-                            )}
+                                )}
+
+                                {activeCategoryId !== ALL_CATEGORY_OBJECT.id && (
+                                    <>
+                                        <div className={`d-flex align-items-center justify-content-between gap-2 mb-4'}`}>
+                                            <div className="d-flex align-items-center flex-grow-1">
+                                                <h4 className="mb-0 h5 fw-normal me-1">
+                                                    {getCategoryNameById(categoriesList, activeCategoryId)}
+                                                </h4>
+                                                <Badge bg="secondary">{getProductCountByCategoryId(productList, activeCategoryId)}</Badge>
+                                                <Button
+                                                    variant="light"
+                                                    size="sm"
+                                                    onClick={() => openAddProductModal(activeCategoryId)}
+                                                    className="ms-2"
+                                                >
+                                                    <Plus size={16}/>
+                                                    Add product
+                                                </Button>
+                                                
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+
+
+                                <div className='mt-2 mt-sm-0 d-flex gap-2'>
+                                    <SearchBar onSearch={setSearchText} initialValue={searchText}/>
+                                    <SortViewToolbar
+                                        sortField={sortField}
+                                        sortDirection={sortDirection}
+                                        handleSortFieldChange={handleSortFieldChange}
+                                        handleSortDirectionChange={handleSortDirectionChange}
+                                        handleClearSorting={handleClearSorting}
+                                        showPopover={showPopover}
+                                        setShowPopover={setShowPopover}
+                                    />
+                                </div>
+                            </header>
 
                             {searchText.length > 0 && filteredProducts.length === 0 && (
                                 <p className="text-muted mt-3">No products found for "<strong>{searchText}</strong>"</p>

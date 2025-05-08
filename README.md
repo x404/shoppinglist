@@ -74,4 +74,5 @@ Thoughtful user experience design
 22. ~~Search~~
 23. SSR
 24. Auth
-25. 
+25. Add in "View" section the option about hidding purchased products
+26. 

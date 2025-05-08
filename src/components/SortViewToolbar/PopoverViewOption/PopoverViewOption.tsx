@@ -53,12 +53,24 @@ const popoverViewOption = ({
                     <Button
                         size="sm"
                         variant=""
-                        className={`${styles.viewBtn} d-flex align-items-center mt-2 mt-md-0`}
+                        className={`d-none d-md-flex align-items-center mt-2 mt-md-0 ${styles.clearSortingButton}`}
                         onClick={onClearSorting}
                         title="Clear sorting"
+                        disabled={sortField === '' || sortDirection === ''}
                     >
-                        <span className="me-2 d-md-none">Clear sorting</span>
                         <Trash size={16}/>
+                    </Button>
+
+                    <Button
+                        size="sm"
+                        variant="outline-dark"
+                        className={`d-flex d-md-none align-items-center mt-2 mt-md-0 d-flex justify-content-center w-100`}
+                        onClick={onClearSorting}
+                        title="Clear sorting"
+                        disabled={sortField === '' || sortDirection === ''}
+                    >
+                        <Trash size={16}/>
+                        <span className="ms-2 d-md-none">Clear</span>
                     </Button>
                 </div>
             </section>

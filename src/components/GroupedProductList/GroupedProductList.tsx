@@ -1,16 +1,17 @@
-
 // components
 import ProductItem from "../ProductItem/ProductItem";
 import { CategoryHeader } from "../CategoryHeader/CategoryHeader";
-
-// interfaces
-import { Product } from "@/types/types";
-import { useSelector } from "react-redux";
 
 // redux
 import { selectCategoriesItems } from "@store/categoriesSlice";
 import { useAddProductModal } from "@context/AddProductModalContext";
 import { useClearCategoryModal } from "@context/ClearCategoryModalContext";
+
+// interfaces
+import { Product } from "@/types/types";
+import { useSelector } from "react-redux";
+
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 
 interface GroupedProductListProps {
     groupedProducts: Record<string, Product[]>;
@@ -24,15 +25,15 @@ interface GroupedProductListProps {
 }
 
 const GroupedProductList = ({
-                                     groupedProducts,
-                                     editingProductId,
-                                     activeCategoryId,
-                                     onEditProduct,
-                                     onDeleteProduct,
-                                     onTogglePurchasedProduct,
-                                     onCancelEditProduct,
-                                     onSaveEditProduct
-                                 }: GroupedProductListProps) => {
+                                groupedProducts,
+                                editingProductId,
+                                activeCategoryId,
+                                onEditProduct,
+                                onDeleteProduct,
+                                onTogglePurchasedProduct,
+                                onCancelEditProduct,
+                                onSaveEditProduct
+                            }: GroupedProductListProps) => {
 
     const categoriesList = useSelector(selectCategoriesItems);
     const { openAddProductModal } = useAddProductModal();
@@ -42,7 +43,7 @@ const GroupedProductList = ({
         // const categoryId = activeCategoryId !== allCategoryId ? activeCategoryId : undefined;
         openAddProductModal(categoryId);
     };
-    
+
     const handleShowClearCategoryModal = (categoryId: string) => {
         openClearCategoryModal(categoryId)
     }
@@ -54,17 +55,18 @@ const GroupedProductList = ({
                 return (
 
                     <article className="mb-3 mb-sm-2 mb-lg-3" key={categoryId}>
-                        <CategoryHeader
-                            counter={products.length}
+                        {activeCategoryId === ALL_CATEGORY_OBJECT.id && (
+                            <CategoryHeader
+                                counter={products.length}
 
-                            activeCategoryId={activeCategoryId}
-                            categoryName={categoryName}
+                                activeCategoryId={activeCategoryId}
+                                categoryName={categoryName}
 
-                            onCancelEditProduct={onCancelEditProduct}
-                            onShowAddProductModal={() => handleShowAddProductModal(categoryId)}
-                            onShowClearCategoryModal={() => handleShowClearCategoryModal(categoryId)}
-                        />
-                        
+                                onCancelEditProduct={onCancelEditProduct}
+                                onShowAddProductModal={() => handleShowAddProductModal(categoryId)}
+                                onShowClearCategoryModal={() => handleShowClearCategoryModal(categoryId)}
+                            />)}
+
                         <ul className="list-group mt-2" aria-label={categoryId}>
                             {products.map((product) => (
                                 <ProductItem

@@ -1,3 +1,20 @@
 .sortingSelect{
     width: 165px
 }
+
+.clearSortingButton{
+    border: none;
+    margin-left: -4px;
+    &:active,
+    &:focus{
+        border: none;
+    }
+
+    &:active,
+    &:focus,
+    &:hover{
+        svg{
+            fill: var(--bs-red)
+        }
+    }
+}

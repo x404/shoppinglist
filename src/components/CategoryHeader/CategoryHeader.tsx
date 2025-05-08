@@ -56,18 +56,6 @@ export const CategoryHeader = memo(({
                     Add product
                 </Button>
             </div>
-
-
-            {/*{ isAllCategory && counter > 0 && (*/}
-            {/*    <Button*/}
-            {/*        variant="light"*/}
-            {/*        size="sm"*/}
-            {/*        onClick={() => openClearModalProduct()}*/}
-
-            {/*    >*/}
-            {/*        Clear catalog*/}
-            {/*    </Button>*/}
-            {/*)}*/}
         </div>
     )
 });
