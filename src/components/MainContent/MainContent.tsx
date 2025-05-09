@@ -24,7 +24,7 @@ import { selectActiveCategoryId } from "@store/categoriesSlice";
 import GroupedProductList from "../GroupedProductList/GroupedProductList";
 import NoFoundProducts from "../NoFoundProducts/NoFoundProducts";
 import SearchBar from "../SearchBar/SearchBar";
-import SortViewToolbar from "../SortViewToolbar/SortViewToolbar";
+import ViewToolbar from "../ViewToolbar/ViewToolbar";
 
 // styles
 import styles from "./MainContent.module.css";
@@ -148,6 +148,11 @@ const MainContent = () => {
         setSortDirection(e.target.value);
     };
 
+    const handleChangeHiddingStatus = (e: ChangeEvent<HTMLInputElement>) => {
+        // setSortDirection(e.target.value);
+        console.log(e.target.checked);
+    };
+
     const handleClearSorting = () => {
         if (sortField !== '' || sortDirection !== '') {
             setSortField('');
@@ -190,12 +195,14 @@ const MainContent = () => {
 
                                 {activeCategoryId !== ALL_CATEGORY_OBJECT.id && (
                                     <>
-                                        <div className={`d-flex align-items-center justify-content-between gap-2 mb-4'}`}>
+                                        <div
+                                            className={`d-flex align-items-center justify-content-between gap-2 mb-4'}`}>
                                             <div className="d-flex align-items-center flex-grow-1">
                                                 <h4 className="mb-0 h5 fw-normal me-1">
                                                     {getCategoryNameById(categoriesList, activeCategoryId)}
                                                 </h4>
-                                                <Badge bg="secondary">{getProductCountByCategoryId(productList, activeCategoryId)}</Badge>
+                                                <Badge
+                                                    bg="secondary">{getProductCountByCategoryId(productList, activeCategoryId)}</Badge>
                                                 <Button
                                                     variant="light"
                                                     size="sm"
@@ -205,7 +212,7 @@ const MainContent = () => {
                                                     <Plus size={16}/>
                                                     Add product
                                                 </Button>
-                                                
+
                                             </div>
                                         </div>
                                     </>
@@ -214,11 +221,12 @@ const MainContent = () => {
 
                                 <div className='mt-2 mt-sm-0 d-flex gap-2'>
                                     <SearchBar onSearch={setSearchText} initialValue={searchText}/>
-                                    <SortViewToolbar
+                                    <ViewToolbar
                                         sortField={sortField}
                                         sortDirection={sortDirection}
                                         handleSortFieldChange={handleSortFieldChange}
                                         handleSortDirectionChange={handleSortDirectionChange}
+                                        handleChangeHiddingStatus={handleChangeHiddingStatus}
                                         handleClearSorting={handleClearSorting}
                                         showPopover={showPopover}
                                         setShowPopover={setShowPopover}

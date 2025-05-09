@@ -2,27 +2,30 @@ import { Button, ButtonToolbar, OverlayTrigger, Popover } from "react-bootstrap"
 import { Sliders } from "react-bootstrap-icons";
 import PopoverViewOption from "./PopoverViewOption/PopoverViewOption";
 
-import styles from "./SortViewToolbar.module.css";
+import styles from "./ViewToolbar.module.css";
+import { ChangeEvent } from "react";
 
 type SortViewToolbarProps = {
     sortField: string;
     sortDirection: string;
-    handleSortFieldChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-    handleSortDirectionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    handleSortFieldChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+    handleSortDirectionChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+    handleChangeHiddingStatus: (e: ChangeEvent<HTMLInputElement>) => void;
     handleClearSorting: () => void;
     showPopover: boolean;
     setShowPopover: (show: boolean) => void;
 };
 
-const SortViewToolbar = ({
-                             sortField,
-                             sortDirection,
-                             handleSortFieldChange,
-                             handleSortDirectionChange,
-                             handleClearSorting,
-                             showPopover,
-                             setShowPopover
-                         }: SortViewToolbarProps) => {
+const ViewToolbar = ({
+                         sortField,
+                         sortDirection,
+                         handleSortFieldChange,
+                         handleSortDirectionChange,
+                         handleClearSorting,
+                         handleChangeHiddingStatus,
+                         showPopover,
+                         setShowPopover
+                     }: SortViewToolbarProps) => {
     return (
         <ButtonToolbar>
             <OverlayTrigger
@@ -37,6 +40,7 @@ const SortViewToolbar = ({
                             onFieldChange={handleSortFieldChange}
                             onDirectionChange={handleSortDirectionChange}
                             onClearSorting={handleClearSorting}
+                            onChangeHiddingStatus={handleChangeHiddingStatus}
                         />
                     </Popover>
                 }
@@ -49,9 +53,11 @@ const SortViewToolbar = ({
                     <Sliders width={16} height={16} color="#000" className="me-xl-2"/>
                     <span className="d-none d-xl-block">View</span>
                 </Button>
+
+
             </OverlayTrigger>
         </ButtonToolbar>
     )
 };
 
-export default SortViewToolbar;
+export default ViewToolbar;
