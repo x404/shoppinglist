@@ -54,6 +54,9 @@ const MainContent = () => {
     const [searchText, setSearchText] = useState<string>('');
     const [debouncedSearchText] = useDebounce(searchText, 300);
     const [showPopover, setShowPopover] = useState<boolean>(false);
+    
+    const isHiddenItemsStatus = LocalStorageService.get<boolean>('isHiddenItemsStatus');
+    const [hiddenItemsStatus, setHiddenItemsStatus] = useState<boolean>(isHiddenItemsStatus || false);
 
     const storedSort = LocalStorageService.get<{ sortField: string; sortDirection: string }>('sort') || {
         sortField: '',
@@ -61,12 +64,24 @@ const MainContent = () => {
     };
     const [sortField, setSortField] = useState<string>(storedSort.sortField);
     const [sortDirection, setSortDirection] = useState<string>(storedSort.sortDirection);
-
-
+    
+    const showOnlyUnhiddenStatusItems = (products: Product[]): Product[] => {
+        return products.filter((product: Product) => 
+            !product.purchased
+        )
+    }
+    
     const filteredProducts = useMemo(() => {
+        let products = productList;
+        
+        if (hiddenItemsStatus) {
+            products = showOnlyUnhiddenStatusItems(productList);
+        }
+
         const byCategory = activeCategoryId === ALL_CATEGORY_OBJECT.id
-            ? productList
-            : productList.filter((product: Product) => product.categoryId === activeCategoryId);
+            ? products
+            : products.filter((product: Product) => product.categoryId === activeCategoryId);
+
 
         const normalizedSearch = debouncedSearchText.trim().toLowerCase();
         return normalizedSearch.length === 0
@@ -74,8 +89,7 @@ const MainContent = () => {
             : byCategory.filter((product: Product) =>
                 product.name.toLowerCase().includes(normalizedSearch)
             );
-    }, [activeCategoryId, productList, debouncedSearchText]);
-
+    }, [activeCategoryId, productList, debouncedSearchText, hiddenItemsStatus]);
 
     const sortedProducts = useMemo(() => {
         if (sortField === '' || sortDirection === '') return filteredProducts;
@@ -100,7 +114,7 @@ const MainContent = () => {
         });
 
         return sorted;
-    }, [filteredProducts, sortField, sortDirection]);
+    }, [filteredProducts, sortField, sortDirection, hiddenItemsStatus]);
 
     const groupedProducts = useMemo(() => {
         return groupProductsByCategoryId(sortedProducts);
@@ -149,8 +163,9 @@ const MainContent = () => {
     };
 
     const handleChangeHiddingStatus = (e: ChangeEvent<HTMLInputElement>) => {
-        // setSortDirection(e.target.value);
-        console.log(e.target.checked);
+        const status = e.target.checked;
+        setHiddenItemsStatus(status);
+        LocalStorageService.set('isHiddenItemsStatus', status);
     };
 
     const handleClearSorting = () => {
@@ -224,6 +239,7 @@ const MainContent = () => {
                                     <ViewToolbar
                                         sortField={sortField}
                                         sortDirection={sortDirection}
+                                        hiddenItemsStatus={hiddenItemsStatus}
                                         handleSortFieldChange={handleSortFieldChange}
                                         handleSortDirectionChange={handleSortDirectionChange}
                                         handleChangeHiddingStatus={handleChangeHiddingStatus}

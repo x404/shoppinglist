@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { Button, Form, Popover } from "react-bootstrap";
 import { Trash } from "react-bootstrap-icons";
 
@@ -8,6 +8,7 @@ import styles from "./PopoverViewOption.module.css";
 interface PopoverViewOptionProps {
     sortField: string;
     sortDirection: string;
+    hiddenItemsStatus: boolean;
     onFieldChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     onDirectionChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     onClearSorting: () => void;
@@ -18,11 +19,19 @@ interface PopoverViewOptionProps {
 const popoverViewOption = ({
                                sortField,
                                sortDirection,
+                               hiddenItemsStatus,
                                onFieldChange,
                                onDirectionChange,
                                onClearSorting,
                                onChangeHiddingStatus
                            }: PopoverViewOptionProps) => {
+
+        const [checked, setChecked] = useState(hiddenItemsStatus);
+
+        const hanldeChangeHiddingStatus = (event: ChangeEvent<HTMLInputElement>) => {
+            onChangeHiddingStatus(event);
+            setChecked(!checked);
+        }
         return (
             <>
                 <section className="px-2 py-1 my-2">
@@ -80,16 +89,15 @@ const popoverViewOption = ({
                 <section className="px-2 my-2">
                     <hr/>
                     <header className="fw-bold mb-1">Hidding option</header>
-
                     <Form>
                         <Form.Check
                             type="switch"
                             id="custom-switch"
-                            label="Hide completed"
-                            onChange={onChangeHiddingStatus}
+                            label="Hide completed items"
+                            onChange={hanldeChangeHiddingStatus}
+                            checked={checked}
                         />
                     </Form>
-
                 </section>
             </>
 

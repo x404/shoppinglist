@@ -36,8 +36,8 @@ const CategoryView = ({
                           handleClearCategory,
                           handleSelectCategory
                       }: CategoryViewProps) => {
-    const allCategory = ALL_CATEGORY_OBJECT.name;
-    const allCategoryHighlightClass = categoryName === allCategory ? 'fw-bold text-uppercase' : '';
+    const isAllCategory = categoryId === ALL_CATEGORY_OBJECT.id;
+    const allCategoryHighlightClass = isAllCategory ? 'fw-bold text-uppercase' : '';
 
     return (
         <>
@@ -50,12 +50,12 @@ const CategoryView = ({
                 {categoryName}
             </a>
             <div
-                className={`${styles.counter} ${isHovered ? 'd-none' : 'd-flex'} align-items-center justify-content-center p-1`}
+                className={`${styles.counter} ${isHovered && !isAllCategory ? 'd-none' : 'd-flex'} align-items-center justify-content-center p-1`}
                 aria-label={`${count} items`}
             >
                 {count}
             </div>
-            {categoryName !== allCategory && (
+            {!isAllCategory && (
                 <CategoryActionsDropdown
                     isVisible={isHovered}
                     count={count}

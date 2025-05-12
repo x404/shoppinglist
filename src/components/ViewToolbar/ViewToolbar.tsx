@@ -8,6 +8,7 @@ import { ChangeEvent } from "react";
 type SortViewToolbarProps = {
     sortField: string;
     sortDirection: string;
+    hiddenItemsStatus: boolean;
     handleSortFieldChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     handleSortDirectionChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     handleChangeHiddingStatus: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +20,7 @@ type SortViewToolbarProps = {
 const ViewToolbar = ({
                          sortField,
                          sortDirection,
+                         hiddenItemsStatus,
                          handleSortFieldChange,
                          handleSortDirectionChange,
                          handleClearSorting,
@@ -37,6 +39,7 @@ const ViewToolbar = ({
                         <PopoverViewOption
                             sortField={sortField}
                             sortDirection={sortDirection}
+                            hiddenItemsStatus={hiddenItemsStatus}
                             onFieldChange={handleSortFieldChange}
                             onDirectionChange={handleSortDirectionChange}
                             onClearSorting={handleClearSorting}
@@ -48,13 +51,15 @@ const ViewToolbar = ({
             >
                 <Button
                     variant=""
-                    className={`d-flex align-items-center ${styles.viewBtn} ${(sortField !== '' && sortDirection !== '') ? styles.enabled : ''} ${showPopover ? styles.active : ''}`}
+                    className={`d-flex align-items-center 
+                        ${styles.viewBtn} 
+                        ${( (sortField !== '' && sortDirection !== '') || hiddenItemsStatus) ? styles.enabled : ''} 
+                        ${showPopover ? styles.active : ''}
+                    `}
                 >
                     <Sliders width={16} height={16} color="#000" className="me-xl-2"/>
                     <span className="d-none d-xl-block">View</span>
                 </Button>
-
-
             </OverlayTrigger>
         </ButtonToolbar>
     )

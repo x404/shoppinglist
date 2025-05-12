@@ -20,3 +20,8 @@
     }
 }
 
+.menuAllItem:hover{
+    .counter{
+        display: block !important;
+    }
+}
