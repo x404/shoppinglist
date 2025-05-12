@@ -7,7 +7,7 @@ import { LayoutSidebar } from "react-bootstrap-icons";
 import { LocalStorageService } from "@services/LocalStorageService";
 
 // hooks
-import { useMediaQuery } from "@hook/useMediaQuery";
+import { useMediaQuery } from "@hooks/useMediaQuery";
 
 // styles
 import styles from "./ResizableSidebar.module.css";

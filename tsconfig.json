@@ -25,7 +25,7 @@
       "@components/*":  ["src/components/*"],
       "@icons/*":  ["src/components/Icons/*"],
       "@context/*":  ["src/context/*"],
-      "@hook/*":  ["src/hook/*"],
+      "@hooks/*":  ["src/hooks/*"],
       "@mockup/*":  ["src/mockup/*"],
     }
   },
