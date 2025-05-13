@@ -9,6 +9,7 @@ import { validateQuantity } from "@helpers/quantityHelpers";
 
 // interfaces
 import { Product, Category } from "@/types/types";
+import { useTranslation } from "react-i18next";
 
 interface AddProductModalProps {
     categoriesList: Category[];
@@ -25,6 +26,7 @@ const AddProductModal = ({
                              onCloseModal,
                              onAddProduct
                          }: AddProductModalProps) => {
+    const { t } = useTranslation();
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
     const [categoryId, setCategoryId] = useState<string>(currentCategoryId || '');
@@ -141,15 +143,15 @@ const AddProductModal = ({
         <>
             <Modal show={isShowModal} onHide={handleClose} centered>
                 <Modal.Header className="align-items-start">
-                    <Modal.Title>Add New Item
+                    <Modal.Title>{t('modal.addNewItem')}
                         {hasInitialCategory && (
-                            <div className="h6 mt-1 text-black-50">Category: <strong>{categoryName}</strong></div>
+                            <div className="h6 mt-1 text-black-50">{t('modal.category')}: <strong>{categoryName}</strong></div>
                         )}
                     </Modal.Title>
 
                     <Button
                         variant="close"
-                        aria-label="Close"
+                        aria-label={t('modal.close')}
                         className="mt-1"
                         onClick={handleClose}
                     />
@@ -157,18 +159,18 @@ const AddProductModal = ({
                 <Modal.Body>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="validationCustom01">
-                            <Form.Label>Product Name</Form.Label>
+                            <Form.Label>{t('modal.taskTitle')}</Form.Label>
                             <Form.Control
                                 required
                                 type="text"
-                                placeholder="Enter product name"
+                                placeholder={t('modal.enterTaskTitle')}
                                 onChange={handleNameChange}
                                 ref={nameInputRef}
                                 value={name}
                                 autoFocus
                             />
                             <Form.Control.Feedback type="invalid">
-                                Please enter product name
+                                {t('modal.errorsMsg.enterTaskTitle')}
                             </Form.Control.Feedback>
                         </Form.Group>
 
@@ -186,14 +188,14 @@ const AddProductModal = ({
 
                         {!hasInitialCategory && (
                             <Form.Group className="mb-3" controlId="validationCustom03">
-                                <Form.Label>Category</Form.Label>
+                                <Form.Label>{t('modal.category')}</Form.Label>
                                 <Form.Select
                                     required
                                     value={categoryId}
                                     onChange={changeCategory}
                                     isInvalid={validated && !categoryId}
                                 >
-                                    <option value=''>Choose category</option>
+                                    <option value=''>{t('modal.chooseCategory')}</option>
                                     {categoriesList.map((category) => {
                                             const { id, name } = category
                                             return (
@@ -204,17 +206,17 @@ const AddProductModal = ({
                                     )}
                                 </Form.Select>
                                 <Form.Control.Feedback type="invalid">
-                                    Please select a category
+                                    {t('modal.selectCategory')}
                                 </Form.Control.Feedback>
                             </Form.Group>
                         )}
 
                         <div className="d-flex justify-content-end gap-2">
                             <Button variant="outline-dark" onClick={handleClose}>
-                                Close
+                                {t('buttons.title.close')}
                             </Button>
                             <Button variant="dark" type="submit">
-                                Add Product
+                                {t('buttons.title.addProduct')}
                             </Button>
                         </div>
                     </Form>

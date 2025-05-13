@@ -9,7 +9,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    
+
+    "resolveJsonModule": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,

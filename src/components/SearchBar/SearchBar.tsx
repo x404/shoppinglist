@@ -1,6 +1,9 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
+import { useTranslation } from 'react-i18next';
+
+
 // icons
 import { X } from "react-bootstrap-icons";
 import styles from "./SearchBar.module.css";
@@ -12,6 +15,7 @@ interface SearchInputProps {
 }
 
 const SearchBar = ({ onSearch, initialValue = '' }: SearchInputProps) => {
+    const { t } = useTranslation();
     const [inputValue, setInputValue] = useState(initialValue);
 
     useEffect(() => {
@@ -30,10 +34,10 @@ const SearchBar = ({ onSearch, initialValue = '' }: SearchInputProps) => {
         <>
             <Form className="position-relative flex-grow-1">
                 <Form.Group className="">
-                    <Form.Label className="visually-hidden">Name</Form.Label>
+                    <Form.Label className="visually-hidden">{t('searchBar.labelName')}</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Search..."
+                        placeholder={t('searchBar.search')}
                         onChange={handleChange}
                         value={inputValue}
                     />
@@ -44,7 +48,7 @@ const SearchBar = ({ onSearch, initialValue = '' }: SearchInputProps) => {
                     className={`${styles.clearSearchButton} d-flex align-items-center position-absolute end-0 top-0 rounded-circle p-0`}
                     onClick={clearSearch}
                     data-tooltip-id="custom-tooltip"
-                    data-tooltip-content="Clear search"
+                    data-tooltip-content={t('searchBar.clearSearch')}
                     data-tooltip-place="top"
                 >
                     <X size={24}/>

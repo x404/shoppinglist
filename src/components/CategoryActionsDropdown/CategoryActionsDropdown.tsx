@@ -12,6 +12,8 @@ import {
 
 import ActionItem from "./ActionItem/ActionItem";
 
+import { useTranslation } from "react-i18next";
+
 // styles
 import styles from './CategoryActionsDropdown.module.css';
 import sidebarStyles from './../Sidebar/Sidebar.module.css';
@@ -37,7 +39,7 @@ const CategoryActionsDropdown = ({
                                      onRenameCategory,
                                      onClearCategory
                                  }: CategoryActionsDropdownProps) => {
-
+    const { t } = useTranslation();
     return (
         <div
             className={`${styles.actions} ${isVisible ? styles.visible : ""} d-flex align-items-center position-absolute me-2 end-0`}>
@@ -48,7 +50,7 @@ const CategoryActionsDropdown = ({
                     size="sm"
                     variant="light"
                     data-tooltip-id="custom-tooltip"
-                    data-tooltip-content="Create category, add product, etc."
+                    data-tooltip-content={t('sidebar.tooltips.createCategory')}
                     data-tooltip-place="top"
                 >
                     <ThreeDots size={12}/>
@@ -58,7 +60,7 @@ const CategoryActionsDropdown = ({
                     <ActionItem icon={<Pencil size={16}/>} label="Rename" onClick={onRenameCategory}/>
                     <ActionItem
                         icon={<XOctagon size={16}/>}
-                        label="Clear"
+                        label={t('sidebar.menus.clear')}
                         onClick={onClearCategory}
                         disabled={count === 0}
                     />
@@ -78,7 +80,7 @@ const CategoryActionsDropdown = ({
 
 
                             <div className={`${styles.title} flex-grow-1`}>
-                                Create new
+                                {t('sidebar.menus.createNew')}
                             </div>
 
                             <ChevronRight size={12} className="ms-2 me-2"/>
@@ -87,28 +89,28 @@ const CategoryActionsDropdown = ({
                         <Dropdown.Menu>
                             <ActionItem
                                 icon={<FolderPlus size={16}/>}
-                                label="Category"
+                                label={t('sidebar.menus.category')}
                                 disabled
                                 onClick={onOpenAddCategoryModal}
                             />
                             <ActionItem
                                 icon={<FileEarmarkPlus size={16}/>}
-                                label="Product"
+                                label={t('sidebar.menus.product')}
                                 onClick={onOpenAddProductModal}
                             />
                         </Dropdown.Menu>
                     </Dropdown>
 
 
-                    <ActionItem icon={<Shuffle size={16}/>} label="Move to" disabled onClick={() => {
+                    <ActionItem icon={<Shuffle size={16}/>} label={t('sidebar.menus.moveTo')} disabled onClick={() => {
                     }}/>
-                    <ActionItem icon={<Palette size={16}/>} label="Color & Icon" disabled onClick={() => {
+                    <ActionItem icon={<Palette size={16}/>} label={t('sidebar.menus.color-and-icon')} disabled onClick={() => {
                     }}/>
 
                     <Dropdown.Divider/>
                     <ActionItem
                         icon={<Trash size={16}/>}
-                        label="Delete"
+                        label={t('sidebar.menus.delete')}
                         onClick={onOpenDeleteCategoryModal}
                         className={'text-danger'}
                     />
@@ -123,7 +125,7 @@ const CategoryActionsDropdown = ({
                     size="sm"
                     variant=""
                     data-tooltip-id="custom-tooltip"
-                    data-tooltip-content="Add product"
+                    data-tooltip-content={t('sidebar.menus.addProduct')}
                     data-tooltip-place="top"
                 >
                     <Plus size={20}/>

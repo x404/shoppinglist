@@ -6,6 +6,7 @@ import { getCategoryNameById } from "@helpers/getCategoryNameById";
 import { getProductCountByCategoryId } from "@helpers/categoryCountsHelpers";
 
 import { Product } from "@/types/types";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     activeCategoryId: string;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const CategoryHeaderBlock = ({ activeCategoryId, categoriesList, productList, onAdd }: Props) => {
+    const { t } = useTranslation();
     return (
         <div
             className={`d-flex align-items-center justify-content-between gap-2 mb-4'`}>
@@ -30,7 +32,7 @@ const CategoryHeaderBlock = ({ activeCategoryId, categoriesList, productList, on
                     className="ms-2"
                 >
                     <Plus size={16}/>
-                    Add product
+                    {t('buttons.title.addProduct')}
                 </Button>
             </div>
         </div>

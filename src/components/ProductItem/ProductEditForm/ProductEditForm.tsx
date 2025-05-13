@@ -8,6 +8,7 @@ import styles from "./../ProductItem.module.css";
 
 // interfaces
 import { Category } from "@/types/types";
+import { useTranslation } from "react-i18next";
 
 interface ProductFormData {
     name: string;
@@ -34,7 +35,7 @@ const ProductEditForm = ({
                              onSubmit,
                              onCancel
                          }: EditFormProps) => {
-
+    const { t } = useTranslation();
     const [name, setName] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [categoryId, setCategoryId] = useState("");
@@ -83,19 +84,19 @@ const ProductEditForm = ({
             <Form noValidate validated={validated} onSubmit={onSubmit}>
                 <div className="d-flex flex-wrap flex-md-nowrap justify-content-between gap-2">
                     <Form.Group className="flex-grow-1 w-100" controlId="validationCustom01">
-                        <Form.Label className="visually-hidden">Product Name</Form.Label>
+                        <Form.Label className="visually-hidden">{t('modal.taskTitle')}</Form.Label>
                         <Form.Control
                             name="name"
                             required
                             type="text"
                             ref={nameInputRef}
-                            placeholder="Enter product name"
+                            placeholder={t('modal.enterTaskTitle')}
                             value={name}
                             autoFocus
                             onChange={handleNameChange}
                         />
                         <Form.Control.Feedback type="invalid">
-                            Please enter product name
+                            {t('modal.errorsMsg.enterTaskTitle')}
                         </Form.Control.Feedback>
                     </Form.Group>
 
@@ -111,7 +112,7 @@ const ProductEditForm = ({
                     </Form.Group>
 
                     <Form.Group className={`${styles.category} flex-grow-1 flex-md-grow-0`}>
-                        <Form.Label className="visually-hidden">Category</Form.Label>
+                        <Form.Label className="visually-hidden"> {t('modal.category')}</Form.Label>
 
                         {/* although named 'category' for HTML semantics, this stores categoryId*/}
                         <Form.Select
@@ -133,25 +134,25 @@ const ProductEditForm = ({
                             size="sm"
                             aria-label={`Save ${formData.name}`}
                             data-tooltip-id="save-tooltip"
-                            data-tooltip-content="Save item"
+                            data-tooltip-content={t('buttons.tooltip.saveItem')}
                             data-tooltip-place="top"
                             className={`${styles.saveButton} ${styles.actionButton} d-flex align-items-center`}
                             type="submit"
                         >
                             <CheckLg size="20"/>
-                            <span className="px-1 d-sm-none">Save</span>
+                            <span className="px-1 d-sm-none">{t('buttons.title.save')}</span>
                         </Button>
                         <Button variant="outline-dark"
                                 size="sm"
                                 className={`${styles.cancelButton} ${styles.actionButton} d-flex align-items-center`}
-                                aria-label={`Cancel`}
+                                aria-label={t('buttons.title.cancel')}
                                 data-tooltip-id="cancel-tooltip"
-                                data-tooltip-content="Cancel or press ESC"
+                                data-tooltip-content={t('buttons.tooltip.cancel')}
                                 data-tooltip-place="top"
                                 onClick={handleCancel}
                         >
                             <X size="24"/>
-                            <span className="px-1 d-sm-none">Cancel</span>
+                            <span className="px-1 d-sm-none">{t('buttons.title.cancel')}</span>
                         </Button>
                     </div>
                 </div>

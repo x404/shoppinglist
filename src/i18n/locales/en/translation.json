@@ -1,0 +1,70 @@
+{
+  "TopAllHeaderTitle": "My List",
+  "sidebar": {
+    "categoriesSpace": "Categories space",
+    "tooltips": {
+      "createCategory": "Create category, add product, etc."
+    },
+    "menus": {
+      "createNew": "Create new",
+      "category": "Category",
+      "product": "Product",
+      "addProduct": "Add Product",
+      "delete": "Delete",
+      "moveTo": "Move to",
+      "color-and-icon": "Color & Icon",
+      "clear": "Clear"
+    }
+  },
+  "searchBar": {
+    "labelName": "Name",
+    "search": "Search...",
+    "clearSearch": "Clear search"
+  },
+  "viewToolbar": {
+    "buttons": {
+      "title": {
+        "view": "View"
+      }
+    }
+  },
+  "buttons": {
+    "title": {
+      "addProduct": "Add task",
+      "close": "Close",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "tooltip": {
+      "save": "Save task",
+      "cancel": "Cancel or press ESC"
+    }
+  },
+  "modal": {
+    "category": "Category",
+    "close": "Close",
+    "addNewItem": "Add New Task",
+    "selectCategory": "Please select a category",
+    "chooseCategory": "Choose category",
+    "taskTitle": "Task title",
+    "enterTaskTitle": "Enter product name",
+    "errorsMsg": {
+      "enterTaskTitle": "Please enter product name"
+    },
+    "saveItem": "Save item"
+  },
+  "popoverViewOptions": {
+    "sortingBy": "Sorting by",
+    "sorting": {
+      "chooseOption": "Choose option",
+      "status": "Status",
+      "name": "Name",
+      "asc": "Ascending",
+      "desc": "Descending",
+      "clearSorting": "Clear sorting",
+      "clear": "Clear"
+    },
+    "hiddingOption": "Hidding option",
+    "hideCompletedItems": "Hide completed items"
+  }
+}

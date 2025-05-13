@@ -4,6 +4,7 @@ import PopoverViewOption from "./PopoverViewOption/PopoverViewOption";
 
 import styles from "./ViewToolbar.module.css";
 import { ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 type SortViewToolbarProps = {
     sortField: string;
@@ -28,6 +29,7 @@ const ViewToolbar = ({
                          showPopover,
                          setShowPopover
                      }: SortViewToolbarProps) => {
+    const { t } = useTranslation();
     return (
         <ButtonToolbar>
             <OverlayTrigger
@@ -53,12 +55,12 @@ const ViewToolbar = ({
                     variant=""
                     className={`d-flex align-items-center 
                         ${styles.viewBtn} 
-                        ${( (sortField !== '' && sortDirection !== '') || hiddenItemsStatus) ? styles.enabled : ''} 
+                        ${((sortField !== '' && sortDirection !== '') || hiddenItemsStatus) ? styles.enabled : ''} 
                         ${showPopover ? styles.active : ''}
                     `}
                 >
                     <Sliders width={16} height={16} color="#000" className="me-xl-2"/>
-                    <span className="d-none d-xl-block">View</span>
+                    <span className="d-none d-xl-block">{t('viewToolbar.buttons.title.view')}</span>
                 </Button>
             </OverlayTrigger>
         </ButtonToolbar>

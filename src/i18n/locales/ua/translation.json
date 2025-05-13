@@ -1,0 +1,70 @@
+{
+  "TopAllHeaderTitle": "Перелік",
+  "sidebar": {
+    "categoriesSpace": "Категорії",
+    "tooltips": {
+      "createCategory": "Створити категорію, додати продукт, та інше"
+    },
+    "menus": {
+      "createNew": "Створити",
+      "category": "Категорія",
+      "product": "Продукт",
+      "addProduct": "Додати",
+      "delete": "Видалити",
+      "moveTo": "Перенести",
+      "color-and-icon": "Кольор & Іконка",
+      "clear": "Очистити"
+    }
+  },
+  "searchBar": {
+    "labelName": "Назва",
+    "search": "Пошук...",
+    "clearSearch": "Очистити пошук"
+  },
+  "viewToolbar": {
+    "buttons": {
+      "title": {
+        "view": "Відображення"
+      }
+    }
+  },
+  "buttons": {
+    "title": {
+      "addProduct": "Додати",
+      "close": "Закрити",
+      "save": "Зберегти",
+      "cancel": "Вийти"
+    },
+    "tooltip": {
+      "save": "Зберегти",
+      "cancel": "Вийти або нажміть ESC"
+    }
+  },
+  "modal": {
+    "category": "Категорія",
+    "close": "Закрити",
+    "addNewItem": "Додати задачу",
+    "selectCategory": "Виберіть категорію",
+    "chooseCategory": "Вибрати категорію",
+    "taskTitle": "Назва",
+    "enterTaskTitle": "Введить назву",
+    "errorsMsg": {
+      "enterTaskTitle": "Введить назву"
+    },
+    "saveItem": "Зберегти"
+  },
+  "popoverViewOptions": {
+    "sortingBy": "Сортирувати",
+    "sorting": {
+      "chooseOption": "Виберіть опцію",
+      "status": "Статус",
+      "name": "Назва",
+      "asc": "По возр. ",
+      "desc": "По убив.",
+      "clearSorting": "Очистити сортировку",
+      "clear": "Очистити"
+    },
+    "hiddingOption": "Опції скриття",
+    "hideCompletedItems": "Скрити завершенні"
+  }
+}
