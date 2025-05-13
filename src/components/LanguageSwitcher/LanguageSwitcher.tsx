@@ -12,13 +12,13 @@ const LanguageSwitcher = () => {
     return (
         <ButtonGroup size="sm" aria-label="Language switcher">
             <Button
-                variant={currentLang === 'en' ? 'primary' : 'outline-primary'}
+                variant={currentLang === 'en' ? 'secondary' : 'outline-secondary'}
                 onClick={() => changeLanguage('en')}
             >
                 EN
             </Button>
             <Button
-                variant={currentLang === 'ua' ? 'primary' : 'outline-primary'}
+                variant={currentLang === 'ua' ? 'secondary' : 'outline-secondary'}
                 onClick={() => changeLanguage('ua')}
             >
                 UA
