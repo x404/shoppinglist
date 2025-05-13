@@ -23,9 +23,12 @@ import styles from "./Sidebar.module.css";
 
 // interfaces
 import { Category } from "@/types/types";
+import { useTranslation } from "react-i18next";
 
 
 const Sidebar = () => {
+    const { t } = useTranslation();
+    
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
@@ -105,7 +108,7 @@ const Sidebar = () => {
             <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 pt-1 z-1`}>
                 <nav>
                     <div className={`${styles.sidebarRow} d-flex justify-content-between align-items-center px-2`}>
-                        <h2 className="h6 mb-0 py-2">Categories space</h2>
+                        <h2 className="h6 mb-0 py-2">{t('sidebar.categoriesSpace')}</h2>
                         <div className={`${styles.actions}`}>
                             <Dropdown drop="end">
                                 <Dropdown.Toggle
@@ -114,7 +117,7 @@ const Sidebar = () => {
                                     size="sm"
                                     variant=""
                                     data-tooltip-id="custom-tooltip"
-                                    data-tooltip-content="Create category, add product, etc."
+                                    data-tooltip-content={t('sidebar.tooltips.createCategory')}
                                     data-tooltip-place="top"
                                 >
                                     <Plus size={20}/>
@@ -130,7 +133,7 @@ const Sidebar = () => {
                                                 <FolderPlus size={16}/>
                                             </div>
                                             <div className="title flex-grow-1">
-                                                Category
+                                                {t('sidebar.menus.category')}
                                             </div>
                                         </div>
                                     </Dropdown.Item>
@@ -141,7 +144,7 @@ const Sidebar = () => {
                                                 <FileEarmarkPlus size={16}/>
                                             </div>
                                             <div className="title flex-grow-1">
-                                                Product
+                                                {t('sidebar.menus.product')}
                                             </div>
                                         </div>
                                     </Dropdown.Item>

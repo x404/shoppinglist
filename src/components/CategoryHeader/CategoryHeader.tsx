@@ -5,6 +5,7 @@ import { Plus } from "react-bootstrap-icons";
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 import SearchBar from "../SearchBar/SearchBar";
+import { useTranslation } from "react-i18next";
 
 // interfaces
 interface CategoryHeaderProp {
@@ -28,6 +29,7 @@ export const CategoryHeader = memo(({
                                         onShowAddProductModal,
                                         onShowClearCategoryModal
                                     }: CategoryHeaderProp) => {
+    const { t } = useTranslation();
     const isAllCategory = activeCategoryId === ALL_CATEGORY_OBJECT.id;
 
     const openModalAddProduct = useCallback(() => {
@@ -53,7 +55,7 @@ export const CategoryHeader = memo(({
                     className="ms-2"
                 >
                     <Plus size={16}/>
-                    Add product
+                    {t('buttons.title.addProduct')}
                 </Button>
             </div>
         </div>

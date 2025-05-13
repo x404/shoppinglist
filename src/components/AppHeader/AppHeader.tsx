@@ -5,6 +5,7 @@ import MockupProductData from "../ProductData/MockupProductData";
 import styles from "./AppHeader.module.css";
 import { selectProductItems } from "@store/productListSlice";
 import { useSelector } from "react-redux";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 
 
 const AppHeader = () => {

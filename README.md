@@ -56,11 +56,11 @@ Thoughtful user experience design
 2. Add support for nested/sub-categories hierarchy
 3. Add internationalization support
 4. Improve a11y following WCAG standards
-5. Add in "View" section the option about hidding purchased products
+5. ~~Add in "View" section the option about hidding purchased products~~
 6. Auth
 7. Bulk actions (Multiple select for deleting/ mark as purchased)
 8. ~~Add sorting by: status, title, quantity~~
-9. Option to hide empty categories
+9. ~~Option to hide empty categories~~
 10. Pagination for large list
 12. Dark mode support
 13. Reduce unnecessary re-renders
@@ -74,6 +74,6 @@ Thoughtful user experience design
 21. Local/remote storage with option save local to remote
 22. ~~Search~~
 23. SSR
-24. 
-25. 
+24. Toggle visibility sidebar on the smartphones
+25. Add color & icon for folders
 26. 
