@@ -54,7 +54,7 @@ Thoughtful user experience design
 ## What you would improve if given more time
 1. Implement routing for categories with React Router
 2. Add support for nested/sub-categories hierarchy
-3. Add internationalization support
+3. ~~Add internationalization support~~
 4. Improve a11y following WCAG standards
 5. ~~Add in "View" section the option about hidding purchased products~~
 6. Auth

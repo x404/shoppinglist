@@ -3,12 +3,13 @@ import { ButtonGroup, Button } from 'react-bootstrap';
 
 const LanguageSwitcher = () => {
     const { i18n } = useTranslation();
-    const currentLang = i18n.language;
+    const currentLang = i18n.language === 'uk' ? 'en' : i18n.language;
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
 
+    console.log(currentLang)
     return (
         <ButtonGroup size="sm" aria-label="Language switcher">
             <Button
