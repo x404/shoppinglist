@@ -8,6 +8,7 @@ import { getCategoryNameById } from "@helpers/getCategoryNameById";
 
 // interfaces
 import { Category } from "@/types/types";
+import { useTranslation } from "react-i18next";
 
 interface AddCategoryModalProps {
     categoriesList: Category[];
@@ -24,6 +25,8 @@ const AddCategoryModal = ({
                              onCloseModal,
                              onAddCategory
                          }: AddCategoryModalProps) => {
+    const { t } = useTranslation();
+    
     const [name, setName] = useState<string>('');
     const [categoryId, setCategoryId] = useState<string>(parentCategoryId || '');
     const [validated, setValidated] = useState(false);
@@ -84,7 +87,6 @@ const AddCategoryModal = ({
 
     const focusNameInput = () => {
         setTimeout(() => {
-            console.log('focusNameInput')
             nameInputRef.current?.focus();
         }, 100);
     };
@@ -128,15 +130,15 @@ const AddCategoryModal = ({
         <>
             <Modal show={isShowModal} onHide={handleClose} centered>
                 <Modal.Header className="align-items-start">
-                    <Modal.Title>Create Category
+                    <Modal.Title> {t('modal.createCategory')}
                         {hasInitialCategory && (
-                            <div className="h6 mt-1 text-black-50">Category: <strong>{categoryName}</strong></div>
+                            <div className="h6 mt-1 text-black-50">{t('modal.category')}: <strong>{categoryName}</strong></div>
                         )}
                     </Modal.Title>
 
                     <Button
                         variant="close"
-                        aria-label="Close"
+                        aria-label={t('button.title.close')}
                         className="mt-1"
                         onClick={handleClose}
                     />
@@ -144,18 +146,18 @@ const AddCategoryModal = ({
                 <Modal.Body>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="validationCustom01">
-                            <Form.Label>Name</Form.Label>
+                            <Form.Label>{t('modal.categoryName')}</Form.Label>
                             <Form.Control
                                 required
                                 type="text"
-                                placeholder="e.g. Project, Food, Clothes, etc."
+                                placeholder={t('modal.addCategoryPlaceholder')}
                                 onChange={handleNameChange}
                                 ref={nameInputRef}
                                 value={name}
                                 autoFocus
                             />
                             <Form.Control.Feedback type="invalid">
-                                Please enter category name
+                                {t('modal.addCategoryValidationMsg')}
                             </Form.Control.Feedback>
                         </Form.Group>
                         
@@ -182,10 +184,10 @@ const AddCategoryModal = ({
 
                         <div className="d-flex justify-content-end gap-2">
                             <Button variant="outline-dark" onClick={handleClose}>
-                                Close
+                                {t('buttons.title.close')}
                             </Button>
                             <Button variant="dark" type="submit">
-                                Add
+                                {t('buttons.title.add')}
                             </Button>
                         </div>
                     </Form>
