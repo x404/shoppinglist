@@ -28,13 +28,35 @@ import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
     const { t } = useTranslation();
-    
+
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
 
     const activeCategoryId = useSelector(selectActiveCategoryId);
-    const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
+    // const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
+
+    type CategoryTreeNode = Category & {
+        children: CategoryTreeNode[];
+    };
+
+    const buildCategoryTree = (categories: Category[], parentId: string | null = null): CategoryTreeNode[] => {
+        return categories
+            .filter(category => category.parentId === parentId)
+            .map(category => ({
+                ...category,
+                children: buildCategoryTree(categories, category.id)
+            }));
+    };
+
+
+    const categories = useMemo(() => {
+        return [ALL_CATEGORY_OBJECT, ...buildCategoryTree(categoriesList)];
+    }, [categoriesList]);
+
+    console.log(categories)
+
+    console.log('categories', categories);
 
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
 

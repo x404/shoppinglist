@@ -9,7 +9,6 @@ const LanguageSwitcher = () => {
         i18n.changeLanguage(lng);
     };
 
-    console.log(currentLang)
     return (
         <ButtonGroup size="sm" aria-label="Language switcher">
             <Button

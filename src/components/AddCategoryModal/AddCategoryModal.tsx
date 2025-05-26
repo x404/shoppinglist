@@ -45,6 +45,7 @@ const AddCategoryModal = ({
 
 
     useEffect(() => {
+        // console.log('parentCategoryId', parentCategoryId)
         if (parentCategoryId && categoriesList.find(category => category.id === parentCategoryId)) {
             setCategoryId(parentCategoryId);
         }
@@ -93,6 +94,7 @@ const AddCategoryModal = ({
 
     const addNewCategory = () => {
         const categoryData = createCategoryData();
+        console.log(categoryData)
         onAddCategory(categoryData);
     };
 
@@ -100,7 +102,7 @@ const AddCategoryModal = ({
         return {
             id: `cat-${uuidv4()}`,
             name: name.trim(),
-            parentId: null
+            parentId: categoryId
         };
     };
 
@@ -163,13 +165,13 @@ const AddCategoryModal = ({
                         
 
                         {!hasInitialCategory && (
-                            <Form.Group className="mb-3 d-none" >
-                                <Form.Label>Category</Form.Label>
+                            <Form.Group className="mb-3" >
+                                <Form.Label>Parent category</Form.Label>
                                 <Form.Select
                                     value={categoryId}
                                     onChange={changeCategory}
                                 >
-                                    <option value=''>Choose category</option>
+                                    <option value=''>Root category</option>
                                     {categoriesList.map((category) => {
                                             const { id, name } = category
                                             return (

@@ -75,7 +75,7 @@
     flex-direction: column;
     position: relative;
     
-    overflow: visible !important;
+    overflow: auto !important;
 }
 
 .sidebarCollapsed{
