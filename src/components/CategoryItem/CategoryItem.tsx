@@ -50,8 +50,7 @@ const CategoryItem = ({
                       }: CategoryItem) => {
     const { id: categoryId, name: categoryName } = category;
     const allCategory = ALL_CATEGORY_OBJECT.name;
-
-
+    
     const activeClass = isActive ? styles.active : '';
 
     const allCategoryClass = categoryName === allCategory ? styles.menuAllItem : '';
@@ -222,6 +221,7 @@ const CategoryItem = ({
                             handleClearCategory={handleClearCategory}
                             handleSelectCategory={onSelectCategory}
                         />
+                        
                     </li>
                 </>
             )

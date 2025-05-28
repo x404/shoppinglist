@@ -24,6 +24,7 @@ import styles from "./Sidebar.module.css";
 // interfaces
 import { Category } from "@/types/types";
 import { useTranslation } from "react-i18next";
+import CategoryTreeItem from "../CategoryTreeItem/CategoryTreeItem";
 
 
 const Sidebar = () => {
@@ -179,11 +180,11 @@ const Sidebar = () => {
 
                     <ul className="list-unstyled menu mb-0">
                         {categories.map((category) => (
-                            <CategoryItem
+                            <CategoryTreeItem
                                 key={category.id}
                                 category={category}
-                                count={categoryCounts[category.id]}
-                                isActive={activeCategoryId === category.id}
+                                countMap={categoryCounts}
+                                activeCategoryId={activeCategoryId}
                                 onSelectCategory={requestSelectCategory}
                                 onOpenAddProductModal={requestOpenAddProductModal}
                                 onOpenAddCategoryModal={requestOpenAddCategoryModal}
@@ -191,7 +192,7 @@ const Sidebar = () => {
                                 onRenameCategory={requestRenameCategory}
                                 onClearCategory={requestClearCategory}
                                 onSaveEditCategory={handleSaveEditCategory}
-                                isEditingCategory={editingCategoryId === category.id}
+                                editingCategoryId={editingCategoryId}
                                 onCancelEditCategory={requestCancelEditCategory}
                             />
                         ))}
