@@ -56,7 +56,8 @@
     "createCategory": "Create Category",
     "addCategoryPlaceholder" : "e.g. Project, Food, Clothes, etc.",
     "addCategoryValidationMsg" : "Please enter category name",
-    "categoryName": "Name"
+    "categoryName": "Name",
+    "rootCategory": "Root category"
   },
   "popoverViewOptions": {
     "sortingBy": "Sorting by",

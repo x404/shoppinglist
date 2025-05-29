@@ -24,8 +24,13 @@ export interface Category{
     children?: Category[];
 }
 
+export type CategoryTreeNode = Category & {
+    children: CategoryTreeNode[];
+};
+
 export interface CategoryListState {
     categories: Category[];
+    categoriesTree: CategoryTreeNode[];
     selectedCategoryId: string;
 }
 

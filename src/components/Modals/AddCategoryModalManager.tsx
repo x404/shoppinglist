@@ -12,11 +12,12 @@ import AddCatalogModal from "../AddCategoryModal/AddCategoryModal";
 
 // interfaces
 import { Category } from "@/types/types";
+import { selectTreeCategories } from "../../store/categoriesSlice";
 
 
 const AddCategoryModalManager = () => {
     const dispatch = useDispatch();
-    const categoriesList = useSelector(selectCategoriesItems);
+    const categoriesTree = useSelector(selectTreeCategories);
     const {
         isAddCategoryModalOpen,
         parentCategoryId,
@@ -31,7 +32,7 @@ const AddCategoryModalManager = () => {
 
     return (
         <AddCatalogModal
-            categoriesList={categoriesList}
+            categoriesTree={categoriesTree}
             parentCategoryId={parentCategoryId}
             isShowModal={isAddCategoryModalOpen}
             onCloseModal={closeAddCategoryModal}

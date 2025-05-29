@@ -1,6 +1,6 @@
 import { MouseEvent, useCallback, useMemo, useState } from "react";
-import { Button, Dropdown } from "react-bootstrap";
-import { FileEarmarkPlus, FolderPlus, LayoutSidebar, Plus } from "react-bootstrap-icons";
+import { Dropdown } from "react-bootstrap";
+import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
@@ -8,15 +8,18 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductItems } from '@store/productListSlice';
-import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editCategory } from "@store/categoriesSlice";
+import {
+    selectActiveCategoryId,
+    selectCategoriesItems,
+    setActiveCategory,
+    editCategory,
+    selectTreeCategories
+} from "@store/categoriesSlice";
 
 import { useAddProductModal } from "@context/AddProductModalContext";
 import { useAddCategoryModal } from "@context/AddCategoryModalContext";
 import { useClearCategoryModal } from "@context/ClearCategoryModalContext";
 import { useDeleteCategoryModal } from "@context/DeleteCategoryModalContext";
-
-// components
-import CategoryItem from "../CategoryItem/CategoryItem";
 
 // styles
 import styles from "./Sidebar.module.css";
@@ -33,31 +36,16 @@ const Sidebar = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
+    const categoriesTree = useSelector(selectTreeCategories);
 
     const activeCategoryId = useSelector(selectActiveCategoryId);
-    // const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
-
-    type CategoryTreeNode = Category & {
-        children: CategoryTreeNode[];
-    };
-
-    const buildCategoryTree = (categories: Category[], parentId: string | null = null): CategoryTreeNode[] => {
-        return categories
-            .filter(category => category.parentId === parentId)
-            .map(category => ({
-                ...category,
-                children: buildCategoryTree(categories, category.id)
-            }));
-    };
-
 
     const categories = useMemo(() => {
-        return [ALL_CATEGORY_OBJECT, ...buildCategoryTree(categoriesList)];
-    }, [categoriesList]);
+        return [ALL_CATEGORY_OBJECT, ...categoriesTree];
+    }, [categoriesTree, categoriesList]);
 
-    console.log(categories)
 
-    console.log('categories', categories);
+    // console.log('categories', categories);
 
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
 
@@ -78,7 +66,7 @@ const Sidebar = () => {
         });
 
         return counts;
-    }, [productList, categoriesList]);
+    }, [productList, categoriesList, categoriesTree]);
 
 
     const requestSelectCategory = (event: MouseEvent<HTMLElement>, categoryId: string) => {

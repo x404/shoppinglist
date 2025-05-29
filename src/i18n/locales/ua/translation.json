@@ -56,7 +56,8 @@
     "createCategory": "Створити категорію",
     "addCategoryPlaceholder" : "н-д Проект, Їжа, Одяг",
     "addCategoryValidationMsg" : "Введить назву категорії",
-    "categoryName": "Назва"
+    "categoryName": "Назва",
+    "rootCategory": "Виберіть категорію"
   },
   "popoverViewOptions": {
     "sortingBy": "Сортирувати",

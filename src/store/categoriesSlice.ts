@@ -7,13 +7,27 @@ import { CategoryListState, Category } from "@/types/types";
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 import { syncWithLocalStorage } from "../helpers/syncWithLocalStorage";
+import { CategoryTreeNode } from "../types/types";
 
 
 const LOCAL_STORAGE_CATEGORY_KEY = "categories";
 const storedCategories = LocalStorageService.get<Category[]>(LOCAL_STORAGE_CATEGORY_KEY);
 
+
+
+const buildCategoryTree = (categories: Category[], parentId: string | null = null): CategoryTreeNode[] => {
+    return categories
+        .filter(category => category.parentId === parentId)
+        .map(category => ({
+            ...category,
+            children: buildCategoryTree(categories, category.id)
+        }));
+};
+
+
 const initialState: CategoryListState = {
     categories: Array.isArray(storedCategories) ? storedCategories : [],
+    categoriesTree: buildCategoryTree(Array.isArray(storedCategories) ? storedCategories : []),
     selectedCategoryId: ALL_CATEGORY_OBJECT.id
 }
 
@@ -51,5 +65,6 @@ export const categoriesSlice = createSlice({
 export const { setActiveCategory, addCategory, editCategory, deleteCategoryById } = categoriesSlice.actions;
 export const selectActiveCategoryId = (state: { categories: CategoryListState }) => state.categories.selectedCategoryId;
 export const selectCategoriesItems = (state: { categories: CategoryListState }) => state.categories.categories;
+export const selectTreeCategories = (state: { categories: CategoryListState }) => state.categories.categoriesTree;
 
 export default categoriesSlice.reducer;

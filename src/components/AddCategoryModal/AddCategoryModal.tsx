@@ -1,5 +1,5 @@
 import { Modal, Button, Form } from 'react-bootstrap';
-import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, memo, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,9 +9,10 @@ import { getCategoryNameById } from "@helpers/getCategoryNameById";
 // interfaces
 import { Category } from "@/types/types";
 import { useTranslation } from "react-i18next";
+import { CategoryTreeNode } from "../../types/types";
 
 interface AddCategoryModalProps {
-    categoriesList: Category[];
+    categoriesTree: CategoryTreeNode[];
     parentCategoryId: string | undefined;
     isShowModal: boolean;
     onCloseModal: () => void;
@@ -19,7 +20,7 @@ interface AddCategoryModalProps {
 }
 
 const AddCategoryModal = ({
-                             categoriesList,
+                             categoriesTree,
                              parentCategoryId,
                              isShowModal,
                              onCloseModal,
@@ -33,8 +34,7 @@ const AddCategoryModal = ({
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const hasInitialCategory = !!parentCategoryId;
-
-
+    
     useEffect(() => {
         if (isShowModal) {
             resetFormState();
@@ -46,14 +46,14 @@ const AddCategoryModal = ({
 
     useEffect(() => {
         // console.log('parentCategoryId', parentCategoryId)
-        if (parentCategoryId && categoriesList.find(category => category.id === parentCategoryId)) {
+        if (parentCategoryId && categoriesTree.find(category => category.id === parentCategoryId)) {
             setCategoryId(parentCategoryId);
         }
-    }, [parentCategoryId, categoriesList]);
+    }, [parentCategoryId, categoriesTree]);
 
 
     const categoryName = parentCategoryId
-        ? getCategoryNameById(categoriesList, parentCategoryId)
+        ? getCategoryNameById(categoriesTree, parentCategoryId)
         : '';
     
     
@@ -94,7 +94,6 @@ const AddCategoryModal = ({
 
     const addNewCategory = () => {
         const categoryData = createCategoryData();
-        console.log(categoryData)
         onAddCategory(categoryData);
     };
 
@@ -127,7 +126,21 @@ const AddCategoryModal = ({
         setCategoryId(event.target.value);
     }, []);
 
+    const renderCategoryOptions = (categories: Category[], level = 0): ReactNode[] => {
+        return categories.flatMap(category => {
+            const prefix = '-'.repeat(level);
+            const option = (
+                <option key={category.id} value={category.id}>
+                    {prefix ? `${prefix} ` : ''}{category.name}
+                </option>
+            );
 
+            const children = category.children ? renderCategoryOptions(category.children, level + 1) : [];
+
+            return [option, ...children];
+        });
+    };
+    
     return (
         <>
             <Modal show={isShowModal} onHide={handleClose} centered>
@@ -171,15 +184,8 @@ const AddCategoryModal = ({
                                     value={categoryId}
                                     onChange={changeCategory}
                                 >
-                                    <option value=''>Root category</option>
-                                    {categoriesList.map((category) => {
-                                            const { id, name } = category
-                                            return (
-                                                <option key={id} value={id}>
-                                                    {name}
-                                                </option>)
-                                        }
-                                    )}
+                                    <option value=''> {t('modal.rootCategory')} </option>
+                                    {renderCategoryOptions(categoriesTree)}
                                 </Form.Select>
                             </Form.Group>
                         )}

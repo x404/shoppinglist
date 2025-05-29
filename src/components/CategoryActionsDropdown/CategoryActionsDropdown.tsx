@@ -78,7 +78,6 @@ const CategoryActionsDropdown = ({
                                 <Plus size={22}/>
                             </div>
 
-
                             <div className={`${styles.title} flex-grow-1`}>
                                 {t('sidebar.menus.createNew')}
                             </div>
@@ -90,7 +89,6 @@ const CategoryActionsDropdown = ({
                             <ActionItem
                                 icon={<FolderPlus size={16}/>}
                                 label={t('sidebar.menus.category')}
-                                disabled
                                 onClick={onOpenAddCategoryModal}
                             />
                             <ActionItem
