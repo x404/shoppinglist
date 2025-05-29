@@ -43,10 +43,7 @@ const Sidebar = () => {
     const categories = useMemo(() => {
         return [ALL_CATEGORY_OBJECT, ...categoriesTree];
     }, [categoriesTree, categoriesList]);
-
-
-    // console.log('categories', categories);
-
+    
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
 
     const { openClearCategoryModal } = useClearCategoryModal();

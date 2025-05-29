@@ -1,6 +1,16 @@
-const mockupCategories = [{ "id": "1", "name": "Home", "parentId": null }, {
-    "id": "2",
-    "name": "Work",
-    "parentId": null
-}, { "id": "3", "name": "Clients", "parentId": null }, { "id": "4", "name": "Car", "parentId": null }];
+const mockupCategories = [
+    { "id": "1", "name": "Home", "parentId": "" },
+    {
+        "id": "2",
+        "name": "Work",
+        "parentId": ""
+    },
+    {
+        "id": "5",
+        "name": "Subcat Work",
+        "parentId": "2"
+    },
+    { "id": "3", "name": "Clients", "parentId": "" },
+    { "id": "4", "name": "Car", "parentId": "" }
+];
 export default mockupCategories;

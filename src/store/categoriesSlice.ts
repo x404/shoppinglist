@@ -13,15 +13,18 @@ import { CategoryTreeNode } from "../types/types";
 const LOCAL_STORAGE_CATEGORY_KEY = "categories";
 const storedCategories = LocalStorageService.get<Category[]>(LOCAL_STORAGE_CATEGORY_KEY);
 
-
-
-const buildCategoryTree = (categories: Category[], parentId: string | null = null): CategoryTreeNode[] => {
+const buildCategoryTree = (categories: Category[], parentId: string | null = ''): CategoryTreeNode[] => {
     return categories
         .filter(category => category.parentId === parentId)
         .map(category => ({
             ...category,
             children: buildCategoryTree(categories, category.id)
         }));
+};
+
+const updateCategoryState = (state: CategoryListState) => {
+    state.categoriesTree = buildCategoryTree(state.categories);
+    syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
 };
 
 
@@ -37,20 +40,24 @@ export const categoriesSlice = createSlice({
     reducers: {
         addCategory: (state, action) => {
             state.categories.push(action.payload);
-            syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
+            updateCategoryState(state);
+
         },
         editCategory: (state, action) => {
             const { id, name } = action.payload;
-            state.categories = state.categories.map(category =>
+            const updCategories = state.categories.map(category =>
                 category.id === id
                     ? { ...category, name }
                     : category
             );
-            syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
+            state.categories = updCategories;
+            updateCategoryState(state);
+
         },
         deleteCategoryById: (state, action) => {
             state.categories = state.categories.filter(category => category.id !== action.payload);
-            syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
+            updateCategoryState(state);
+
         },
         moveCategory: (state, action) => {
             console.log(action.payload, state);
