@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { CategoryTreeNode } from "../../types/types";
 
 interface AddCategoryModalProps {
+    categoriesList: Category[];
     categoriesTree: CategoryTreeNode[];
     parentCategoryId: string | undefined;
     isShowModal: boolean;
@@ -20,43 +21,42 @@ interface AddCategoryModalProps {
 }
 
 const AddCategoryModal = ({
-                             categoriesTree,
-                             parentCategoryId,
-                             isShowModal,
-                             onCloseModal,
-                             onAddCategory
-                         }: AddCategoryModalProps) => {
+                              categoriesList,
+                              categoriesTree,
+                              parentCategoryId,
+                              isShowModal,
+                              onCloseModal,
+                              onAddCategory
+                          }: AddCategoryModalProps) => {
     const { t } = useTranslation();
-    
+
     const [name, setName] = useState<string>('');
     const [categoryId, setCategoryId] = useState<string>(parentCategoryId || '');
     const [validated, setValidated] = useState(false);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const hasInitialCategory = !!parentCategoryId;
-    
     useEffect(() => {
         if (isShowModal) {
             resetFormState();
-            setCategoryId('');
+            setCategoryId(parentCategoryId || '');
             focusNameInput();
         }
     }, [isShowModal]);
 
 
     useEffect(() => {
-        // console.log('parentCategoryId', parentCategoryId)
         if (parentCategoryId && categoriesTree.find(category => category.id === parentCategoryId)) {
             setCategoryId(parentCategoryId);
         }
-    }, [parentCategoryId, categoriesTree]);
+    }, [parentCategoryId, categoriesTree, categoriesList]);
 
 
     const categoryName = parentCategoryId
-        ? getCategoryNameById(categoriesTree, parentCategoryId)
+        ? getCategoryNameById(categoriesList, parentCategoryId)
         : '';
-    
-    
+
+
     const handleClose = useCallback(() => {
         resetForm();
         onCloseModal();
@@ -147,7 +147,9 @@ const AddCategoryModal = ({
                 <Modal.Header className="align-items-start">
                     <Modal.Title> {t('modal.createCategory')}
                         {hasInitialCategory && (
-                            <div className="h6 mt-1 text-black-50">{t('modal.category')}: <strong>{categoryName}</strong></div>
+                            <div className="h6 mt-1 text-black-50">
+                                {t('modal.category')}: <strong>{categoryName}</strong>
+                            </div>
                         )}
                     </Modal.Title>
 
@@ -178,7 +180,7 @@ const AddCategoryModal = ({
                         
 
                         {!hasInitialCategory && (
-                            <Form.Group className="mb-3" >
+                            <Form.Group className="mb-3">
                                 <Form.Label>Parent category</Form.Label>
                                 <Form.Select
                                     value={categoryId}

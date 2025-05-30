@@ -55,6 +55,7 @@ export const categoriesSlice = createSlice({
 
         },
         deleteCategoryById: (state, action) => {
+            // TODO: remove subcategories with parent category
             state.categories = state.categories.filter(category => category.id !== action.payload);
             updateCategoryState(state);
 
