@@ -42,7 +42,7 @@ const Sidebar = () => {
 
     const categories = useMemo(() => {
         return [ALL_CATEGORY_OBJECT, ...categoriesTree];
-    }, [categoriesTree, categoriesList]);
+    }, [categoriesList]);
     
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
 
@@ -58,12 +58,13 @@ const Sidebar = () => {
 
     const categoryCounts = useMemo(() => {
         const counts: { [key: string]: number } = {};
+        const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
         categories.forEach(category => {
             counts[category.id] = getCategoryCountById(category.id);
         });
 
         return counts;
-    }, [productList, categoriesList, categoriesTree]);
+    }, [productList, categoriesList]);
 
 
     const requestSelectCategory = (event: MouseEvent<HTMLElement>, categoryId: string) => {
