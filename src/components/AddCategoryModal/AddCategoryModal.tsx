@@ -5,15 +5,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 // helpers
 import { getCategoryNameById } from "@helpers/getCategoryNameById";
+import { buildCategoryTree } from "../../helpers/categoryTreeHelpers";
 
 // interfaces
 import { Category } from "@/types/types";
 import { useTranslation } from "react-i18next";
-import { CategoryTreeNode } from "../../types/types";
+
 
 interface AddCategoryModalProps {
     categoriesList: Category[];
-    categoriesTree: CategoryTreeNode[];
     parentCategoryId: string | undefined;
     isShowModal: boolean;
     onCloseModal: () => void;
@@ -22,7 +22,6 @@ interface AddCategoryModalProps {
 
 const AddCategoryModal = ({
                               categoriesList,
-                              categoriesTree,
                               parentCategoryId,
                               isShowModal,
                               onCloseModal,
@@ -36,6 +35,7 @@ const AddCategoryModal = ({
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const hasInitialCategory = !!parentCategoryId;
+    
     useEffect(() => {
         if (isShowModal) {
             resetFormState();
@@ -46,10 +46,10 @@ const AddCategoryModal = ({
 
 
     useEffect(() => {
-        if (parentCategoryId && categoriesTree.find(category => category.id === parentCategoryId)) {
+        if (parentCategoryId && categoriesList.some(category => category.id === parentCategoryId)) {
             setCategoryId(parentCategoryId);
         }
-    }, [parentCategoryId, categoriesTree, categoriesList]);
+    }, [parentCategoryId, categoriesList]);
 
 
     const categoryName = parentCategoryId
@@ -187,7 +187,7 @@ const AddCategoryModal = ({
                                     onChange={changeCategory}
                                 >
                                     <option value=''> {t('modal.rootCategory')} </option>
-                                    {renderCategoryOptions(categoriesTree)}
+                                    {renderCategoryOptions(buildCategoryTree(categoriesList))}
                                 </Form.Select>
                             </Form.Group>
                         )}

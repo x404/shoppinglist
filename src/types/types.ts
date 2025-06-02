@@ -30,7 +30,6 @@ export type CategoryTreeNode = Category & {
 
 export interface CategoryListState {
     categories: Category[];
-    categoriesTree: CategoryTreeNode[];
     selectedCategoryId: string;
 }
 

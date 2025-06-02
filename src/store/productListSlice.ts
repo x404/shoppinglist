@@ -47,7 +47,7 @@ export const productListSlice = createSlice({
             state.products = state.products.filter(product => product.id !== action.payload);
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },
-        clearProductsInCategory: (state, action: PayloadAction<string>) => {
+        deleteProductsInCategory: (state, action: PayloadAction<string>) => {
             state.products = state.products.filter(product => product.categoryId !== action.payload);
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },
@@ -62,7 +62,7 @@ export const {
     addProduct,
     editProduct,
     deleteProduct,
-    clearProductsInCategory,
+    deleteProductsInCategory,
     setFilterQuery
 } = productListSlice.actions;
 

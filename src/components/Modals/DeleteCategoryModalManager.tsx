@@ -3,16 +3,17 @@ import { useCallback } from "react";
 
 // redux
 import { selectCategoriesItems } from "@store/categoriesSlice";
-import { clearProductsInCategory, selectProductItems } from "@store/productListSlice";
+import { deleteProductsInCategory, selectProductItems } from "@store/productListSlice";
 import { deleteCategoryById } from "@store/categoriesSlice";
+import { selectTreeCategories } from "@store/categoriesSlice";
 
 // context
 import { useDeleteCategoryModal } from "@context/DeleteCategoryModalContext";
 
 // helpers
-import { focusElementByHref } from "@helpers/focusElementByHref";
 import { getCategoryNameById } from "@helpers/getCategoryNameById";
 import { getProductCountByCategoryId } from "@helpers/categoryCountsHelpers";
+import { getAllNestedCategoryIds } from "@helpers/categoryTreeHelpers";
 
 // components
 import { DeleteCategoryModal } from "../DeleteCategoryModal/DeleteCategoryModal";
@@ -21,6 +22,7 @@ const DeleteCategoryModalManager = () => {
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
+    const categoriesTree = useSelector(selectTreeCategories);
 
     const {
         isDeleteCategoryModalOpen,
@@ -29,11 +31,17 @@ const DeleteCategoryModalManager = () => {
     } = useDeleteCategoryModal();
 
     const handleConfirmDeleteCategory = useCallback((categoryId: string) => {
-        dispatch(clearProductsInCategory(categoryId));
-        dispatch(deleteCategoryById(categoryId));
+
+        const idsToDelete = getAllNestedCategoryIds(categoriesTree, categoryId);
+
+        dispatch(deleteProductsInCategory(categoryId));
+        dispatch(deleteCategoryById(idsToDelete));
         // focusElementByHref(categoryId);
         closeDeleteCategoryModal();
     }, [dispatch, closeDeleteCategoryModal]);
+
+
+    
 
     const categoryName = getCategoryNameById(categoriesList, deleteCategoryId);
     const count = getProductCountByCategoryId(productList, deleteCategoryId)
