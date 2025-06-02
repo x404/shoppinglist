@@ -34,7 +34,7 @@ const DeleteCategoryModalManager = () => {
 
         const idsToDelete = getAllNestedCategoryIds(categoriesTree, categoryId);
 
-        dispatch(deleteProductsInCategory(categoryId));
+        dispatch(deleteProductsInCategory(idsToDelete));
         dispatch(deleteCategoryById(idsToDelete));
         // focusElementByHref(categoryId);
         closeDeleteCategoryModal();

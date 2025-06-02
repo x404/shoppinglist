@@ -47,8 +47,9 @@ export const productListSlice = createSlice({
             state.products = state.products.filter(product => product.id !== action.payload);
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },
-        deleteProductsInCategory: (state, action: PayloadAction<string>) => {
-            state.products = state.products.filter(product => product.categoryId !== action.payload);
+        deleteProductsInCategory: (state, action: PayloadAction<string[]>) => {
+            const categoryIdsToDelete = new Set(action.payload);
+            state.products = state.products.filter(product => !categoryIdsToDelete.has(product.categoryId));
             syncWithLocalStorage(LOCAL_STORAGE_PRODUCT_KEY, state.products);
         },
         setFilterQuery: (state, action: PayloadAction<string>) => {

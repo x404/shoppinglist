@@ -45,8 +45,8 @@ export const categoriesSlice = createSlice({
 
         },
         deleteCategoryById: (state, action: PayloadAction<string[]>) => {
-            const idsToDelete = new Set(action.payload);
-            state.categories = state.categories.filter(category => !idsToDelete.has(category.id));
+            const categoryIdsToDelete = new Set(action.payload);
+            state.categories = state.categories.filter(category => !categoryIdsToDelete.has(category.id));
             updateCategoryState(state);
         },
         moveCategory: (state, action) => {
