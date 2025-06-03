@@ -18,7 +18,7 @@ export const ClearCategoryModalProvider = ({ children }: ModalProviderProps) => 
     const [clearCategoryId, setClearCategoryId] = useState<string>('');
 
     const openClearCategoryModal = useCallback((categoryId: string) => {
-        console.log('openClearCategoryModal', categoryId);
+        // console.log('openClearCategoryModal', categoryId);
 
         setIsClearCategoryModalOpen(true);
         setClearCategoryId(categoryId);

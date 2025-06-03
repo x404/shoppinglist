@@ -31,6 +31,7 @@
   "buttons": {
     "title": {
       "addProduct": "Додати",
+      "add": "Додати",
       "close": "Закрити",
       "save": "Зберегти",
       "cancel": "Вийти"
@@ -51,7 +52,12 @@
     "errorsMsg": {
       "enterTaskTitle": "Введить назву"
     },
-    "saveItem": "Зберегти"
+    "saveItem": "Зберегти",
+    "createCategory": "Створити категорію",
+    "addCategoryPlaceholder" : "н-д Проект, Їжа, Одяг",
+    "addCategoryValidationMsg" : "Введить назву категорії",
+    "categoryName": "Назва",
+    "rootCategory": "Виберіть категорію"
   },
   "popoverViewOptions": {
     "sortingBy": "Сортирувати",

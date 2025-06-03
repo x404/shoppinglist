@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 // redux
 import { selectCategoriesItems } from "@store/categoriesSlice";
-import { clearProductsInCategory, selectProductItems } from "@store/productListSlice";
+import { deleteProductsInCategory, selectProductItems } from "@store/productListSlice";
 
 // context
 import { useClearCategoryModal } from "@context/ClearCategoryModalContext";
@@ -28,7 +28,8 @@ const ClearCategoryModalManager = () => {
     } = useClearCategoryModal();
 
     const handleConfirmClearCategory = useCallback((categoryId: string) => {
-        dispatch(clearProductsInCategory(categoryId));
+        const categoryIdsToClear = [categoryId];
+        dispatch(deleteProductsInCategory(categoryIdsToClear));
         focusElementByHref(categoryId);
         closeClearCategoryModal();
     }, [dispatch, closeClearCategoryModal]);

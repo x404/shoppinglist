@@ -75,7 +75,7 @@
     flex-direction: column;
     position: relative;
     
-    overflow: visible !important;
+    overflow: initial !important;
 }
 
 .sidebarCollapsed{
@@ -92,7 +92,7 @@
 
 @media (min-width: 768px){
     .panelGroup{
-        height: calc(100vh - 75px) !important;
+        /*height: calc(100vh - 75px) !important;*/
     }
 }
 

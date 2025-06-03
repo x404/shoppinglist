@@ -1,6 +1,6 @@
 import { MouseEvent, useCallback, useMemo, useState } from "react";
-import { Button, Dropdown } from "react-bootstrap";
-import { FileEarmarkPlus, FolderPlus, LayoutSidebar, Plus } from "react-bootstrap-icons";
+import { Dropdown } from "react-bootstrap";
+import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
@@ -8,15 +8,18 @@ import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductItems } from '@store/productListSlice';
-import { selectActiveCategoryId, selectCategoriesItems, setActiveCategory, editCategory } from "@store/categoriesSlice";
+import {
+    selectActiveCategoryId,
+    selectCategoriesItems,
+    setActiveCategory,
+    editCategory,
+    selectTreeCategories
+} from "@store/categoriesSlice";
 
 import { useAddProductModal } from "@context/AddProductModalContext";
 import { useAddCategoryModal } from "@context/AddCategoryModalContext";
 import { useClearCategoryModal } from "@context/ClearCategoryModalContext";
 import { useDeleteCategoryModal } from "@context/DeleteCategoryModalContext";
-
-// components
-import CategoryItem from "../CategoryItem/CategoryItem";
 
 // styles
 import styles from "./Sidebar.module.css";
@@ -24,18 +27,23 @@ import styles from "./Sidebar.module.css";
 // interfaces
 import { Category } from "@/types/types";
 import { useTranslation } from "react-i18next";
+import CategoryTreeItem from "../CategoryTreeItem/CategoryTreeItem";
 
 
 const Sidebar = () => {
     const { t } = useTranslation();
-    
+
     const dispatch = useDispatch();
     const productList = useSelector(selectProductItems);
     const categoriesList = useSelector(selectCategoriesItems);
+    const categoriesTree = useSelector(selectTreeCategories);
 
     const activeCategoryId = useSelector(selectActiveCategoryId);
-    const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
 
+    const categories = useMemo(() => {
+        return [ALL_CATEGORY_OBJECT, ...categoriesTree];
+    }, [categoriesList]);
+    
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
 
     const { openClearCategoryModal } = useClearCategoryModal();
@@ -50,6 +58,7 @@ const Sidebar = () => {
 
     const categoryCounts = useMemo(() => {
         const counts: { [key: string]: number } = {};
+        const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
         categories.forEach(category => {
             counts[category.id] = getCategoryCountById(category.id);
         });
@@ -157,11 +166,11 @@ const Sidebar = () => {
 
                     <ul className="list-unstyled menu mb-0">
                         {categories.map((category) => (
-                            <CategoryItem
+                            <CategoryTreeItem
                                 key={category.id}
                                 category={category}
-                                count={categoryCounts[category.id]}
-                                isActive={activeCategoryId === category.id}
+                                countMap={categoryCounts}
+                                activeCategoryId={activeCategoryId}
                                 onSelectCategory={requestSelectCategory}
                                 onOpenAddProductModal={requestOpenAddProductModal}
                                 onOpenAddCategoryModal={requestOpenAddCategoryModal}
@@ -169,7 +178,7 @@ const Sidebar = () => {
                                 onRenameCategory={requestRenameCategory}
                                 onClearCategory={requestClearCategory}
                                 onSaveEditCategory={handleSaveEditCategory}
-                                isEditingCategory={editingCategoryId === category.id}
+                                editingCategoryId={editingCategoryId}
                                 onCancelEditCategory={requestCancelEditCategory}
                             />
                         ))}

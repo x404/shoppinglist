@@ -109,7 +109,7 @@ const WarningStep = ({ categoryName }: { categoryName: string }) => {
                 Unexpected bad things will happen if you don’t read this!
             </Alert>
             <div className={`${styles.infoText} mt-3 mb-1 px-3 mx-3`}>
-                This will permanently delete the category <b>{categoryName}</b> and remove all records and items in it.
+                This will permanently delete the category <b>{categoryName}</b> and remove all subcategories and items in it.
             </div>
         </>
     );

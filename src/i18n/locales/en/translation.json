@@ -31,6 +31,7 @@
   "buttons": {
     "title": {
       "addProduct": "Add task",
+      "add": "Add",
       "close": "Close",
       "save": "Save",
       "cancel": "Cancel"
@@ -51,7 +52,12 @@
     "errorsMsg": {
       "enterTaskTitle": "Please enter product name"
     },
-    "saveItem": "Save item"
+    "saveItem": "Save item",
+    "createCategory": "Create Category",
+    "addCategoryPlaceholder" : "e.g. Project, Food, Clothes, etc.",
+    "addCategoryValidationMsg" : "Please enter category name",
+    "categoryName": "Name",
+    "rootCategory": "Root category"
   },
   "popoverViewOptions": {
     "sortingBy": "Sorting by",

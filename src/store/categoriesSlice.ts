@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LocalStorageService } from "@services/LocalStorageService";
 
 // interfaces
@@ -6,11 +6,18 @@ import { CategoryListState, Category } from "@/types/types";
 
 // constants
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
-import { syncWithLocalStorage } from "../helpers/syncWithLocalStorage";
+import { syncWithLocalStorage } from "@helpers/syncWithLocalStorage";
+import { buildCategoryTree } from "@helpers/categoryTreeHelpers";
 
 
 const LOCAL_STORAGE_CATEGORY_KEY = "categories";
 const storedCategories = LocalStorageService.get<Category[]>(LOCAL_STORAGE_CATEGORY_KEY);
+
+
+const updateCategoryState = (state: CategoryListState) => {
+    syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
+};
+
 
 const initialState: CategoryListState = {
     categories: Array.isArray(storedCategories) ? storedCategories : [],
@@ -23,20 +30,24 @@ export const categoriesSlice = createSlice({
     reducers: {
         addCategory: (state, action) => {
             state.categories.push(action.payload);
-            syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
+            updateCategoryState(state);
+
         },
         editCategory: (state, action) => {
             const { id, name } = action.payload;
-            state.categories = state.categories.map(category =>
+            const updCategories = state.categories.map(category =>
                 category.id === id
                     ? { ...category, name }
                     : category
             );
-            syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
+            state.categories = updCategories;
+            updateCategoryState(state);
+
         },
-        deleteCategoryById: (state, action) => {
-            state.categories = state.categories.filter(category => category.id !== action.payload);
-            syncWithLocalStorage(LOCAL_STORAGE_CATEGORY_KEY, state.categories);
+        deleteCategoryById: (state, action: PayloadAction<string[]>) => {
+            const categoryIdsToDelete = new Set(action.payload);
+            state.categories = state.categories.filter(category => !categoryIdsToDelete.has(category.id));
+            updateCategoryState(state);
         },
         moveCategory: (state, action) => {
             console.log(action.payload, state);
@@ -51,5 +62,10 @@ export const categoriesSlice = createSlice({
 export const { setActiveCategory, addCategory, editCategory, deleteCategoryById } = categoriesSlice.actions;
 export const selectActiveCategoryId = (state: { categories: CategoryListState }) => state.categories.selectedCategoryId;
 export const selectCategoriesItems = (state: { categories: CategoryListState }) => state.categories.categories;
+
+export const selectTreeCategories = createSelector(
+    [selectCategoriesItems],
+    (categories) => buildCategoryTree(categories)
+);
 
 export default categoriesSlice.reducer;

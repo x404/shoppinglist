@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 
 // redux
-import { addCategory, selectCategoriesItems } from "@store/categoriesSlice";
+import { addCategory } from "@store/categoriesSlice";
 
 // context
 import { useAddCategoryModal } from "@context/AddCategoryModalContext";
@@ -12,6 +12,7 @@ import AddCatalogModal from "../AddCategoryModal/AddCategoryModal";
 
 // interfaces
 import { Category } from "@/types/types";
+import { selectCategoriesItems } from "@store/categoriesSlice";
 
 
 const AddCategoryModalManager = () => {
