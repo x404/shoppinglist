@@ -28,7 +28,8 @@ const ClearCategoryModalManager = () => {
     } = useClearCategoryModal();
 
     const handleConfirmClearCategory = useCallback((categoryId: string) => {
-        dispatch(deleteProductsInCategory(categoryId));
+        const categoryIdsToClear = [categoryId];
+        dispatch(deleteProductsInCategory(categoryIdsToClear));
         focusElementByHref(categoryId);
         closeClearCategoryModal();
     }, [dispatch, closeClearCategoryModal]);
