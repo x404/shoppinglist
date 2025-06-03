@@ -129,10 +129,22 @@ const MainContent = () => {
                 <h2 className="h4 fw-bold">Grocery Lists</h2>
                 <section className="bg-white shadow-sm p-3 p-md-4 mt-4 shadow-sm" aria-labelledby="my-list-title">
                     {filteredProducts.length === 0 && searchText.length === 0 && (
-                        <NoFoundProducts
-                            products={filteredProducts}
-                            activeCategoryId={activeCategoryId}
-                        />
+                        <>
+                            <NoFoundProducts
+                                products={filteredProducts}
+                                activeCategoryId={activeCategoryId}
+
+                                sortField={sortField}
+                                sortDirection={sortDirection}
+                                hiddenItemsStatus={hiddenItemsStatus}
+                                handleSortFieldChange={handleSortFieldChange}
+                                handleSortDirectionChange={handleSortDirectionChange}
+                                handleChangeHiddingStatus={handleChangeHiddingStatus}
+                                handleClearSorting={handleClearSorting}
+                                showPopover={showPopover}
+                                setShowPopover={setShowPopover}                              
+                            />
+                        </>
                     )}
 
                     {(filteredProducts.length > 0 || searchText.length > 0) && (
@@ -152,7 +164,7 @@ const MainContent = () => {
                                     />
                                 )}
 
-                                <div className='mt-2 mt-sm-0 d-flex gap-2'>
+                                <div className="mt-2 mt-sm-0 d-flex gap-2">
                                     <SearchBar onSearch={setSearchText} initialValue={searchText}/>
                                     <ViewToolbar
                                         sortField={sortField}
