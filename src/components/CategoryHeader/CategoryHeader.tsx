@@ -42,7 +42,7 @@ export const CategoryHeader = memo(({
     }, [activeCategoryId])
 
     return (
-        <div className={`d-flex align-items-center justify-content-between gap-2 ${isAllCategory ? '' : 'mb-4'}`}>
+        <div className={`d-flex align-items-center justify-content-between gap-2 ${isAllCategory ? '' : 'mb-4-'}`}>
             <div className="d-flex align-items-center flex-grow-1">
                 <h4 className={`mb-0 ${isAllCategory ? 'h6 text-uppercase fw-bold me-1' : 'h5 fw-normal me-1'}`}>
                     {categoryName || '!#??'}

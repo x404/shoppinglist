@@ -77,7 +77,7 @@ const NoFoundProducts = ({
         <>
             <article className="mb-2">
                 <div className="d-flex gap-2">
-                    <div className="flex-grow-1">
+                    <div className="flex-grow-1 d-flex align-items-center">
                         <CategoryHeader
                             counter={0}
 
@@ -91,20 +91,23 @@ const NoFoundProducts = ({
                         />
                     </div>
 
-                    <ViewToolbar
-                        sortField={sortField}
-                        sortDirection={sortDirection}
-                        hiddenItemsStatus={hiddenItemsStatus}
-                        handleSortFieldChange={handleSortFieldChange}
-                        handleSortDirectionChange={handleSortDirectionChange}
-                        handleChangeHiddingStatus={handleChangeHiddingStatus}
-                        handleClearSorting={handleClearSorting}
-                        showPopover={showPopover}
-                        setShowPopover={setShowPopover}
-                    />
+                    <div>
+                        <ViewToolbar
+                            sortField={sortField}
+                            sortDirection={sortDirection}
+                            hiddenItemsStatus={hiddenItemsStatus}
+                            handleSortFieldChange={handleSortFieldChange}
+                            handleSortDirectionChange={handleSortDirectionChange}
+                            handleChangeHiddingStatus={handleChangeHiddingStatus}
+                            handleClearSorting={handleClearSorting}
+                            showPopover={showPopover}
+                            setShowPopover={setShowPopover}
+                        />
+                    </div>
                 </div>
 
-                <p>No products found</p>
+                
+                <p className="mt-3">No products found</p>
                 <Button variant="dark" onClick={handleShowAddProductModal}>Add first product</Button>
             </article>
         </>
