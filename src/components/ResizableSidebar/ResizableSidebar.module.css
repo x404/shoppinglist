@@ -21,7 +21,7 @@
 
 .fixHeight{
     @media (width > 992px) {
-        height: 100vh;
+        min-height: 100vh;
     }
 }
 

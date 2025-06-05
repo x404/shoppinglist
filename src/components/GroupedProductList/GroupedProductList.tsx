@@ -24,6 +24,40 @@ interface GroupedProductListProps {
     onSaveEditProduct: (product: Product) => void;
 }
 
+interface CategoryHeaderWrapperProps {
+    activeCategoryId: string;
+    categoryId: string;
+    categoryName: string;
+    counter: number;
+    onCancelEditProduct: () => void;
+    onShowAddProductModal: () => void;
+    onShowClearCategoryModal: () => void;
+}
+
+
+const CategoryHeaderWrapper = ({
+                                   activeCategoryId,
+                                   categoryName,
+                                   counter,
+                                   onCancelEditProduct,
+                                   onShowAddProductModal,
+                                   onShowClearCategoryModal
+                               }: CategoryHeaderWrapperProps) => {
+    if (activeCategoryId !== ALL_CATEGORY_OBJECT.id) return null;
+
+    return (
+        <CategoryHeader
+            counter={counter}
+            activeCategoryId={activeCategoryId}
+            categoryName={categoryName}
+            onCancelEditProduct={onCancelEditProduct}
+            onShowAddProductModal={onShowAddProductModal}
+            onShowClearCategoryModal={onShowClearCategoryModal}
+        />
+    );
+};
+
+
 const GroupedProductList = ({
                                 groupedProducts,
                                 editingProductId,
@@ -48,24 +82,23 @@ const GroupedProductList = ({
         openClearCategoryModal(categoryId)
     }
 
+    console.log(groupedProducts)
+
     return (
         <>
             {Object.entries(groupedProducts).map(([categoryId, products]: [string, Product[]]) => {
                 const categoryName = categoriesList.find(category => category.id === categoryId)?.name || 'Others';
                 return (
-
                     <article className="mb-3 mb-sm-2 mb-lg-3" key={categoryId}>
-                        {activeCategoryId === ALL_CATEGORY_OBJECT.id && (
-                            <CategoryHeader
-                                counter={products.length}
-
-                                activeCategoryId={activeCategoryId}
-                                categoryName={categoryName}
-
-                                onCancelEditProduct={onCancelEditProduct}
-                                onShowAddProductModal={() => handleShowAddProductModal(categoryId)}
-                                onShowClearCategoryModal={() => handleShowClearCategoryModal(categoryId)}
-                            />)}
+                        <CategoryHeaderWrapper
+                            categoryId={categoryId}
+                            activeCategoryId={activeCategoryId}
+                            categoryName={categoryName}
+                            counter={products.length}
+                            onCancelEditProduct={onCancelEditProduct}
+                            onShowAddProductModal={() => handleShowAddProductModal(categoryId)}
+                            onShowClearCategoryModal={() => handleShowClearCategoryModal(categoryId)}
+                        />
 
                         <ul className="list-group mt-2" aria-label={categoryId}>
                             {products.map((product) => (
@@ -85,6 +118,11 @@ const GroupedProductList = ({
                     </article>
                 )
             })}
+            
+            <section className="ps-2 mt-4">
+                <h5 className="h6">Subcategories</h5>
+                
+            </section>
         </>
     );
 };
