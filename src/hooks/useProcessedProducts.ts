@@ -1,9 +1,11 @@
 import { useMemo } from "react";
-import { ALL_CATEGORY_OBJECT } from "@constants/categories";
 import { Product } from "@/types/types";
-import { groupProductsByCategoryId } from "@helpers/groupProductsByCategoryId";
+import { useSelector } from "react-redux";
+import { ALL_CATEGORY_OBJECT } from "@constants/categories";
+import { getAllNestedCategoryIds, groupProductsByCategory } from "../helpers/categoryTreeHelpers";
+import { selectTreeCategories } from "../store/categoriesSlice";
 
-interface Params {
+interface UseProcessedProductsParams {
     productList: Product[];
     activeCategoryId: string;
     debouncedSearchText: string;
@@ -19,46 +21,62 @@ export const useProcessedProducts = ({
                                          sortField,
                                          sortDirection,
                                          hiddenItemsStatus
-                                     }: Params) => {
+                                     }: UseProcessedProductsParams) => {
+    const categoriesTree = useSelector(selectTreeCategories);
 
-    const showOnlyUnhiddenStatusItems = (products: Product[]) =>
-        products.filter(p => !p.purchased);
+    const visibleCategoryIds = useMemo(() => {
+        return activeCategoryId === ALL_CATEGORY_OBJECT.id
+            ? null
+            : getAllNestedCategoryIds(categoriesTree, activeCategoryId);
+    }, [activeCategoryId, categoriesTree]);
 
-    const filteredProducts = useMemo(() => {
-        let products = hiddenItemsStatus ? showOnlyUnhiddenStatusItems(productList) : productList;
-        const isAllCategory = activeCategoryId === ALL_CATEGORY_OBJECT.id;
-        
-        const byCategory = isAllCategory
-            ? products
-            : products.filter(product => product.categoryId === activeCategoryId);
+    const filteredByCategory = useMemo(() => {
+        if (activeCategoryId === ALL_CATEGORY_OBJECT.id) {
+            return productList;
+        }
+        return productList.filter(product => visibleCategoryIds?.includes(product.categoryId));
+    }, [productList, activeCategoryId, visibleCategoryIds]);
 
-        
-        const normalizedSearch = debouncedSearchText.trim().toLowerCase();
-        return normalizedSearch.length === 0
-            ? byCategory
-            : byCategory.filter(p => p.name.toLowerCase().includes(normalizedSearch));
-    }, [productList, activeCategoryId, debouncedSearchText, hiddenItemsStatus]);
+    const filteredBySearch = useMemo(() => {
+        if (!debouncedSearchText) return filteredByCategory;
+        return filteredByCategory.filter(product =>
+            product.name.toLowerCase().includes(debouncedSearchText.toLowerCase())
+        );
+    }, [filteredByCategory, debouncedSearchText]);
+
+    const filteredByHiddenStatus = useMemo(() => {
+        return hiddenItemsStatus
+            ? filteredBySearch.filter(product => !product.purchased)
+            : filteredBySearch;
+    }, [filteredBySearch, hiddenItemsStatus]);
 
     const sortedProducts = useMemo(() => {
-        if (!sortField || !sortDirection) return filteredProducts;
+        if (!sortField || !sortDirection) return filteredByHiddenStatus;
 
-        return [...filteredProducts].sort((a, b) => {
-            let valueA: string | number = sortField === 'name' ? a.name.toLowerCase() : a.purchased ? 1 : 0;
-            let valueB: string | number = sortField === 'name' ? b.name.toLowerCase() : b.purchased ? 1 : 0;
+        const directionFactor = sortDirection === "asc" ? 1 : -1;
 
-            return sortDirection === 'asc'
-                ? valueA > valueB ? 1 : -1
-                : valueA < valueB ? 1 : -1;
+        return [...filteredByHiddenStatus].sort((a, b) => {
+            const aValue = a[sortField as keyof Product];
+            const bValue = b[sortField as keyof Product];
+
+            if (typeof aValue === "string" && typeof bValue === "string") {
+                return aValue.localeCompare(bValue) * directionFactor;
+            }
+
+            if (typeof aValue === "number" && typeof bValue === "number") {
+                return (aValue - bValue) * directionFactor;
+            }
+
+            return 0;
         });
-    }, [filteredProducts, sortField, sortDirection]);
+    }, [filteredByHiddenStatus, sortField, sortDirection]);
 
     const groupedProducts = useMemo(() => {
-        return groupProductsByCategoryId(sortedProducts);
+        return groupProductsByCategory(sortedProducts);
     }, [sortedProducts]);
 
     return {
-        filteredProducts,
-        sortedProducts,
+        filteredProducts: sortedProducts,
         groupedProducts
     };
 };

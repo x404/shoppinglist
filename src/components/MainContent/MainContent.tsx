@@ -15,7 +15,7 @@ import {
     deleteProduct,
     togglePurchased
 } from '@store/productListSlice';
-import { selectActiveCategoryId } from "@store/categoriesSlice";
+import { selectActiveCategoryId, selectTreeCategories } from "@store/categoriesSlice";
 
 // components
 import GroupedProductList from "../GroupedProductList/GroupedProductList";
@@ -123,6 +123,8 @@ const MainContent = () => {
         LocalStorageService.set('sort', { sortField, sortDirection });
     }, [sortField, sortDirection]);
 
+
+    // console.log('activeCategoryId', activeCategoryId);
     return (
         <>
             <main className={`${styles.main} py-3 px-3 px-md-0`} id="main">
@@ -197,6 +199,7 @@ const MainContent = () => {
                         </>
                     )}
                 </section>
+                
             </main>
         </>
     )

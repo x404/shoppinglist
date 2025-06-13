@@ -26,6 +26,7 @@ export interface Category{
 
 export type CategoryTreeNode = Category & {
     children: CategoryTreeNode[];
+    products: Product[];
 };
 
 export interface CategoryListState {

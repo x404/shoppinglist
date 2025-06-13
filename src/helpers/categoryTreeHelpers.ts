@@ -1,4 +1,5 @@
 import { Category, CategoryTreeNode } from "@/types/types";
+import { Product } from "../types/types";
 
 export const buildCategoryTree = (categories: Category[], parentId: string | null = ''): CategoryTreeNode[] => {
     return categories
@@ -27,8 +28,19 @@ export const collectAllChildIds = (node: Category): string[] => {
     return ids;
 };
 
-// Получить все ID (вложенные + текущий)
+// Get all ID’s (nested + current)
 export const getAllNestedCategoryIds = (tree: Category[], targetId: string): string[] => {
     const targetNode = findCategoryNodeById(tree, targetId);
     return targetNode ? collectAllChildIds(targetNode) : [];
+};
+
+export const groupProductsByCategory = (products: Product[]): Record<string, Product[]> => {
+    return products.reduce((acc, product) => {
+        const categoryId = product.categoryId;
+        if (!acc[categoryId]) {
+            acc[categoryId] = [];
+        }
+        acc[categoryId].push(product);
+        return acc;
+    }, {} as Record<string, Product[]>);
 };

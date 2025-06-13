@@ -13,6 +13,7 @@ interface CategoryHeaderProp {
 
     activeCategoryId: string;
     categoryName: string;
+    isSubCategory: boolean;
 
     onCancelEditProduct: () => void;
     onShowAddProductModal: () => void;
@@ -24,6 +25,7 @@ export const CategoryHeader = memo(({
 
                                         activeCategoryId,
                                         categoryName,
+                                        isSubCategory,
 
                                         onCancelEditProduct,
                                         onShowAddProductModal,
@@ -44,9 +46,16 @@ export const CategoryHeader = memo(({
     return (
         <div className={`d-flex align-items-center justify-content-between gap-2 ${isAllCategory ? '' : 'mb-4-'}`}>
             <div className="d-flex align-items-center flex-grow-1">
-                <h4 className={`mb-0 ${isAllCategory ? 'h6 text-uppercase fw-bold me-1' : 'h5 fw-normal me-1'}`}>
-                    {categoryName || '!#??'}
-                </h4>
+                {!isSubCategory ? (
+                    <h4 className={`mb-0 ${isAllCategory ? 'h5 text-uppercase fw-bold me-1' : 'h5 fw-normal me-1'}`}>
+                        {categoryName || '!#??'}
+                    </h4>
+                ) : (
+                    <h5 className={`mb-0 ${isAllCategory ? 'h6 text-uppercase fw-bold me-1' : 'h5 fw-normal me-1'}`}>
+                        {categoryName || '!#??'}
+                    </h5>
+                )}
+
                 <Badge bg="secondary">{counter}</Badge>
                 <Button
                     variant="light"

@@ -112,6 +112,8 @@ const Sidebar = () => {
         setEditingCategoryId(undefined);
     };
 
+    // console.log('categories=', categories)
+
     return (
         <>
             <aside aria-label="Sidebar navigation" className={`${styles.sidebar} p-3 pt-1 z-1`}>
