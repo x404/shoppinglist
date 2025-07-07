@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
+import { JSX } from "react";
 
 // components
 import ProductItem from "../ProductItem/ProductItem";
@@ -90,11 +90,10 @@ const GroupedProductList = ({
         openClearCategoryModal(categoryId)
     }
 
-    const visibleCategoryIds = useMemo(() => {
-        return activeCategoryId === ALL_CATEGORY_OBJECT.id
+    const visibleCategoryIds =
+        activeCategoryId === ALL_CATEGORY_OBJECT.id
             ? Object.keys(groupedProducts)
             : getAllNestedCategoryIds(categoriesTree, activeCategoryId);
-    }, [activeCategoryId, categoriesTree, groupedProducts]);
 
 
     // console.log(groupProductsByCategory())
@@ -110,11 +109,8 @@ const GroupedProductList = ({
     //                   )
     // console.log(obj);
 
-    const categories = useMemo(() => {
-        return [...categoriesTree];
-    }, [categoriesList]);
-
-
+    const categories = [...categoriesTree];
+    
     const addProductsToCategories = (categories: CategoryTreeNode[]): CategoryTreeNode[] => {
         categories.forEach(category => {
             category.products = groupedProducts[category.id] || [];
@@ -128,17 +124,61 @@ const GroupedProductList = ({
     };
 
     const catWithProducts = addProductsToCategories(categories);
-    
 
+    const renderCategoryTree = (categories: CategoryTreeNode[], depth = 0): JSX.Element[] => {
+        console.log(categories);
+        return categories.map(category => (
+            <div key={category.id} style={{ marginLeft: depth * 20 }}>
+                {category.products.length > 0 ? (
+                    <>
+                        <h6 className="fw-bold">{category.name}</h6>
+                        <ul className="list-group mt-2 mb-2" aria-label={category.id}>
+                            {category.products.map(product => (
+                                <ProductItem
+                                    key={product.id}
+                                    product={product}
+                                    isEditingProduct={editingProductId === product.id}
+                                    categoriesList={categoriesList}
+                                    onEditProduct={onEditProduct}
+                                    onDeleteProduct={onDeleteProduct}
+                                    onTogglePurchasedProduct={onTogglePurchasedProduct}
+                                    onCancelEditProduct={onCancelEditProduct}
+                                    onSaveEditProduct={onSaveEditProduct}
+                                />
+                            ))}
+                        </ul>
+                    </>
+                ) : ''}
+
+                {/*{category.children?.length > 0 && */}
+                {renderCategoryTree(category.children, depth + 1)}
+                {/*}*/}
+            </div>
+        ))
+    };
+
+    console.log(catWithProducts, groupedProducts)
     return (
         <>
+            {renderCategoryTree(catWithProducts)}
+
+            {/*{catWithProducts.map((category: CategoryTreeNode) => {*/}
+            {/*    return (*/}
+            {/*        <div key={category.id}>*/}
+            {/*            {category.name}*/}
+            {/*        </div>*/}
+            {/*    );*/}
+            {/*})}*/}
+
+
             {Object.entries(groupedProducts)
                    .filter(([categoryId]) => visibleCategoryIds.includes(categoryId))
                    .map(([categoryId, products]: [string, Product[]]) => {
                        const categoryName = categoriesList.find(category => category.id === categoryId)?.name || 'Others';
                        return (
-                           <article className={`mb-3 mb-sm-2 mb-lg-3 ${activeCategoryId !== categoryId ? 'ms-' : ''}`}
-                                    key={categoryId}>
+                           <article
+                               className={` d-none mb-3 mb-sm-2 mb-lg-3 ${activeCategoryId !== categoryId ? 'ms-' : ''}`}
+                               key={categoryId}>
 
                                {activeCategoryId !== categoryId && (
                                    <CategoryHeaderWrapper

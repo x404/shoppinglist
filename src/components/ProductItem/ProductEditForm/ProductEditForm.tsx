@@ -1,5 +1,5 @@
 import { Button, Form } from "react-bootstrap";
-import { ChangeEvent, FormEvent, useCallback, MouseEvent, Ref, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, Ref, useEffect, useState } from "react";
 
 import { CheckLg, X } from "react-bootstrap-icons";
 
@@ -47,22 +47,21 @@ const ProductEditForm = ({
         setCategoryId(categoryId);
     }, [formData.name, formData.categoryId, formData.quantity]);
 
-    const handleCancel = useCallback((event: MouseEvent) => {
+    const handleCancel = (event: MouseEvent) => {
         event.preventDefault();
         onCancel();
-    }, [onCancel]);
+    };
 
 
-    const handleNameChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => onInputChange(e),
-        [onInputChange]
-    );
+    const handleNameChange =
+        (e: ChangeEvent<HTMLInputElement>) => onInputChange(e)
+    ;
 
-    const handleQuantityChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
         onInputChange(e)
-    }, [onInputChange]);
+    };
 
-    const handleCategoryChange = useCallback(
+    const handleCategoryChange = 
         (e: ChangeEvent<HTMLSelectElement>) => {
             // only for saving semantic name of select element
             const adaptedEvent = {
@@ -74,9 +73,7 @@ const ProductEditForm = ({
                 }
             };
             onInputChange(adaptedEvent);
-        },
-        [onInputChange]
-    );
+        };
 
 
     return (

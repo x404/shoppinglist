@@ -22,6 +22,7 @@ export interface Category{
     categoryProperties?: CategoryProperties;
     parentId: string | null;
     children?: Category[];
+    products?: Product[];
 }
 
 export type CategoryTreeNode = Category & {

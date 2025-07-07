@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, useMemo } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
@@ -65,9 +65,8 @@ const NoFoundProducts = ({
         openAddProductModal(categoryId);
     };
 
-    const categoryName = useMemo(() => (
+    const categoryName =
         getCategoryNameById(categoriesList, activeCategoryId) || ALL_CATEGORY_OBJECT.name
-    ), [categoriesList, activeCategoryId]);
 
     const handleShowClearCategoryModal = () => {
 
@@ -106,7 +105,7 @@ const NoFoundProducts = ({
                     </div>
                 </div>
 
-                
+
                 <p className="mt-3">No products found</p>
                 <Button variant="dark" onClick={handleShowAddProductModal}>Add first product</Button>
             </article>

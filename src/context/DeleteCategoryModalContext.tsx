@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useCallback, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 type ModalContextType = {
     isDeleteCategoryModalOpen: boolean;
@@ -17,14 +17,14 @@ export const DeleteCategoryModalProvider = ({ children }: ModalProviderProps) =>
     const [isDeleteCategoryModalOpen, setIsDeleteCategoryModalOpen] = useState(false);
     const [deleteCategoryId, setDeleteCategoryId] = useState<string>('');
 
-    const openDeleteCategoryModal = useCallback((categoryId: string) => {
+    const openDeleteCategoryModal = (categoryId: string) => {
         setIsDeleteCategoryModalOpen(true);
         setDeleteCategoryId(categoryId);
-    }, [])
+    };
 
-    const closeDeleteCategoryModal = useCallback(() => {
+    const closeDeleteCategoryModal = () => {
         setIsDeleteCategoryModalOpen(false);
-    }, []);
+    };
 
 
     return (

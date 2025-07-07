@@ -137,11 +137,11 @@ const ProductItem = memo(({
         }, 100);
     };
 
-    const focusEditInput = useCallback(() => {
+    const focusEditInput = () => {
         setTimeout(() => {
             editButtonRef.current?.focus();
         }, 100);
-    }, []);
+    };
 
 
     const saveProduct = () => {
@@ -158,14 +158,14 @@ const ProductItem = memo(({
         onSaveEditProduct(updatedProduct);
     };
 
-    const resetForm = useCallback(() => {
+    const resetForm = () => {
         const { name, quantity, categoryId } = product;
         setFormData({
             name,
             quantity,
             categoryId
         })
-    }, [product.name, product.quantity, product.categoryId]);
+    };
 
 
     const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
