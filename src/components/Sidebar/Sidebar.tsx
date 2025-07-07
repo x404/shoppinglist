@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useMemo, useState } from "react";
+import { MouseEvent, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { FileEarmarkPlus, FolderPlus, Plus } from "react-bootstrap-icons";
 
@@ -40,10 +40,8 @@ const Sidebar = () => {
 
     const activeCategoryId = useSelector(selectActiveCategoryId);
 
-    const categories = useMemo(() => {
-        return [ALL_CATEGORY_OBJECT, ...categoriesTree];
-    }, [categoriesList]);
-    
+    const categories = [ALL_CATEGORY_OBJECT, ...categoriesTree];
+
     const [editingCategoryId, setEditingCategoryId] = useState<string | undefined>(undefined);
 
     const { openClearCategoryModal } = useClearCategoryModal();
@@ -54,18 +52,12 @@ const Sidebar = () => {
             ? productList.length
             : productList.filter(product => product.categoryId === id).length;
     };
-
-
-    const categoryCounts = useMemo(() => {
-        const counts: { [key: string]: number } = {};
-        const categories = [ALL_CATEGORY_OBJECT, ...categoriesList];
-        categories.forEach(category => {
-            counts[category.id] = getCategoryCountById(category.id);
-        });
-
-        return counts;
-    }, [productList, categoriesList]);
-
+    
+    const categoryCounts: Record<string, number> = {};
+    [ALL_CATEGORY_OBJECT, ...categoriesList].forEach(category => {
+        categoryCounts[category.id] = getCategoryCountById(category.id);
+    });
+    
 
     const requestSelectCategory = (event: MouseEvent<HTMLElement>, categoryId: string) => {
         event.preventDefault();
@@ -99,10 +91,10 @@ const Sidebar = () => {
         openDeleteCategoryModal(categoryId);
     }
 
-    const handleSaveEditCategory = useCallback((category: Category) => {
+    const handleSaveEditCategory = (category: Category) => {
         dispatch(editCategory(category));
         resetStates();
-    }, []);
+    };
 
     const requestCancelEditCategory = () => {
         resetStates();

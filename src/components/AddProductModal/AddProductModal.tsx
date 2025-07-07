@@ -1,5 +1,5 @@
 import { Modal, Button, Form } from 'react-bootstrap';
-import { ChangeEvent, FormEvent, memo, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, memo, useEffect, useRef, useState } from "react";
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -56,10 +56,10 @@ const AddProductModal = ({
         : '';
 
 
-    const handleClose = useCallback(() => {
+    const handleClose = () => {
         resetForm();
         onCloseModal();
-    }, [onCloseModal]);
+    };
 
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -119,11 +119,11 @@ const AddProductModal = ({
         }
     };
 
-    const handleNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value)
-    }, []);
+    };
 
-    const handleQuantityChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>) => {
         const quantity = validateQuantity(event.target.value, {
             maxLength: 5,
             min: 1
@@ -132,11 +132,11 @@ const AddProductModal = ({
         if (quantity !== null) {
             setQuantity(quantity);
         }
-    }, []);
+    };
 
-    const changeCategory = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
+    const changeCategory = (event: ChangeEvent<HTMLSelectElement>) => {
         setCategoryId(event.target.value);
-    }, []);
+    };
 
 
     return (

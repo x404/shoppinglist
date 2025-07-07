@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { JSX, useMemo } from "react";
+import { JSX } from "react";
 
 // components
 import ProductItem from "../ProductItem/ProductItem";
@@ -90,11 +90,10 @@ const GroupedProductList = ({
         openClearCategoryModal(categoryId)
     }
 
-    const visibleCategoryIds = useMemo(() => {
-        return activeCategoryId === ALL_CATEGORY_OBJECT.id
+    const visibleCategoryIds =
+        activeCategoryId === ALL_CATEGORY_OBJECT.id
             ? Object.keys(groupedProducts)
             : getAllNestedCategoryIds(categoriesTree, activeCategoryId);
-    }, [activeCategoryId, categoriesTree, groupedProducts]);
 
 
     // console.log(groupProductsByCategory())
@@ -110,11 +109,8 @@ const GroupedProductList = ({
     //                   )
     // console.log(obj);
 
-    const categories = useMemo(() => {
-        return [...categoriesTree];
-    }, [categoriesList]);
-
-
+    const categories = [...categoriesTree];
+    
     const addProductsToCategories = (categories: CategoryTreeNode[]): CategoryTreeNode[] => {
         categories.forEach(category => {
             category.products = groupedProducts[category.id] || [];
@@ -130,6 +126,7 @@ const GroupedProductList = ({
     const catWithProducts = addProductsToCategories(categories);
 
     const renderCategoryTree = (categories: CategoryTreeNode[], depth = 0): JSX.Element[] => {
+        console.log(categories);
         return categories.map(category => (
             <div key={category.id} style={{ marginLeft: depth * 20 }}>
                 {category.products.length > 0 ? (
@@ -153,9 +150,11 @@ const GroupedProductList = ({
                     </>
                 ) : ''}
 
-                {category.children?.length > 0 && renderCategoryTree(category.children, depth + 1)}
+                {/*{category.children?.length > 0 && */}
+                {renderCategoryTree(category.children, depth + 1)}
+                {/*}*/}
             </div>
-        ));
+        ))
     };
 
     console.log(catWithProducts, groupedProducts)
@@ -172,7 +171,6 @@ const GroupedProductList = ({
             {/*})}*/}
 
 
-            ---
             {Object.entries(groupedProducts)
                    .filter(([categoryId]) => visibleCategoryIds.includes(categoryId))
                    .map(([categoryId, products]: [string, Product[]]) => {

@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { Badge, Button } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 
@@ -34,14 +34,14 @@ export const CategoryHeader = memo(({
     const { t } = useTranslation();
     const isAllCategory = activeCategoryId === ALL_CATEGORY_OBJECT.id;
 
-    const openModalAddProduct = useCallback(() => {
+    const openModalAddProduct = () => {
         onCancelEditProduct();
-        onShowAddProductModal()
-    }, [activeCategoryId]);
+        onShowAddProductModal();
+    };
 
-    const openClearModalProduct = useCallback(() => {
+    const openClearModalProduct = () => {
         onShowClearCategoryModal();
-    }, [activeCategoryId])
+    };
 
     return (
         <div className={`d-flex align-items-center justify-content-between gap-2 ${isAllCategory ? '' : 'mb-4-'}`}>

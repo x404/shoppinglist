@@ -1,5 +1,5 @@
 import { Modal, Button, Form } from 'react-bootstrap';
-import React, { ChangeEvent, FormEvent, memo, ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, memo, ReactNode, useEffect, useRef, useState } from "react";
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -57,10 +57,10 @@ const AddCategoryModal = ({
         : '';
 
 
-    const handleClose = useCallback(() => {
+    const handleClose = () => {
         resetForm();
         onCloseModal();
-    }, [onCloseModal]);
+    };
 
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -117,14 +117,13 @@ const AddCategoryModal = ({
         }
     };
 
-    const handleNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value)
-    }, []);
-
-
-    const changeCategory = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
+    };
+    
+    const changeCategory = (event: ChangeEvent<HTMLSelectElement>) => {
         setCategoryId(event.target.value);
-    }, []);
+    };
 
     const renderCategoryOptions = (categories: Category[], level = 0): ReactNode[] => {
         return categories.flatMap(category => {

@@ -1,9 +1,8 @@
-import { useMemo } from "react";
 import { Product } from "@/types/types";
 import { useSelector } from "react-redux";
 import { ALL_CATEGORY_OBJECT } from "@constants/categories";
-import { getAllNestedCategoryIds, groupProductsByCategory } from "../helpers/categoryTreeHelpers";
-import { selectTreeCategories } from "../store/categoriesSlice";
+import { getAllNestedCategoryIds, groupProductsByCategory } from "@helpers/categoryTreeHelpers";
+import { selectTreeCategories } from "@store/categoriesSlice";
 
 interface UseProcessedProductsParams {
     productList: Product[];
@@ -24,40 +23,36 @@ export const useProcessedProducts = ({
                                      }: UseProcessedProductsParams) => {
     const categoriesTree = useSelector(selectTreeCategories);
 
-    const visibleCategoryIds = useMemo(() => {
-        return activeCategoryId === ALL_CATEGORY_OBJECT.id
+    const visibleCategoryIds =
+        activeCategoryId === ALL_CATEGORY_OBJECT.id
             ? null
             : getAllNestedCategoryIds(categoriesTree, activeCategoryId);
-    }, [activeCategoryId, categoriesTree]);
 
-    const filteredByCategory = useMemo(() => {
-        if (activeCategoryId === ALL_CATEGORY_OBJECT.id) {
-            return productList;
-        }
-        return productList.filter(product => visibleCategoryIds?.includes(product.categoryId));
-    }, [productList, activeCategoryId, visibleCategoryIds]);
 
-    const filteredBySearch = useMemo(() => {
-        if (!debouncedSearchText) return filteredByCategory;
-        return filteredByCategory.filter(product =>
+    const filteredByCategory =
+        activeCategoryId === ALL_CATEGORY_OBJECT.id
+            ? productList
+            : productList.filter(product => visibleCategoryIds?.includes(product.categoryId));
+
+
+    const filteredBySearch = debouncedSearchText
+        ? filteredByCategory.filter(product =>
             product.name.toLowerCase().includes(debouncedSearchText.toLowerCase())
-        );
-    }, [filteredByCategory, debouncedSearchText]);
+        )
+        : filteredByCategory;
 
-    const filteredByHiddenStatus = useMemo(() => {
-        return hiddenItemsStatus
-            ? filteredBySearch.filter(product => !product.purchased)
-            : filteredBySearch;
-    }, [filteredBySearch, hiddenItemsStatus]);
 
-    const sortedProducts = useMemo(() => {
-        if (!sortField || !sortDirection) return filteredByHiddenStatus;
+    const filteredByHiddenStatus = hiddenItemsStatus
+        ? filteredBySearch.filter(product => !product.purchased)
+        : filteredBySearch;
 
-        const directionFactor = sortDirection === "asc" ? 1 : -1;
 
-        return [...filteredByHiddenStatus].sort((a, b) => {
+    const sortedProducts = (!sortField || !sortDirection)
+        ? filteredByHiddenStatus
+        : [...filteredByHiddenStatus].sort((a, b) => {
             const aValue = a[sortField as keyof Product];
             const bValue = b[sortField as keyof Product];
+            const directionFactor = sortDirection === "asc" ? 1 : -1;
 
             if (typeof aValue === "string" && typeof bValue === "string") {
                 return aValue.localeCompare(bValue) * directionFactor;
@@ -69,11 +64,8 @@ export const useProcessedProducts = ({
 
             return 0;
         });
-    }, [filteredByHiddenStatus, sortField, sortDirection]);
 
-    const groupedProducts = useMemo(() => {
-        return groupProductsByCategory(sortedProducts);
-    }, [sortedProducts]);
+    const groupedProducts = groupProductsByCategory(sortedProducts);
 
     return {
         filteredProducts: sortedProducts,

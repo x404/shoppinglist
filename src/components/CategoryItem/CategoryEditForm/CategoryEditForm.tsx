@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, MouseEvent, Ref, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, Ref, useEffect, useState } from "react";
 import {Form } from "react-bootstrap";
 
 // interfaces
@@ -33,15 +33,14 @@ const CategoryEditForm = ({
     }, [formData.name]);
 
 
-    const handleNameChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => onInputChange(e),
-        [onInputChange]
-    );
+    const handleNameChange = 
+        (e: ChangeEvent<HTMLInputElement>) => onInputChange(e)
+    ;
 
-    const handleCancel = useCallback((event: MouseEvent) => {
+    const handleCancel = (event: MouseEvent) => {
         event.preventDefault();
         onCancel();
-    }, [onCancel]);
+    };
 
 
     return (
